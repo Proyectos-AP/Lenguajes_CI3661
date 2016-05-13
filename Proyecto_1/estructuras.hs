@@ -108,10 +108,25 @@ infix 2 ===
 
 infix 2 =:
 (=:) :: Term -> Term -> Sust
-(=:) t1 t2 = Sustitution t1 t2
+(=:) t1 (Var t2) = Sustitution t1 (Var t2)
 
-{-sust :: Term -> Sust -> Term
+
+sust :: Term -> Sust -> Term
+sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
+sust (Bool s1) (Sustitution term2 (Var s2)) = Bool s1
+sust (Or term1 term2) (Sustitution term3 s2) = Or (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+sust (And term1 term2) (Sustitution term3 s2) = And (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+sust (Impl term1 term2) (Sustitution term3 s2) = Impl (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+sust (Equiv term1 term2) (Sustitution term3 s2) = Equiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+sust (NoEquiv term1 term2) (Sustitution term3 s2) = NoEquiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+
+
 instantiate :: Equation -> Sust -> Equation
+instantiate (Equa t1 t2) (Sustitution t3 (Var s2)) = Equa (sust t1 (Sustitution t3 (Var s2))) (sust t2 (Sustitution t3 (Var s2)))
+
+
+{-sust :: Term -> Sust -> Term (Listo)
+instantiate :: Equation -> Sust -> Equation (Listo)
 leibniz ::
 infer :: Int -> Equation -> Sust -> z -> E
 step :: Term -> Int -> Equation -> Sust -> z -> E -> Term
@@ -119,7 +134,16 @@ with::
 using::
 lambda::-}
 
+{-i = \x -> x
 
+k = \x -> \y -> x
+
+s = \x -> \y -> \z -> (x z) (y z)
+
+abstraer :: Term -> Term -> (Term -> Term)
+abstraer (Var x) (Var y) = if x == y then i else k (Var x)
+abstraer (Var x) (Or t1 t2) = s (s (k Or) (abstraer (Var x) t1)) (abstraer (Var x) t2) 
+-}
 showTerm :: Term -> String
 showTerm (Var x) = x
 showTerm (Bool x) = x
@@ -146,7 +170,7 @@ showTerm (NoEquiv t1 t2) = "(" ++ showTerm t1 ++ ") !<==> (" ++ showTerm t2 ++ "
 instance Show Term where show = showTerm
 
 showEquation :: Equation -> String
-showEquation (Equa t1 t2) = "(" ++ showTerm t1 ++ ") === (" ++ showTerm t2 ++ ")"
+showEquation (Equa t1 t2) = showTerm t1 ++ " === " ++ showTerm t2 
 instance Show Equation where show = showEquation
 
 showSustitution :: Sust -> String
