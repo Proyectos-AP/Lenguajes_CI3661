@@ -124,10 +124,16 @@ sust (NoEquiv term1 term2) (Sustitution term3 s2) = NoEquiv (sust term1 (Sustitu
 instantiate :: Equation -> Sust -> Equation
 instantiate (Equa t1 t2) (Sustitution t3 (Var s2)) = Equa (sust t1 (Sustitution t3 (Var s2))) (sust t2 (Sustitution t3 (Var s2)))
 
+ 
+leibniz :: Equation -> Term -> Term -> Equation
+leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
+
+
+
 
 {-sust :: Term -> Sust -> Term (Listo)
 instantiate :: Equation -> Sust -> Equation (Listo)
-leibniz ::
+leibniz :: (Listo)
 infer :: Int -> Equation -> Sust -> z -> E
 step :: Term -> Int -> Equation -> Sust -> z -> E -> Term
 with::
