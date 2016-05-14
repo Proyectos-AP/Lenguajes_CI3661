@@ -23,7 +23,6 @@ leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
 infer :: Float -> Sust -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
-
 step :: Term -> Float -> Sust -> Term -> Term -> Term
 step term1 n sus var expr = compareEquation term1 (infer n sus var expr)
 
@@ -33,6 +32,11 @@ compareEquation term1 (Equa t1 t2)
 	| term1==t2 = t1
 	| otherwise = error "*** No se puede seguir instanciando ***"
 
+statement :: Float -> Sust -> Term -> Term -> Term -> IO Term
+statement n sus var expr term1  = do{ putStrLn ("Holis "++show (step term1 n sus var expr) ); return (step term1 n sus var expr)}
+
+statement' :: Float -> Term -> IO Term
+statement' n (Var x) = do{ putStrLn ("Holis "++show x );return (Var x)}
 {-sust :: Term -> Sust -> Term (Listo)
 instantiate :: Equation -> Sust -> Equation (Listo)
 leibniz :: (Listo)
