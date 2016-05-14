@@ -5,6 +5,6 @@ verify = let theorem = (p <==> p) <==> true === true in
          >>=
          statement 3.3 with (p =: p) using lambda z (z <==> true)
          >>=
-         statement 3.1 with (true =: p) using lambda z (z)
+         statement 3.3 with (true =: p) using lambda z (z)
          >>=
          done theorem

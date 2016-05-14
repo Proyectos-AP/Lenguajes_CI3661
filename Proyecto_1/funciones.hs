@@ -37,6 +37,15 @@ statement n with sus using lambda var expr term1  = do{ putStrLn ("Holis "++show
 
 statement' :: Float -> Term -> IO Term
 statement' n (Var x) = do{ putStrLn ("Holis "++show x );return (Var x)}
+
+proof :: Equation -> IO Term
+proof (Equa t1 t2) = do { putStrLn ("Prooving "++ show (Equa t1 t2) ); putStrLn (show t1); return t1}
+
+done :: Equation -> Term -> IO ()
+done (Equa t1 t2) term1 = do { if term1==t2 then putStrLn "Proof succesful." else putStrLn "Proof unsuccesful."}
+
+
+
 {-sust :: Term -> Sust -> Term (Listo)
 instantiate :: Equation -> Sust -> Equation (Listo)
 leibniz :: (Listo)

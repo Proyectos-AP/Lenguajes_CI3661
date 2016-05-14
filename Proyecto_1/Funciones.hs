@@ -29,10 +29,33 @@ instance Sust' Sust where
 	sust (NoEquiv term1 term2) (Sustitution term3 s2) = NoEquiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
 
 instance Sust' (Term,Sust,Term) where
-	sust (Var s1) (t1,s,t2) = (Var s1)
+	sust (Var x1) (t1,Sustitution t2 (Var x2),(Var x3)) 
+		| x1 == x2 = t2
+		| x1 == x3 = t1
+		| otherwise = (Var x1)
+
+	sust (Bool x1) (t1,susExpr,x3) = Bool x1
+	sust (Or term1 term2) (t1,susExpr,x3)  = Or (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
+	sust (And term1 term2) (t1,susExpr,x3) = And (sust term1 (t1,susExpr,x3)) (sust term2 (t1,susExpr,x3) )
+	sust (Impl term1 term2) (t1,susExpr,x3) = Impl (sust term1 (t1,susExpr,x3)) (sust term2 (t1,susExpr,x3))
+	sust (Equiv term1 term2) (t1,susExpr,x3) = Equiv (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
+	sust (NoEquiv term1 term2) (t1,susExpr,x3) = NoEquiv (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
+
 
 instance Sust' (Term,Term,Sust,Term,Term) where
-	sust (Var s1) (t1,t2,s,t3,t4) = (Var s1)
+	sust (Var x1) (t1,t3,Sustitution t2 (Var x2),(Var x3),(Var x4)) 
+		| x1 == x2 = t2
+		| x1 == x3 = t3
+		| x1 == x4 = t1
+		| otherwise = (Var x1)
+
+	sust (Bool x1) (t1,t3,susExpr,x3,x4)  = Bool x1
+	sust (Or term1 term2) (t1,t3,susExpr,x3,x4)    = Or (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
+	sust (And term1 term2) (t1,t3,susExpr,x3,x4)   = And (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
+	sust (Impl term1 term2) (t1,t3,susExpr,x3,x4)  = Impl (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
+	sust (Equiv term1 term2) (t1,t3,susExpr,x3,x4) = Equiv (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
+	sust (NoEquiv term1 term2) (t1,t3,susExpr,x3,x4)  = NoEquiv (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
+
 
 instantiate :: Equation -> Sust -> Equation
 instantiate (Equa t1 t2) (Sustitution t3 (Var s2)) = Equa (sust t1 (Sustitution t3 (Var s2))) (sust t2 (Sustitution t3 (Var s2)))
