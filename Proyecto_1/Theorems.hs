@@ -1,4 +1,8 @@
 -- importe lo necesario aquí ----
+module Theorems (prop) where
+	
+import Estructuras
+
 
 prop :: Float -> Equation 
 prop num
