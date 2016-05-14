@@ -32,8 +32,8 @@ compareEquation term1 (Equa t1 t2)
 	| term1==t2 = t1
 	| otherwise = error "*** No se puede seguir instanciando ***"
 
-statement :: Float -> Sust -> Term -> Term -> Term -> IO Term
-statement n sus var expr term1  = do{ putStrLn ("Holis "++show (step term1 n sus var expr) ); return (step term1 n sus var expr)}
+statement :: Float -> Dummy -> Sust -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
+statement n with sus using lambda var expr term1  = do{ putStrLn ("Holis "++show (step term1 n sus var expr) ); return (step term1 n sus var expr)}
 
 statement' :: Float -> Term -> IO Term
 statement' n (Var x) = do{ putStrLn ("Holis "++show x );return (Var x)}

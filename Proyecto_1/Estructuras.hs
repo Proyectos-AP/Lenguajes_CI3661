@@ -2,6 +2,7 @@ module Estructuras
 (Term (Var,Bool,Or,And,Impl,Equiv,NoEquiv),
 Equation (Equa), 
 Sust (Sustitution,Tuple,Tuples),
+Dummy (With,Lambda,Using),
 p,
 q,
 r,
@@ -9,6 +10,9 @@ z,
 n,
 true,
 false,
+using,
+with,
+lambda,
 (<==>),
 (===),
 (==>),
@@ -21,6 +25,7 @@ false,
 data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term deriving (Eq) 
 data Equation = Equa Term Term
 data Sust = Sustitution Term Term | Tuple (Term,Sust,Term) | Tuples (Term,Term,Sust,Term,Term)
+data Dummy = With String | Lambda String | Using String
 
 a :: Term
 a = Var "a"
@@ -105,6 +110,15 @@ true = Bool "true"
 
 false :: Term
 false =  Bool "false"
+
+using :: Dummy
+using = Using "using"
+
+with :: Dummy
+with = With "with"
+
+lambda :: Dummy
+lambda = Lambda "lambda"
 
 (\/) :: Term -> Term -> Term
 (\/) t1 t2 = Or t1 t2
