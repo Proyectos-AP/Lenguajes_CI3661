@@ -24,7 +24,15 @@ infer :: Float -> Sust -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
 
---step :: 
+step :: Term -> Float -> Sust -> Term -> Term -> Term
+step term1 n sus var expr = compareEquation term1 (infer n sus var expr)
+
+compareEquation :: Term -> Equation -> Term
+compareEquation term1 (Equa t1 t2) 
+	| term1==t1 = t2
+	| term1==t2 = t1
+	| otherwise = error "*** No se puede seguir instanciando ***"
+
 {-sust :: Term -> Sust -> Term (Listo)
 instantiate :: Equation -> Sust -> Equation (Listo)
 leibniz :: (Listo)
