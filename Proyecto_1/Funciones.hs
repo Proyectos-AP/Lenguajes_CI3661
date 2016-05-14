@@ -1,3 +1,5 @@
+{-# LANGUAGE MultiParamTypeClasses, FlexibleInstances #-}
+
 module Funciones 
 (sust,
 instantiate,
@@ -14,15 +16,23 @@ import Theorems
 import Estructuras
 
 
-sust :: Term -> Sust -> Term
-sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
-sust (Bool s1) (Sustitution term2 (Var s2)) = Bool s1
-sust (Or term1 term2) (Sustitution term3 s2) = Or (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-sust (And term1 term2) (Sustitution term3 s2) = And (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-sust (Impl term1 term2) (Sustitution term3 s2) = Impl (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-sust (Equiv term1 term2) (Sustitution term3 s2) = Equiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-sust (NoEquiv term1 term2) (Sustitution term3 s2) = NoEquiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+class Sust' a where
+	sust :: Term -> a -> Term
 
+instance Sust' Sust where
+	sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
+	sust (Bool s1) (Sustitution term2 (Var s2)) = Bool s1
+	sust (Or term1 term2) (Sustitution term3 s2) = Or (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+	sust (And term1 term2) (Sustitution term3 s2) = And (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+	sust (Impl term1 term2) (Sustitution term3 s2) = Impl (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+	sust (Equiv term1 term2) (Sustitution term3 s2) = Equiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+	sust (NoEquiv term1 term2) (Sustitution term3 s2) = NoEquiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+
+instance Sust' (Term,Sust,Term) where
+	sust (Var s1) (t1,s,t2) = (Var s1)
+
+instance Sust' (Term,Term,Sust,Term,Term) where
+	sust (Var s1) (t1,t2,s,t3,t4) = (Var s1)
 
 instantiate :: Equation -> Sust -> Equation
 instantiate (Equa t1 t2) (Sustitution t3 (Var s2)) = Equa (sust t1 (Sustitution t3 (Var s2))) (sust t2 (Sustitution t3 (Var s2)))
