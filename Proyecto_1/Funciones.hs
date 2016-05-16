@@ -16,10 +16,10 @@ import Theorems
 import Estructuras
 
 
-class Sust' a where
+class Sust a where
 	sust :: Term -> a -> Term
 
-instance Sust' Sust where
+instance Sust Sust' where
 	sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
 	sust (Bool s1) (Sustitution term2 (Var s2)) = Bool s1
 	sust (Or term1 term2) (Sustitution term3 s2) = Or (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
@@ -28,7 +28,7 @@ instance Sust' Sust where
 	sust (Equiv term1 term2) (Sustitution term3 s2) = Equiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
 	sust (NoEquiv term1 term2) (Sustitution term3 s2) = NoEquiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
 
-instance Sust' (Term,Sust,Term) where
+instance Sust (Term,Sust',Term) where
 	sust (Var x1) (t1,Sustitution t2 (Var x2),(Var x3)) 
 		| x1 == x2 = t2
 		| x1 == x3 = t1
@@ -42,7 +42,7 @@ instance Sust' (Term,Sust,Term) where
 	sust (NoEquiv term1 term2) (t1,susExpr,x3) = NoEquiv (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
 
 
-instance Sust' (Term,Term,Sust,Term,Term) where
+instance Sust (Term,Term,Sust',Term,Term) where
 	sust (Var x1) (t1,t3,Sustitution t2 (Var x2),(Var x3),(Var x4)) 
 		| x1 == x2 = t2
 		| x1 == x3 = t3
@@ -57,7 +57,7 @@ instance Sust' (Term,Term,Sust,Term,Term) where
 	sust (NoEquiv term1 term2) (t1,t3,susExpr,x3,x4)  = NoEquiv (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 
 
-instantiate :: (Sust' a) => Equation -> a -> Equation
+instantiate :: (Sust a) => Equation -> a -> Equation
 instantiate (Equa t1 t2) susExpr = Equa (sust t1 susExpr) (sust t2 susExpr)
 
  
@@ -65,10 +65,10 @@ leibniz :: Equation -> Term -> Term -> Equation
 leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
 
 
-infer :: (Sust' a) =>  Float -> a -> Term -> Term -> Equation
+infer :: (Sust a) =>  Float -> a -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
-step :: (Sust' a) => Term -> Float -> a -> Term -> Term -> Term
+step :: (Sust a) => Term -> Float -> a -> Term -> Term -> Term
 step term1 n susExpr var expr = compareEquation term1 (infer n susExpr var expr)
 
 compareEquation :: Term -> Equation -> Term
@@ -77,16 +77,13 @@ compareEquation term1 (Equa t1 t2)
 	| term1==t2 = t1
 	| otherwise = error "*** No se puede seguir instanciando ***"
 
-statement :: (Sust' a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
+statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
 statement n with susExpr using lambda var expr term1  = 
 	do{ 
 	putStrLn ("=== statement "++ show n++ " with " ++ " using lambda "++show var++"."++show expr);
 	putStrLn (show (step term1 n susExpr var expr) );
 	return (step term1 n susExpr var expr)
 	}
-
-statement' :: Float -> Term -> IO Term
-statement' n (Var x) = do{ putStrLn ("Holis "++show x );return (Var x)}
 
 proof :: Equation -> IO Term
 proof (Equa t1 t2) = do { putStrLn ("Prooving "++ show (Equa t1 t2) ); putStrLn (show t1); return t1}
@@ -124,9 +121,9 @@ showEquation :: Equation -> String
 showEquation (Equa t1 t2) = showTerm t1 ++ " === " ++ showTerm t2 
 instance Show Equation where show = showEquation
 
-showSustitution :: Sust -> String
+showSustitution :: Sust' -> String
 showSustitution (Sustitution t1 t2) =  showTerm t1 ++ "=:" ++ showTerm t2
-instance Show Sust where show = showSustitution
+instance Show Sust' where show = showSustitution
 
 
 

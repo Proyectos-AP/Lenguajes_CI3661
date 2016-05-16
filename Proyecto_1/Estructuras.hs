@@ -1,7 +1,7 @@
 module Estructuras 
 (Term (Var,Bool,Or,And,Impl,Equiv,NoEquiv),
 Equation (Equa), 
-Sust (Sustitution),
+Sust' (Sustitution),
 Dummy (With,Lambda,Using),
 a,
 b,
@@ -45,7 +45,7 @@ lambda,
 
 data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term deriving (Eq) 
 data Equation = Equa Term Term
-data Sust = Sustitution Term Term 
+data Sust' = Sustitution Term Term 
 data Dummy = With String | Lambda String | Using String
 
 a :: Term
@@ -165,6 +165,6 @@ infix 2 ===
 (===) t1 t2 = Equa t1 t2
 
 infix 2 =:
-(=:) :: Term -> Term -> Sust
+(=:) :: Term -> Term -> Sust'
 (=:) t1 (Var t2) = Sustitution t1 (Var t2)
 
