@@ -57,19 +57,19 @@ instance Sust' (Term,Term,Sust,Term,Term) where
 	sust (NoEquiv term1 term2) (t1,t3,susExpr,x3,x4)  = NoEquiv (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 
 
-instantiate :: Equation -> Sust -> Equation
-instantiate (Equa t1 t2) (Sustitution t3 (Var s2)) = Equa (sust t1 (Sustitution t3 (Var s2))) (sust t2 (Sustitution t3 (Var s2)))
+instantiate :: (Sust' a) => Equation -> a -> Equation
+instantiate (Equa t1 t2) susExpr = Equa (sust t1 susExpr) (sust t2 susExpr)
 
  
 leibniz :: Equation -> Term -> Term -> Equation
 leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
 
 
-infer :: Float -> Sust -> Term -> Term -> Equation
+infer :: (Sust' a) =>  Float -> a -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
-step :: Term -> Float -> Sust -> Term -> Term -> Term
-step term1 n sus var expr = compareEquation term1 (infer n sus var expr)
+step :: (Sust' a) => Term -> Float -> a -> Term -> Term -> Term
+step term1 n susExpr var expr = compareEquation term1 (infer n susExpr var expr)
 
 compareEquation :: Term -> Equation -> Term
 compareEquation term1 (Equa t1 t2) 
@@ -77,12 +77,12 @@ compareEquation term1 (Equa t1 t2)
 	| term1==t2 = t1
 	| otherwise = error "*** No se puede seguir instanciando ***"
 
-statement :: Float -> Dummy -> Sust -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
-statement n with sus using lambda var expr term1  = 
+statement :: (Sust' a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
+statement n with susExpr using lambda var expr term1  = 
 	do{ 
-	putStrLn ("=== statement "++ show n++ " with " ++ show sus ++ " using lambda "++show var++"."++show expr);
-	putStrLn (show (step term1 n sus var expr) );
-	return (step term1 n sus var expr)
+	putStrLn ("=== statement "++ show n++ " with " ++ " using lambda "++show var++"."++show expr);
+	putStrLn (show (step term1 n susExpr var expr) );
+	return (step term1 n susExpr var expr)
 	}
 
 statement' :: Float -> Term -> IO Term
@@ -95,26 +95,6 @@ done :: Equation -> Term -> IO ()
 done (Equa t1 t2) term1 = do { if term1==t2 then putStrLn "Proof succesful." else putStrLn "Proof unsuccesful."}
 
 
-
-{-sust :: Term -> Sust -> Term (Listo)
-instantiate :: Equation -> Sust -> Equation (Listo)
-leibniz :: (Listo)
-infer :: Int -> Equation -> Sust -> z -> E (Casi listo)
-step :: Term -> Int -> Equation -> Sust -> z -> E -> Term
-with::
-using::
-lambda::-}
-
-{-i = \x -> x
-
-k = \x -> \y -> x
-
-s = \x -> \y -> \z -> (x z) (y z)
-
-abstraer :: Term -> Term -> (Term -> Term)
-abstraer (Var x) (Var y) = if x == y then i else k (Var x)
-abstraer (Var x) (Or t1 t2) = s (s (k Or) (abstraer (Var x) t1)) (abstraer (Var x) t2) 
--}
 showTerm :: Term -> String
 showTerm (Var x) = x
 showTerm (Bool x) = x

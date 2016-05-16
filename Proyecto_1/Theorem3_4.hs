@@ -1,3 +1,5 @@
+import Funciones
+import Estructuras
 verify = let theorem = (p <==> q) <==> (q <==> p) === true in
          proof theorem
          >>=
