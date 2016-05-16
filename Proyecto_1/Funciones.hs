@@ -18,15 +18,18 @@ import Estructuras
 
 class Sust a where
 	sust :: Term -> a -> Term
+	showSustitution :: a -> String
 
 instance Sust Sust' where
 	sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
-	sust (Bool s1) (Sustitution term2 (Var s2)) = Bool s1
-	sust (Or term1 term2) (Sustitution term3 s2) = Or (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-	sust (And term1 term2) (Sustitution term3 s2) = And (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-	sust (Impl term1 term2) (Sustitution term3 s2) = Impl (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-	sust (Equiv term1 term2) (Sustitution term3 s2) = Equiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
-	sust (NoEquiv term1 term2) (Sustitution term3 s2) = NoEquiv (sust term1 (Sustitution term3 s2)) (sust term2 (Sustitution term3 s2))
+	sust (Bool s1) susExpr = Bool s1
+	sust (Or term1 term2) susExpr = Or (sust term1 susExpr) (sust term2 susExpr)
+	sust (And term1 term2) susExpr = And (sust term1 susExpr) (sust term2 susExpr)
+	sust (Impl term1 term2) susExpr = Impl (sust term1 susExpr) (sust term2 susExpr)
+	sust (Equiv term1 term2) susExpr = Equiv (sust term1 susExpr) (sust term2 susExpr)
+	sust (NoEquiv term1 term2) susExpr = NoEquiv (sust term1 susExpr) (sust term2 susExpr)
+
+	showSustitution (Sustitution t1 t2) =  showTerm t1 ++ "=:" ++ showTerm t2
 
 instance Sust (Term,Sust',Term) where
 	sust (Var x1) (t1,Sustitution t2 (Var x2),(Var x3)) 
@@ -41,6 +44,8 @@ instance Sust (Term,Sust',Term) where
 	sust (Equiv term1 term2) (t1,susExpr,x3) = Equiv (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
 	sust (NoEquiv term1 term2) (t1,susExpr,x3) = NoEquiv (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
 
+	showSustitution (t1,susExpr,x3) =  "("++ showTerm t1 ++
+		"," ++ showSustitution susExpr ++ "," ++showTerm x3++")"
 
 instance Sust (Term,Term,Sust',Term,Term) where
 	sust (Var x1) (t1,t3,Sustitution t2 (Var x2),(Var x3),(Var x4)) 
@@ -55,6 +60,9 @@ instance Sust (Term,Term,Sust',Term,Term) where
 	sust (Impl term1 term2) (t1,t3,susExpr,x3,x4)  = Impl (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 	sust (Equiv term1 term2) (t1,t3,susExpr,x3,x4) = Equiv (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 	sust (NoEquiv term1 term2) (t1,t3,susExpr,x3,x4)  = NoEquiv (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
+
+	showSustitution (t1,t3,susExpr,x3,x4) =  "("++ showTerm t1 ++"," ++ showTerm t3 ++
+	 "," ++ showSustitution susExpr ++ "," ++ showTerm x3 ++","++ showTerm x4++")"
 
 
 instantiate :: (Sust a) => Equation -> a -> Equation
@@ -80,7 +88,8 @@ compareEquation term1 (Equa t1 t2)
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
 statement n with susExpr using lambda var expr term1  = 
 	do{ 
-	putStrLn ("=== statement "++ show n++ " with " ++ " using lambda "++show var++"."++show expr);
+	putStrLn ("=== statement "++ show n++ " with " ++ showSustitution susExpr ++ 
+		" using lambda "++show var++"."++show expr);
 	putStrLn (show (step term1 n susExpr var expr) );
 	return (step term1 n susExpr var expr)
 	}
@@ -121,9 +130,9 @@ showEquation :: Equation -> String
 showEquation (Equa t1 t2) = showTerm t1 ++ " === " ++ showTerm t2 
 instance Show Equation where show = showEquation
 
-showSustitution :: Sust' -> String
+{-showSustitution :: Sust' -> String
 showSustitution (Sustitution t1 t2) =  showTerm t1 ++ "=:" ++ showTerm t2
 instance Show Sust' where show = showSustitution
 
-
+-}
 
