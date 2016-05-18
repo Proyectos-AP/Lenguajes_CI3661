@@ -33,8 +33,8 @@ instance Sust Sust' where
 
 instance Sust (Term,Sust',Term) where
 	sust (Var x1) (t1,Sustitution t2 (Var x2),(Var x3)) 
-		| x1 == x2 = t2
-		| x1 == x3 = t1
+		| x1 == x2 = t1
+		| x1 == x3 = t2
 		| otherwise = (Var x1)
 
 	sust (Bool x1) (t1,susExpr,x3) = Bool x1
@@ -49,9 +49,9 @@ instance Sust (Term,Sust',Term) where
 
 instance Sust (Term,Term,Sust',Term,Term) where
 	sust (Var x1) (t1,t3,Sustitution t2 (Var x2),(Var x3),(Var x4)) 
-		| x1 == x2 = t2
+		| x1 == x2 = t1
 		| x1 == x3 = t3
-		| x1 == x4 = t1
+		| x1 == x4 = t2
 		| otherwise = (Var x1)
 
 	sust (Bool x1) (t1,t3,susExpr,x3,x4)  = Bool x1
