@@ -174,23 +174,27 @@ neg :: Term -> Term
 neg t1 =  Not t1
 
 -- Or:
+infixl 5 \/
 (\/) :: Term -> Term -> Term
 (\/) t1 t2 = Or t1 t2
 
 -- And:
+infixl 5 /\
 (/\) :: Term -> Term -> Term
 (/\) t1 t2 = And t1 t2
 
 -- Implicación:
-infixr 8 ==>
+infixr 4 ==>
 (==>) :: Term -> Term -> Term
 (==>) t1 t2 = Impl t1 t2
 
 -- Equivalencia:
+infix 3 <==>
 (<==>) :: Term -> Term -> Term
 (<==>) t1 t2 = Equiv t1 t2
 
 -- Inequivalencia:
+infix 3 !<==>
 (!<==>) :: Term -> Term -> Term
 (!<==>) t1 t2 = NoEquiv t1 t2
 
