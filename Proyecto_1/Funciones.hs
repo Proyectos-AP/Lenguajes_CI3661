@@ -92,7 +92,7 @@ instance Sust (Term,Term,Sust',Term,Term) where
 -  una nueva ecuación Equation con el lado izquierdo y derecho de la misma 
 -  instanciada según la sustitución que se introdujo como argumento. 
 -  [Enunciado / Sección 4.5: Instanciación] -}
-instantiate :: (Sust a) => Equation -> a -> Equations
+instantiate :: (Sust a) => Equation -> a -> Equation
 instantiate (Equa t1 t2) susExpr = Equa (sust t1 susExpr) (sust t2 susExpr)
 
 {- leibniz: dada una ecuación t1 === t2 de tipo Equation, un término E y 
