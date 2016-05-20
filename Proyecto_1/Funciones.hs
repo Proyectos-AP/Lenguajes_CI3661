@@ -19,7 +19,8 @@ done
 * 
 * Archivo: Funciones.hs
 *
-* Descripción: 
+* Descripción: Definición de las funciones a utilizar en el asistente de
+* pruebas para la lógica proposicional.
 * 
 * Integrantes:
 * 	Alejandra Cordero / 12-10645
@@ -41,6 +42,7 @@ class Sust a where
 	sust :: Term -> a -> Term
 	showSustitution :: a -> String
 
+-- Sustitución simple:
 instance Sust Sust' where
 	sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
 	sust (Bool s1) susExpr = Bool s1
@@ -53,6 +55,7 @@ instance Sust Sust' where
 
 	showSustitution (Sustitution t1 t2) =  showTerm t1 ++ "=:" ++ showTerm t2
 
+-- Sustitución doble:
 instance Sust (Term,Sust',Term) where
 	sust (Var x1) (t1,Sustitution t2 (Var x2),(Var x3)) 
 		| x1 == x2 = t1
@@ -70,6 +73,7 @@ instance Sust (Term,Sust',Term) where
 	showSustitution (t1,susExpr,x3) =  "("++ showTerm t1 ++
 		"," ++ showSustitution susExpr ++ "," ++showTerm x3++")"
 
+-- Sustitución triple:
 instance Sust (Term,Term,Sust',Term,Term) where
 	sust (Var x1) (t1,t3,Sustitution t2 (Var x2),(Var x3),(Var x4)) 
 		| x1 == x2 = t1
@@ -103,30 +107,38 @@ instantiate (Equa t1 t2) susExpr = Equa (sust t1 susExpr) (sust t2 susExpr)
 leibniz :: Equation -> Term -> Term -> Equation
 leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
 
-{- infer: dado un número n, una ecuación de tipo Equation, una sustitución sus,
--  una variable z y un término E, devuelve una nuea ecuación resultante de 
--  aplicar la regla de Leibniz X === Y / (lambda z.E)X === (lambda z.E)Y. 
--  Donde la premisa X === Y, es la ecuación resultante de aplicar instanciación
--  (usando instantiate) en el teorema de número n del módulo de teoremas 
--  (Theorems.hs), con la sustitución sus. 
+{- infer: dado un número n, una sustitución sus, una variable z y un término E, 
+-  devuelve una nueva ecuación resultante de aplicar la regla de Leibniz. 
 -  [Enunciado / Sección 4.7: Inferencia] -}
 infer :: (Sust a) =>  Float -> a -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
--- step: 
+{- step: Función utilizada para transformar un término inicial termino1 en 
+-  un término final termino2. Recibe el término termino1 y todos los argumentos 
+-  de la función infer de la sección anterior, para devolver termino2. Dicha 
+-  función ejecuta infer y compara en la ecuación resultante cual lado de la 
+-  ecuación es igual a termino1, para así devolver como termino2 al otro lado 
+-  de la ecuación. La función step devuelve un mensaje de error si ningún 
+-  lado de la ecuación resultante de infer es igual a termino1.
+-  [Enunciado / Sección 4.8: Deducción de un paso] -}
 step :: (Sust a) => Term -> Float -> a -> Term -> Term -> Term
 step term1 n susExpr var expr = compareEquation term1 (infer n susExpr var expr)
 
--- compareEquation: 
+-- compareEquation: Función auxiliar para comparar Equations en la función
+-- step.
 compareEquation :: Term -> Equation -> Term
 compareEquation term1 (Equa t1 t2) 
 	| term1==t1 = t2
 	| term1==t2 = t1
 	| otherwise = error "*** Invalid inference rule ***"
 
--- statement:
+{- statement: Ignora las funciones dummy with, using y lambda, y ejecuta step 
+-  usando el 'término', el teorema numero 'num', la sutitucion 'sustitution' 
+-  y la regla de Leibniz con la función lambda z.'E', al mismo tiempo que
+-  imprime por consola el hint y el término resultante.
+-  [Enunciado / Sección 4.8: Deducción de un paso] -}
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
-statement n with susExpr using lambda var expr term1  = 
+statement nswith susExpr using lambda var expr term1  = 
 	do{ 
 	putStrLn ("=== statement "++ show n++ " with " ++ showSustitution susExpr ++ 
 		" using lambda "++show var++"."++show expr);
@@ -136,11 +148,11 @@ statement n with susExpr using lambda var expr term1  =
 
 {- proof: recibe la ecuación del enunciado del teorema y devuelve el término 
 -  del lado izquierdo después de imprimirlo por consola.
--  [Enunciado / Sección 5: Módulo de teoremas -}
+-  [Enunciado / Sección 5: Módulo de teoremas] -}
 proof :: Equation -> IO Term
 proof (Equa t1 t2) = do { putStrLn ("Prooving "++ show (Equa t1 t2) ); putStrLn (show t1); return t1}
 
-{- done: vrifica si el término que recibe de la últma regla es igual al lado
+{- done: verifica si el término que recibe de la últma regla es igual al lado
 -  derecho de la equivalencia en el enunciado del teorema. En caso positivo
 -  devolverá un menxaje exitoso, y en caso contrario un mensaje de fracaso.
 -  [Enunciado / Sección 5: Módulo de teoremas -}
@@ -161,7 +173,8 @@ showTerm (Or (Var x) (Var y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Var y)
 showTerm (Or (Var x) (Bool y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Bool y)
 showTerm (Or (Bool x) (Var y)) = showTerm(Bool x) ++ " \\/ " ++ showTerm(Var y)
 showTerm (Or (Var x) t) = showTerm(Var x) ++ " \\/ (" ++ showTerm(t) ++ ")"
-showTerm (Or t (Var x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Var x)
+showTerm (Or t 
+(Var x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Var x)
 showTerm (Or (Bool x) (Bool y)) = showTerm(Bool x) ++ "\\/" ++ showTerm(Bool y)
 showTerm (Or (Bool x) t) = showTerm(Bool x) ++ " \\/ (" ++ showTerm(t) ++ ")"
 showTerm (Or t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Bool x)

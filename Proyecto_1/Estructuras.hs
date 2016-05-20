@@ -51,7 +51,9 @@ neg,
 * 
 * Archivo: Estructuras.hs
 *
-* Descripción: 
+* Descripción: Definición de los tipos de Datos a utilizar, posibles variables,
+* dummies y operadores en la implementación del asistente de pruebas para 
+* la lógica proposicional.
 * 
 * Integrantes:
 * 	Alejandra Cordero / 12-10645
@@ -65,7 +67,7 @@ neg,
 *
 -}
 
-
+-- Definición de los tipos de datos a utilizar:
 data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term | Not Term deriving (Eq) 
 data Equation = Equa Term Term
 data Sust' = Sustitution Term Term 
@@ -157,6 +159,8 @@ true = Bool "true"
 false :: Term
 false =  Bool "false"
 
+-- Definición de los Dummies
+
 using :: Dummy
 using = Using "using"
 
@@ -165,9 +169,6 @@ with = With "with"
 
 lambda :: Dummy
 lambda = Lambda "lambda"
-
-{-((,,)) :: Term -> Sust -> Term
-((,,)) t1 s t2 = Tuple (t1,s,t2)-}
 
 -- Definición de los operadores:
 
