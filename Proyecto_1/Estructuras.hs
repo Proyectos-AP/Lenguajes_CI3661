@@ -44,6 +44,24 @@ neg,
 (=:)
 ) where
 
+{-
+* Universidad Simón Bolívar
+* Departamento de Computación y Tecnología de la Información
+* Laboratorio de Lenguajes de Programación I (CI3661)
+* 
+* Archivo: Estructuras.hs
+*
+* Descripción: 
+* 
+* Integrantes:
+* 	Alejandra Cordero / 12-10645
+*	Pablo Maldonado / 12-10561
+*
+* Última modificación: 21/05/2016
+*
+-}
+
+
 data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term | Not Term deriving (Eq) 
 data Equation = Equa Term Term
 data Sust' = Sustitution Term Term 
@@ -144,6 +162,7 @@ lambda = Lambda "lambda"
 
 {-((,,)) :: Term -> Sust -> Term
 ((,,)) t1 s t2 = Tuple (t1,s,t2)-}
+
 
 neg :: Term -> Term
 neg t1 =  Not t1
