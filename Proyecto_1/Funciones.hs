@@ -44,6 +44,7 @@ class Sust a where
 instance Sust Sust' where
 	sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
 	sust (Bool s1) susExpr = Bool s1
+	sust (Not s1) susExpr = Not (sust s1 susExpr)
 	sust (Or term1 term2) susExpr = Or (sust term1 susExpr) (sust term2 susExpr)
 	sust (And term1 term2) susExpr = And (sust term1 susExpr) (sust term2 susExpr)
 	sust (Impl term1 term2) susExpr = Impl (sust term1 susExpr) (sust term2 susExpr)
@@ -59,6 +60,7 @@ instance Sust (Term,Sust',Term) where
 		| otherwise = (Var x1)
 
 	sust (Bool x1) (t1,susExpr,x3) = Bool x1
+	sust (Not s1) susExpr = Not (sust s1 susExpr)
 	sust (Or term1 term2) (t1,susExpr,x3)  = Or (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
 	sust (And term1 term2) (t1,susExpr,x3) = And (sust term1 (t1,susExpr,x3)) (sust term2 (t1,susExpr,x3) )
 	sust (Impl term1 term2) (t1,susExpr,x3) = Impl (sust term1 (t1,susExpr,x3)) (sust term2 (t1,susExpr,x3))
@@ -76,6 +78,7 @@ instance Sust (Term,Term,Sust',Term,Term) where
 		| otherwise = (Var x1)
 
 	sust (Bool x1) (t1,t3,susExpr,x3,x4)  = Bool x1
+	sust (Not s1) susExpr = Not (sust s1 susExpr)
 	sust (Or term1 term2) (t1,t3,susExpr,x3,x4)    = Or (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 	sust (And term1 term2) (t1,t3,susExpr,x3,x4)   = And (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 	sust (Impl term1 term2) (t1,t3,susExpr,x3,x4)  = Impl (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
@@ -119,7 +122,7 @@ compareEquation :: Term -> Equation -> Term
 compareEquation term1 (Equa t1 t2) 
 	| term1==t1 = t2
 	| term1==t2 = t1
-	| otherwise = error "*** No se puede seguir instanciando ***"
+	| otherwise = error "*** Invalid inference rule ***"
 
 -- statement:
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
@@ -212,9 +215,4 @@ showEquation :: Equation -> String
 showEquation (Equa t1 t2) = showTerm t1 ++ " === " ++ showTerm t2 
 instance Show Equation where show = showEquation
 
-{-showSustitution :: Sust' -> String
-showSustitution (Sustitution t1 t2) =  showTerm t1 ++ "=:" ++ showTerm t2
-instance Show Sust' where show = showSustitution
-
--}
 
