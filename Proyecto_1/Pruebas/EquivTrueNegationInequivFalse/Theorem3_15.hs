@@ -1,7 +1,8 @@
 -----------------------------------------
 -- Coloque los imports necesarios aqui --
 -----------------------------------------
-
+import Funciones
+import Estructuras
 verify = let theorem = ( neg p <==> p === false ) in
          proof theorem
          >>=
