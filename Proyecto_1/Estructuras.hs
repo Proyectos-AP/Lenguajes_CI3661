@@ -1,5 +1,5 @@
 module Estructuras 
-(Term (Var,Bool,Or,And,Impl,Equiv,NoEquiv),
+(Term (Var,Bool,Or,And,Impl,Equiv,NoEquiv,Not),
 Equation (Equa), 
 Sust' (Sustitution),
 Dummy (With,Lambda,Using),
@@ -34,6 +34,7 @@ false,
 using,
 with,
 lambda,
+neg,
 (<==>),
 (===),
 (==>),
@@ -43,7 +44,7 @@ lambda,
 (=:)
 ) where
 
-data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term deriving (Eq) 
+data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term | Not Term deriving (Eq) 
 data Equation = Equa Term Term
 data Sust' = Sustitution Term Term 
 data Dummy = With String | Lambda String | Using String
@@ -143,6 +144,9 @@ lambda = Lambda "lambda"
 
 {-((,,)) :: Term -> Sust -> Term
 ((,,)) t1 s t2 = Tuple (t1,s,t2)-}
+
+neg :: Term -> Term
+neg t1 =  Not t1
 
 (\/) :: Term -> Term -> Term
 (\/) t1 t2 = Or t1 t2

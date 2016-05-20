@@ -104,6 +104,7 @@ done (Equa t1 t2) term1 = do { if term1==t2 then putStrLn "Proof succesful." els
 showTerm :: Term -> String
 showTerm (Var x) = x
 showTerm (Bool x) = x
+showTerm (Not x) = "neg " ++ showTerm x
 showTerm (Or (Var x) (Var y)) = showTerm(Var x) ++ "\\/" ++ showTerm(Var y)
 showTerm (Or (Var x) t) = showTerm(Var x) ++ " \\/ (" ++ showTerm(t) ++ ")"
 showTerm (Or t (Var x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Var x)
