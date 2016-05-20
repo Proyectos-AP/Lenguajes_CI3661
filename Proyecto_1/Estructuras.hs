@@ -1,5 +1,5 @@
 module Estructuras 
-(Term (Var,Bool,Or,And,Impl,Equiv,NoEquiv),
+(Term (Var,Bool,Or,And,Impl,Equiv,NoEquiv,Not),
 Equation (Equa), 
 Sust' (Sustitution),
 Dummy (With,Lambda,Using),
@@ -168,4 +168,3 @@ infix 2 =:
 (=:) :: Term -> Term -> Sust'
 (=:) t1 (Var t2) = Sustitution t1 (Var t2)
 
---

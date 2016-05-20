@@ -1,8 +1,6 @@
------------------------------------------
--- Coloque los imports necesarios aqui --
------------------------------------------
-import Funciones
-import Estructuras
+import Propositions
+import Term
+
 verify = let theorem = ( (p !<==> q) !<==> r === p !<==> (q !<==> r) ) in
          proof theorem
          >>=
