@@ -25,7 +25,9 @@ done
 * 	Alejandra Cordero / 12-10645
 *	Pablo Maldonado / 12-10561
 *
-* Referencias:
+* Referencias: 
+*    - Enunciado del Proyecto 1: Implementación de un asistente 
+*      de pruebas para la lógica proposicional.
 *
 * Última modificación: 21/05/2016
 *
@@ -83,15 +85,28 @@ instance Sust (Term,Term,Sust',Term,Term) where
 	showSustitution (t1,t3,susExpr,x3,x4) =  "("++ showTerm t1 ++"," ++ showTerm t3 ++
 	 "," ++ showSustitution susExpr ++ "," ++ showTerm x3 ++","++ showTerm x4++")"
 
--- instantiate:
-instantiate :: (Sust a) => Equation -> a -> Equation
+{- instantiate: recibe un objeto de tipo Equation, uno de tipo Sust y devuelve 
+-  una nueva ecuación Equation con el lado izquierdo y derecho de la misma 
+-  instanciada según la sustitución que se introdujo como argumento. 
+-  [Enunciado / Sección 4.5: Instanciación] -}
+instantiate :: (Sust a) => Equation -> a -> Equations
 instantiate (Equa t1 t2) susExpr = Equa (sust t1 susExpr) (sust t2 susExpr)
 
--- leibniz:
+{- leibniz: dada una ecuación t1 === t2 de tipo Equation, un término E y 
+-  una variable z, devuelve una nueva ecuación de tipo Equation, resultante
+-  de aplicar la regla de Leibniz con la ecuacion t1 === t2 en la función
+-  lambda z.E. 
+-  [Enunciado / Sección 4.6: Regla de Leibniz] -}
 leibniz :: Equation -> Term -> Term -> Equation
 leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
 
--- infer:
+{- infer: dado un número n, una ecuación de tipo Equation, una sustitución sus,
+-  una variable z y un término E, devuelve una nuea ecuación resultante de 
+-  aplicar la regla de Leibniz X === Y / (lambda z.E)X === (lambda z.E)Y. 
+-  Donde la premisa X === Y, es la ecuación resultante de aplicar instanciación
+-  (usando instantiate) en el teorema de número n del módulo de teoremas 
+-  (Theorems.hs), con la sustitución sus. 
+-  [Enunciado / Sección 4.7: Inferencia] -}
 infer :: (Sust a) =>  Float -> a -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
@@ -105,7 +120,6 @@ compareEquation term1 (Equa t1 t2)
 	| term1==t1 = t2
 	| term1==t2 = t1
 	| otherwise = error "*** No se puede seguir instanciando ***"
-
 
 -- statement:
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term

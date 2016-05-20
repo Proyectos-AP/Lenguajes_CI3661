@@ -57,7 +57,9 @@ neg,
 * 	Alejandra Cordero / 12-10645
 *	Pablo Maldonado / 12-10561
 *
-* Referencias:
+* Referencias: 
+*    - Enunciado del Proyecto 1: Implementación de un asistente 
+*      de pruebas para la lógica proposicional.
 *
 * Última modificación: 21/05/2016
 *
@@ -203,4 +205,3 @@ infix 2 ===
 infix 2 =:
 (=:) :: Term -> Term -> Sust'
 (=:) t1 (Var t2) = Sustitution t1 (Var t2)
-
