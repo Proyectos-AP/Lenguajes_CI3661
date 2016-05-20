@@ -23,6 +23,7 @@ class Sust a where
 instance Sust Sust' where
 	sust (Var s1) (Sustitution term2 (Var s2)) = if s1 == s2 then term2 else (Var s1)
 	sust (Bool s1) susExpr = Bool s1
+	sust (Not s1) susExpr = Not (sust s1 susExpr)
 	sust (Or term1 term2) susExpr = Or (sust term1 susExpr) (sust term2 susExpr)
 	sust (And term1 term2) susExpr = And (sust term1 susExpr) (sust term2 susExpr)
 	sust (Impl term1 term2) susExpr = Impl (sust term1 susExpr) (sust term2 susExpr)
@@ -38,6 +39,7 @@ instance Sust (Term,Sust',Term) where
 		| otherwise = (Var x1)
 
 	sust (Bool x1) (t1,susExpr,x3) = Bool x1
+	sust (Not s1) susExpr = Not (sust s1 susExpr)
 	sust (Or term1 term2) (t1,susExpr,x3)  = Or (sust term1 (t1,susExpr,x3) ) (sust term2 (t1,susExpr,x3) )
 	sust (And term1 term2) (t1,susExpr,x3) = And (sust term1 (t1,susExpr,x3)) (sust term2 (t1,susExpr,x3) )
 	sust (Impl term1 term2) (t1,susExpr,x3) = Impl (sust term1 (t1,susExpr,x3)) (sust term2 (t1,susExpr,x3))
@@ -55,6 +57,7 @@ instance Sust (Term,Term,Sust',Term,Term) where
 		| otherwise = (Var x1)
 
 	sust (Bool x1) (t1,t3,susExpr,x3,x4)  = Bool x1
+	sust (Not s1) susExpr = Not (sust s1 susExpr)
 	sust (Or term1 term2) (t1,t3,susExpr,x3,x4)    = Or (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 	sust (And term1 term2) (t1,t3,susExpr,x3,x4)   = And (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))
 	sust (Impl term1 term2) (t1,t3,susExpr,x3,x4)  = Impl (sust term1 (t1,t3,susExpr,x3,x4)) (sust term2 (t1,t3,susExpr,x3,x4))

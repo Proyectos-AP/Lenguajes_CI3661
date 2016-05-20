@@ -171,4 +171,5 @@ infix 2 ===
 infix 2 =:
 (=:) :: Term -> Term -> Sust'
 (=:) t1 (Var t2) = Sustitution t1 (Var t2)
+(=:) t1 (Not t2) = Sustitution t1 (Not t2)
 
