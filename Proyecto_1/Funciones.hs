@@ -25,7 +25,9 @@ done
 * 	Alejandra Cordero / 12-10645
 *	Pablo Maldonado / 12-10561
 *
-* Referencias:
+* Referencias: 
+*    - Enunciado del Proyecto 1: Implementación de un asistente 
+*      de pruebas para la lógica proposicional.
 *
 * Última modificación: 21/05/2016
 *
@@ -86,19 +88,32 @@ instance Sust (Term,Term,Sust',Term,Term) where
 	showSustitution (t1,t3,susExpr,x3,x4) =  "("++ showTerm t1 ++"," ++ showTerm t3 ++
 	 "," ++ showSustitution susExpr ++ "," ++ showTerm x3 ++","++ showTerm x4++")"
 
--- instantiate:
+{- instantiate: recibe un objeto de tipo Equation, uno de tipo Sust y devuelve 
+-  una nueva ecuación Equation con el lado izquierdo y derecho de la misma 
+-  instanciada según la sustitución que se introdujo como argumento. 
+-  [Enunciado / Sección 4.5: Instanciación] -}
 instantiate :: (Sust a) => Equation -> a -> Equation
 instantiate (Equa t1 t2) susExpr = Equa (sust t1 susExpr) (sust t2 susExpr)
 
--- leibniz:
+{- leibniz: dada una ecuación t1 === t2 de tipo Equation, un término E y 
+-  una variable z, devuelve una nueva ecuación de tipo Equation, resultante
+-  de aplicar la regla de Leibniz con la ecuacion t1 === t2 en la función
+-  lambda z.E. 
+-  [Enunciado / Sección 4.6: Regla de Leibniz] -}
 leibniz :: Equation -> Term -> Term -> Equation
 leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
 
--- infer:
+{- infer: dado un número n, una ecuación de tipo Equation, una sustitución sus,
+-  una variable z y un término E, devuelve una nuea ecuación resultante de 
+-  aplicar la regla de Leibniz X === Y / (lambda z.E)X === (lambda z.E)Y. 
+-  Donde la premisa X === Y, es la ecuación resultante de aplicar instanciación
+-  (usando instantiate) en el teorema de número n del módulo de teoremas 
+-  (Theorems.hs), con la sustitución sus. 
+-  [Enunciado / Sección 4.7: Inferencia] -}
 infer :: (Sust a) =>  Float -> a -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
--- step:
+-- step: 
 step :: (Sust a) => Term -> Float -> a -> Term -> Term -> Term
 step term1 n susExpr var expr = compareEquation term1 (infer n susExpr var expr)
 
@@ -108,7 +123,6 @@ compareEquation term1 (Equa t1 t2)
 	| term1==t1 = t2
 	| term1==t2 = t1
 	| otherwise = error "*** Invalid inference rule ***"
-
 
 -- statement:
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
@@ -120,26 +134,28 @@ statement n with susExpr using lambda var expr term1  =
 	return (step term1 n susExpr var expr)
 	}
 
--- proof:
+{- proof: recibe la ecuación del enunciado del teorema y devuelve el término 
+-  del lado izquierdo después de imprimirlo por consola.
+-  [Enunciado / Sección 5: Módulo de teoremas -}
 proof :: Equation -> IO Term
 proof (Equa t1 t2) = do { putStrLn ("Prooving "++ show (Equa t1 t2) ); putStrLn (show t1); return t1}
 
--- done:
+{- done: vrifica si el término que recibe de la últma regla es igual al lado
+-  derecho de la equivalencia en el enunciado del teorema. En caso positivo
+-  devolverá un menxaje exitoso, y en caso contrario un mensaje de fracaso.
+-  [Enunciado / Sección 5: Módulo de teoremas -}
 done :: Equation -> Term -> IO ()
 done (Equa t1 t2) term1 = do { if term1==t2 then putStrLn "Proof succesful." else putStrLn "Proof unsuccesful."}
 
--- showTerm:
+-- showTerm: define el formato de impresión de variables con sus operadores.
 showTerm :: Term -> String
-
 -- Variables y Booleanos
 showTerm (Var x) = x
 showTerm (Bool x) = x
-
 -- Operación: Negación neg
 showTerm (Not (Var x)) = "neg " ++ showTerm(Var x)
 showTerm (Not (Bool x)) = "neg " ++ showTerm (Bool x)
 showTerm (Not t) = "neg " ++ "(" ++  showTerm t ++ ")"
-
 -- Operación: Or \/ 
 showTerm (Or (Var x) (Var y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Var y)
 showTerm (Or (Var x) (Bool y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Bool y)
@@ -150,7 +166,6 @@ showTerm (Or (Bool x) (Bool y)) = showTerm(Bool x) ++ "\\/" ++ showTerm(Bool y)
 showTerm (Or (Bool x) t) = showTerm(Bool x) ++ " \\/ (" ++ showTerm(t) ++ ")"
 showTerm (Or t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Bool x)
 showTerm (Or t1 t2) = "(" ++ showTerm t1 ++ ") \\/ (" ++ showTerm t2 ++ ")"
-
 -- Operación: And /\
 showTerm (And (Var x) (Var y)) = showTerm(Var x) ++ " /\\ " ++ showTerm(Var y)
 showTerm (And (Var x) (Bool y)) = showTerm(Var x) ++ " /\\ " ++ showTerm(Bool y)
@@ -161,7 +176,6 @@ showTerm (And (Bool x) (Bool y)) = showTerm(Bool x) ++ "/\\" ++ showTerm(Bool y)
 showTerm (And (Bool x) t) = showTerm(Bool x) ++ " /\\ (" ++ showTerm(t) ++ ")"
 showTerm (And t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " /\\ " ++ showTerm(Bool x)
 showTerm (And t1 t2) = "(" ++ showTerm t1 ++ ") /\\ (" ++ showTerm t2 ++ ")"
-
 -- Operación: Implicación ==>
 showTerm (Impl (Var x) (Var y)) = showTerm(Var x) ++ " ==> " ++ showTerm(Var y)
 showTerm (Impl (Var x) (Bool y)) = showTerm(Var x) ++ " ==> " ++ showTerm(Bool y)
@@ -172,7 +186,6 @@ showTerm (Impl (Bool x) (Bool y)) = showTerm(Bool x) ++ "==>" ++ showTerm(Bool y
 showTerm (Impl (Bool x) t) = showTerm(Bool x) ++ " ==> (" ++ showTerm(t) ++ ")"
 showTerm (Impl t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " ==> " ++ showTerm(Bool x)
 showTerm (Impl t1 t2) = "(" ++ showTerm t1 ++ ") ==> (" ++ showTerm t2 ++ ")"
-
 -- Operación: Equivalencia <==>
 showTerm (Equiv (Var x) (Var y)) = showTerm(Var x) ++ " <==> " ++ showTerm(Var y)
 showTerm (Equiv (Var x) (Bool y)) = showTerm(Var x) ++ " <==> " ++ showTerm(Bool y)
@@ -183,7 +196,6 @@ showTerm (Equiv (Bool x) (Bool y)) = showTerm(Bool x) ++ "<==>" ++ showTerm(Bool
 showTerm (Equiv (Bool x) t) = showTerm(Bool x) ++ " <==> (" ++ showTerm(t) ++ ")"
 showTerm (Equiv t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " <==> " ++ showTerm(Bool x)
 showTerm (Equiv t1 t2) = "(" ++ showTerm t1 ++ ") <==> (" ++ showTerm t2 ++ ")"
-
 -- Operación: Inequivalencia !<==>
 showTerm (NoEquiv (Var x) (Var y)) = showTerm(Var x) ++ " !<==> " ++ showTerm(Var y)
 showTerm (NoEquiv (Var x) (Bool y)) = showTerm(Var x) ++ " !<==> " ++ showTerm(Bool y)
@@ -194,9 +206,9 @@ showTerm (NoEquiv (Bool x) (Bool y)) = showTerm(Bool x) ++ "!<==>" ++ showTerm(B
 showTerm (NoEquiv (Bool x) t) = showTerm(Bool x) ++ " !<==> (" ++ showTerm(t) ++ ")"
 showTerm (NoEquiv t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " !<==> " ++ showTerm(Bool x)
 showTerm (NoEquiv t1 t2) = "(" ++ showTerm t1 ++ ") !<==> (" ++ showTerm t2 ++ ")"
-
 instance Show Term where show = showTerm
 
+-- showEquation: define el formato de impresión de las ecuaciones (Equation).
 showEquation :: Equation -> String
 showEquation (Equa t1 t2) = showTerm t1 ++ " === " ++ showTerm t2 
 instance Show Equation where show = showEquation
