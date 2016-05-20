@@ -1,13 +1,13 @@
-# Lenguajes_CI3661
+# Implementación de un asistente de pruebas de la lógica proposicional
 
-Universidad Simón Bolívar
+Universidad Simón Bolívar  
 Departamento de Computación y Tecnología de la Información
 Laboratorio de Lenguajes de Programación I (CI3661)
 Proyecto 1 - Implementación de un asistente de pruebas
 de la lógica proposiciónal.
 Integrantes:
-    Alejandra Cordero / 12-10646
-    Pablo Maldonado / 12-10561
+    Alejandra Cordero / 12-10645 / 
+    Pablo Maldonado / 12-10561 / @prmm95
 
 # Descripción:
 
