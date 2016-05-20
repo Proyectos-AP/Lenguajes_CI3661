@@ -168,3 +168,4 @@ infix 2 =:
 (=:) :: Term -> Term -> Sust'
 (=:) t1 (Var t2) = Sustitution t1 (Var t2)
 
+--
