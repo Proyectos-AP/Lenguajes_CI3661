@@ -25,13 +25,15 @@ done
 * 	Alejandra Cordero / 12-10645
 *	Pablo Maldonado / 12-10561
 *
+* Referencias:
+*
 * Última modificación: 21/05/2016
 *
 -}
 
+-- Importes: 
 import Theorems
 import Estructuras
-
 
 class Sust a where
 	sust :: Term -> a -> Term
@@ -81,27 +83,31 @@ instance Sust (Term,Term,Sust',Term,Term) where
 	showSustitution (t1,t3,susExpr,x3,x4) =  "("++ showTerm t1 ++"," ++ showTerm t3 ++
 	 "," ++ showSustitution susExpr ++ "," ++ showTerm x3 ++","++ showTerm x4++")"
 
-
+-- instantiate:
 instantiate :: (Sust a) => Equation -> a -> Equation
 instantiate (Equa t1 t2) susExpr = Equa (sust t1 susExpr) (sust t2 susExpr)
 
- 
+-- leibniz:
 leibniz :: Equation -> Term -> Term -> Equation
 leibniz (Equa t1 t2) var expr = Equa (sust expr (t1=:var)) (sust expr (t2=:var))
 
-
+-- infer:
 infer :: (Sust a) =>  Float -> a -> Term -> Term -> Equation
 infer n s var expr = leibniz (instantiate (prop n) s) var (expr)
 
+-- step:
 step :: (Sust a) => Term -> Float -> a -> Term -> Term -> Term
 step term1 n susExpr var expr = compareEquation term1 (infer n susExpr var expr)
 
+-- compareEquation: 
 compareEquation :: Term -> Equation -> Term
 compareEquation term1 (Equa t1 t2) 
 	| term1==t1 = t2
 	| term1==t2 = t1
 	| otherwise = error "*** No se puede seguir instanciando ***"
 
+
+-- statement:
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
 statement n with susExpr using lambda var expr term1  = 
 	do{ 
@@ -111,23 +117,27 @@ statement n with susExpr using lambda var expr term1  =
 	return (step term1 n susExpr var expr)
 	}
 
+-- proof:
 proof :: Equation -> IO Term
 proof (Equa t1 t2) = do { putStrLn ("Prooving "++ show (Equa t1 t2) ); putStrLn (show t1); return t1}
 
+-- done:
 done :: Equation -> Term -> IO ()
 done (Equa t1 t2) term1 = do { if term1==t2 then putStrLn "Proof succesful." else putStrLn "Proof unsuccesful."}
 
-
+-- showTerm:
 showTerm :: Term -> String
 
+-- Variables y Booleanos
 showTerm (Var x) = x
-
 showTerm (Bool x) = x
 
+-- Operación: Negación neg
 showTerm (Not (Var x)) = "neg " ++ showTerm(Var x)
 showTerm (Not (Bool x)) = "neg " ++ showTerm (Bool x)
 showTerm (Not t) = "neg " ++ "(" ++  showTerm t ++ ")"
 
+-- Operación: Or \/ 
 showTerm (Or (Var x) (Var y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Var y)
 showTerm (Or (Var x) (Bool y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Bool y)
 showTerm (Or (Bool x) (Var y)) = showTerm(Bool x) ++ " \\/ " ++ showTerm(Var y)
@@ -138,6 +148,7 @@ showTerm (Or (Bool x) t) = showTerm(Bool x) ++ " \\/ (" ++ showTerm(t) ++ ")"
 showTerm (Or t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Bool x)
 showTerm (Or t1 t2) = "(" ++ showTerm t1 ++ ") \\/ (" ++ showTerm t2 ++ ")"
 
+-- Operación: And /\
 showTerm (And (Var x) (Var y)) = showTerm(Var x) ++ " /\\ " ++ showTerm(Var y)
 showTerm (And (Var x) (Bool y)) = showTerm(Var x) ++ " /\\ " ++ showTerm(Bool y)
 showTerm (And (Bool x) (Var y)) = showTerm(Bool x) ++ " /\\ " ++ showTerm(Var y)
@@ -148,6 +159,7 @@ showTerm (And (Bool x) t) = showTerm(Bool x) ++ " /\\ (" ++ showTerm(t) ++ ")"
 showTerm (And t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " /\\ " ++ showTerm(Bool x)
 showTerm (And t1 t2) = "(" ++ showTerm t1 ++ ") /\\ (" ++ showTerm t2 ++ ")"
 
+-- Operación: Implicación ==>
 showTerm (Impl (Var x) (Var y)) = showTerm(Var x) ++ " ==> " ++ showTerm(Var y)
 showTerm (Impl (Var x) (Bool y)) = showTerm(Var x) ++ " ==> " ++ showTerm(Bool y)
 showTerm (Impl (Bool x) (Var y)) = showTerm(Bool x) ++ " ==> " ++ showTerm(Var y)
@@ -158,6 +170,7 @@ showTerm (Impl (Bool x) t) = showTerm(Bool x) ++ " ==> (" ++ showTerm(t) ++ ")"
 showTerm (Impl t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " ==> " ++ showTerm(Bool x)
 showTerm (Impl t1 t2) = "(" ++ showTerm t1 ++ ") ==> (" ++ showTerm t2 ++ ")"
 
+-- Operación: Equivalencia <==>
 showTerm (Equiv (Var x) (Var y)) = showTerm(Var x) ++ " <==> " ++ showTerm(Var y)
 showTerm (Equiv (Var x) (Bool y)) = showTerm(Var x) ++ " <==> " ++ showTerm(Bool y)
 showTerm (Equiv (Bool x) (Var y)) = showTerm(Bool x) ++ " <==> " ++ showTerm(Var y)
@@ -168,6 +181,7 @@ showTerm (Equiv (Bool x) t) = showTerm(Bool x) ++ " <==> (" ++ showTerm(t) ++ ")
 showTerm (Equiv t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " <==> " ++ showTerm(Bool x)
 showTerm (Equiv t1 t2) = "(" ++ showTerm t1 ++ ") <==> (" ++ showTerm t2 ++ ")"
 
+-- Operación: Inequivalencia !<==>
 showTerm (NoEquiv (Var x) (Var y)) = showTerm(Var x) ++ " !<==> " ++ showTerm(Var y)
 showTerm (NoEquiv (Var x) (Bool y)) = showTerm(Var x) ++ " !<==> " ++ showTerm(Bool y)
 showTerm (NoEquiv (Bool x) (Var y)) = showTerm(Bool x) ++ " !<==> " ++ showTerm(Var y)

@@ -57,6 +57,8 @@ neg,
 * 	Alejandra Cordero / 12-10645
 *	Pablo Maldonado / 12-10561
 *
+* Referencias:
+*
 * Última modificación: 21/05/2016
 *
 -}
@@ -66,6 +68,8 @@ data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term 
 data Equation = Equa Term Term
 data Sust' = Sustitution Term Term 
 data Dummy = With String | Lambda String | Using String
+
+-- Definición de las posibles variables:
 
 a :: Term
 a = Var "a"
@@ -163,30 +167,39 @@ lambda = Lambda "lambda"
 {-((,,)) :: Term -> Sust -> Term
 ((,,)) t1 s t2 = Tuple (t1,s,t2)-}
 
+-- Definición de los operadores:
 
+-- Negación:
 neg :: Term -> Term
 neg t1 =  Not t1
 
+-- Or:
 (\/) :: Term -> Term -> Term
 (\/) t1 t2 = Or t1 t2
 
+-- And:
 (/\) :: Term -> Term -> Term
 (/\) t1 t2 = And t1 t2
 
+-- Implicación:
 infixr 8 ==>
 (==>) :: Term -> Term -> Term
 (==>) t1 t2 = Impl t1 t2
 
+-- Equivalencia:
 (<==>) :: Term -> Term -> Term
 (<==>) t1 t2 = Equiv t1 t2
 
+-- Inequivalencia:
 (!<==>) :: Term -> Term -> Term
 (!<==>) t1 t2 = NoEquiv t1 t2
 
+-- Igualdad:
 infix 2 ===
 (===) :: Term -> Term -> Equation
 (===) t1 t2 = Equa t1 t2
 
+-- Sustitución:
 infix 2 =:
 (=:) :: Term -> Term -> Sust'
 (=:) t1 (Var t2) = Sustitution t1 (Var t2)
