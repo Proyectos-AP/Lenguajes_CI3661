@@ -15,8 +15,8 @@ En ella también encontrará el formato que deben cumplir sus demostraciones par
 
 # Instrucciones para correr una prueba:
 
-1.- Debe agregar los archivos Estructuras.hs y Funciones.hs al directorio en el que desee ejecutar su(s) prueba(s).  
-2.- Para cada archivo de Teoremas deberá agregarle los importes necesarios. Es decir:  
+1. Debe agregar los archivos Estructuras.hs y Funciones.hs al directorio en el que desee ejecutar su(s) prueba(s).  
+2. Para cada archivo de Teoremas deberá agregarle los importes necesarios. Es decir:  
 
 ```haskell
 import  Estructuras  
