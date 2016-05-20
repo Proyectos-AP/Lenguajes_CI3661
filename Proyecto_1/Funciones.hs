@@ -103,7 +103,7 @@ compareEquation :: Term -> Equation -> Term
 compareEquation term1 (Equa t1 t2) 
 	| term1==t1 = t2
 	| term1==t2 = t1
-	| otherwise = error "*** No se puede seguir instanciando ***"
+	| otherwise = error "*** Invalid inference rule ***"
 
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
 statement n with susExpr using lambda var expr term1  = 
@@ -187,9 +187,4 @@ showEquation :: Equation -> String
 showEquation (Equa t1 t2) = showTerm t1 ++ " === " ++ showTerm t2 
 instance Show Equation where show = showEquation
 
-{-showSustitution :: Sust' -> String
-showSustitution (Sustitution t1 t2) =  showTerm t1 ++ "=:" ++ showTerm t2
-instance Show Sust' where show = showSustitution
-
--}
 
