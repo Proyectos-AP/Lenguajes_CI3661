@@ -1,6 +1,6 @@
 # Lenguajes_CI3661
 
-Universidad Simón Bolívar
+Universidad Simón Bolívar  
 Departamento de Computación y Tecnología de la Información
 Laboratorio de Lenguajes de Programación I (CI3661)
 Proyecto 1 - Implementación de un asistente de pruebas
