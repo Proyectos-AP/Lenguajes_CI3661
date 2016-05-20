@@ -9,6 +9,23 @@ Integrantes:
 
 # Descripción:
 
+Puede encontrar la descripción de la implementación aquí:
 
+En ella también encontrará el formato que deben cumplir sus  
+demostraciones para que puedan ser verificadas por el asistente.  
 
 # Instrucciones para correr una prueba:
+
+1.- Debe agregar los archivos Estructuras.hs y Funciones.hs al directorio en el que  
+desee ejecutar su(s) prueba(s). 
+2.- Para cada archivo de Teoremas deberá agregarle los 
+importes necesarios. Es decir:
+
+
+```haskell
+import  Estructuras  
+import  Funciones 
+```
+
+
+ 
