@@ -15,7 +15,7 @@ Integrantes:
 
 ## Instrucciones para correr una prueba:
 
-### Antes de corres la prueba: 
+### Antes de correr una prueba: 
 1.- Debe agregar los archivos *Estructuras.hs* y *Funciones.hs* al directorio en el que desee ejecutar su(s) prueba(s).  
 2.- Su archivo de teoremas, deberá llamarse *Theorems.hs* y respetar el formato indicado en el enunciado.  
 3.- Debe agregarle a *Theorems.hs* el siguiente encabezado:
