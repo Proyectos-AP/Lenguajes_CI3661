@@ -34,6 +34,7 @@ false,
 using,
 with,
 lambda,
+neg,
 (<==>),
 (===),
 (==>),
@@ -43,10 +44,36 @@ lambda,
 (=:)
 ) where
 
-data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term deriving (Eq) 
+{-
+* Universidad Simón Bolívar
+* Departamento de Computación y Tecnología de la Información
+* Laboratorio de Lenguajes de Programación I (CI3661)
+* 
+* Archivo: Estructuras.hs
+*
+* Descripción: Definición de los tipos de Datos a utilizar, posibles variables,
+* dummies y operadores en la implementación del asistente de pruebas para 
+* la lógica proposicional.
+* 
+* Integrantes:
+* 	Alejandra Cordero / 12-10645
+*	Pablo Maldonado / 12-10561
+*
+* Referencias: 
+*    - Enunciado del Proyecto 1: Implementación de un asistente 
+*      de pruebas para la lógica proposicional.
+*
+* Última modificación: 21/05/2016
+*
+-}
+
+-- Definición de los tipos de datos a utilizar:
+data Term = Var String | Bool String | Or Term Term | And Term Term | Impl Term Term | Equiv Term Term | NoEquiv Term Term | Not Term deriving (Eq) 
 data Equation = Equa Term Term
 data Sust' = Sustitution Term Term 
 data Dummy = With String | Lambda String | Using String
+
+-- Definición de las posibles variables:
 
 a :: Term
 a = Var "a"
@@ -132,6 +159,8 @@ true = Bool "true"
 false :: Term
 false =  Bool "false"
 
+-- Definición de los Dummies
+
 using :: Dummy
 using = Using "using"
 
@@ -141,30 +170,44 @@ with = With "with"
 lambda :: Dummy
 lambda = Lambda "lambda"
 
-{-((,,)) :: Term -> Sust -> Term
-((,,)) t1 s t2 = Tuple (t1,s,t2)-}
+-- Definición de los operadores:
 
+-- Negación:
+neg :: Term -> Term
+neg t1 =  Not t1
+
+-- Or:
+infixl 5 \/
 (\/) :: Term -> Term -> Term
 (\/) t1 t2 = Or t1 t2
 
+-- And:
+infixl 5 /\
 (/\) :: Term -> Term -> Term
 (/\) t1 t2 = And t1 t2
 
-infixr 8 ==>
+-- Implicación:
+infixr 4 ==>
 (==>) :: Term -> Term -> Term
 (==>) t1 t2 = Impl t1 t2
 
+-- Equivalencia:
+infix 3 <==>
 (<==>) :: Term -> Term -> Term
 (<==>) t1 t2 = Equiv t1 t2
 
+-- Inequivalencia:
+infix 3 !<==>
 (!<==>) :: Term -> Term -> Term
 (!<==>) t1 t2 = NoEquiv t1 t2
 
+-- Igualdad:
 infix 2 ===
 (===) :: Term -> Term -> Equation
 (===) t1 t2 = Equa t1 t2
 
+-- Sustitución:
 infix 2 =:
 (=:) :: Term -> Term -> Sust'
 (=:) t1 (Var t2) = Sustitution t1 (Var t2)
-
+(=:) t1 (Not t2) = Sustitution t1 (Not t2)

@@ -138,7 +138,7 @@ compareEquation term1 (Equa t1 t2)
 -  imprime por consola el hint y el término resultante.
 -  [Enunciado / Sección 4.8: Deducción de un paso] -}
 statement :: (Sust a) =>  Float -> Dummy -> a -> Dummy -> Dummy -> Term -> Term -> Term -> IO Term
-statement nswith susExpr using lambda var expr term1  = 
+statement n with susExpr using lambda var expr term1  = 
 	do{ 
 	putStrLn ("=== statement "++ show n++ " with " ++ showSustitution susExpr ++ 
 		" using lambda "++show var++"."++show expr);
@@ -173,9 +173,8 @@ showTerm (Or (Var x) (Var y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Var y)
 showTerm (Or (Var x) (Bool y)) = showTerm(Var x) ++ " \\/ " ++ showTerm(Bool y)
 showTerm (Or (Bool x) (Var y)) = showTerm(Bool x) ++ " \\/ " ++ showTerm(Var y)
 showTerm (Or (Var x) t) = showTerm(Var x) ++ " \\/ (" ++ showTerm(t) ++ ")"
-showTerm (Or t 
-(Var x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Var x)
-showTerm (Or (Bool x) (Bool y)) = showTerm(Bool x) ++ "\\/" ++ showTerm(Bool y)
+showTerm (Or t (Var x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Var x)
+showTerm (Or (Bool x) (Bool y)) = showTerm(Bool x) ++ " \\/ " ++ showTerm(Bool y)
 showTerm (Or (Bool x) t) = showTerm(Bool x) ++ " \\/ (" ++ showTerm(t) ++ ")"
 showTerm (Or t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " \\/ " ++ showTerm(Bool x)
 showTerm (Or t1 t2) = "(" ++ showTerm t1 ++ ") \\/ (" ++ showTerm t2 ++ ")"
@@ -185,7 +184,7 @@ showTerm (And (Var x) (Bool y)) = showTerm(Var x) ++ " /\\ " ++ showTerm(Bool y)
 showTerm (And (Bool x) (Var y)) = showTerm(Bool x) ++ " /\\ " ++ showTerm(Var y)
 showTerm (And (Var x) t) = showTerm(Var x) ++ " /\\ (" ++ showTerm(t) ++ ")"
 showTerm (And t (Var x)) = "(" ++ showTerm(t) ++ ")" ++ " /\\ " ++ showTerm(Var x)
-showTerm (And (Bool x) (Bool y)) = showTerm(Bool x) ++ "/\\" ++ showTerm(Bool y)
+showTerm (And (Bool x) (Bool y)) = showTerm(Bool x) ++ " /\\ " ++ showTerm(Bool y)
 showTerm (And (Bool x) t) = showTerm(Bool x) ++ " /\\ (" ++ showTerm(t) ++ ")"
 showTerm (And t (Bool x)) = "(" ++ showTerm(t) ++ ")" ++ " /\\ " ++ showTerm(Bool x)
 showTerm (And t1 t2) = "(" ++ showTerm t1 ++ ") /\\ (" ++ showTerm t2 ++ ")"
