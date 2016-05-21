@@ -17,13 +17,12 @@ Integrantes:
 
 ### Antes de correr una prueba: 
 1.- Debe agregar los archivos *Estructuras.hs* y *Funciones.hs* al directorio en el que desee ejecutar su(s) prueba(s).  
-2.- Su archivo de teoremas, deberá llamarse *Theorems.hs* y respetar el formato indicado en el enunciado.  
-3.- Debe agregarle a *Theorems.hs* el siguiente encabezado:
+2.- Su archivo de teoremas, deberá llamarse *Theorems.hs* y tener el siguiente encabezado:
 ```haskell
 module Theorems (prop) where
 import Estructuras
 ```
-4.- Para cada archivo de Teoremas debe agregarle los importes necesarios. Es decir:  
+3.- Para cada archivo de Teoremas debe agregarle los importes necesarios. Es decir:  
 ```haskell
 import  Estructuras  
 import  Funciones 
