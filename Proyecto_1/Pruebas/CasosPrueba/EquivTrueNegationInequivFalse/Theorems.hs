@@ -2,6 +2,10 @@
 -- Coloque los imports necesarios aqui --
 -----------------------------------------
 
+module Theorems (prop) where
+  
+import Estructuras
+
 prop :: Float -> Equation
 prop num
   | num == 3.1  = (p <==> q) <==> r === p <==> (q <==> r)     -- axiom
