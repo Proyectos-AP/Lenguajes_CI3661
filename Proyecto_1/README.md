@@ -15,13 +15,35 @@ Integrantes:
 
 ## Instrucciones para correr una prueba:
 
-1. Debe agregar los archivos Estructuras.hs y Funciones.hs al directorio en el que desee ejecutar su(s) prueba(s).  
-2. Para cada archivo de Teoremas deberá agregarle los importes necesarios. Es decir:  
-
+### Antes de corres la prueba: 
+1.- Debe agregar los archivos *Estructuras.hs* y *Funciones.hs* al directorio en el que desee ejecutar su(s) prueba(s).  
+2.- Su archivo de teoremas, deberá llamarse *Theorems.hs* y respetar el formato indicado en el enunciado.  
+3.- Debe agregarle a *Theorems.hs* el siguiente encabezado:
+```haskell
+module Theorems (prop) where
+import Estructuras
+```
+4.- Para cada archivo de Teoremas debe agregarle los importes necesarios. Es decir:  
 ```haskell
 import  Estructuras  
 import  Funciones 
 ```
+### Para verificar una demostración:
+
+1.- Abra el intérprete de Haskell con el comando:  
+```shell
+~$ ghci
+```  
+2.- Cargue el archivo que desea verificar con el comando **:l**. Es decir:  
+```haskell
+Prelude > :l NombreDeSuArchivo.hs  
+```
+3.- Desde el intérprete ejecute la función *verify*:  
+```haskell
+Prelude > verify  
+```
+4.- Verifique si su prueba fue exitosa o no de acuerdo al mensaje mostrado en pantalla.   
+
 
 
  
