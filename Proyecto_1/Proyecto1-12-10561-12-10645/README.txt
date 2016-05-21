@@ -15,7 +15,17 @@ Integrantes:
  Instrucciones para correr una prueba:
 
 1. Debe agregar los archivos Estructuras.hs y Funciones.hs al directorio en el que desee ejecutar su(s) prueba(s).  
-2. Para cada archivo de Teoremas deberá agregarle los importes necesarios. Es decir:  
+
+2. En su archivo de teoremas (Theorems.hs) debe agregar el siguiente encabezado:
+
+module Theorems (prop) where
+  
+import Estructuras
+
+Con este encabezado se hacen los importens necesarios para el correcto funcionamiento
+de Theorems.hs y ademas se permite tratar el archivo de teoremas como un modulo.
+
+3. Para cada archivo de Teoremas deberá agregarle los importes necesarios. Es decir:  
 
 import  Estructuras  
 import  Funciones 
