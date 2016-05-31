@@ -2,6 +2,7 @@
 \input{fitch.sty}
 \input{bussproofs.sty}
 \usepackage{fullpage}
+\usepackage{graphicx}
 
 \title{Tarea 2}
 \date{02/02/2016}
@@ -10,8 +11,24 @@
 \begin{document}
 
 \pagenumbering{gobble}
-\maketitle
-\newpage
+\begin{titlepage}
+
+\begin{center}
+\includegraphics[width=3cm, height=2cm]{logo.png}\\[0.4cm]
+\large{Universidad Sim\'on Bol\'ivar}\\
+\large{Departamento de Computaci\'on y Tecnolog\'ia de la Informaci\'on}\\
+\large{Laboratorio de Lenguajes de Programaci\'on - CI3661}\\[7cm]
+\Huge\textbf{Tarea 2}\\[7cm]
+\begin{raggedleft}
+\large{Alejandra Cordero - 12-10645}\\
+\large{Pablo Maldonado -12-10561}\\
+\large Abril - Julio 2016
+\end{raggedleft} 
+
+\end{center}
+
+\end{titlepage}
+
 \pagenumbering{arabic}
 
 \paragraph{}
@@ -107,7 +124,43 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 	
 	\item M\'etodo de Fitch:
 	
+	
+	\[
+	\begin{nd}
+	\hypo {1} {P\vee Q}
+	\open
+	\hypo {2} {P}
+	\have [\vdots] {3} {\vdots}
+	\have [n][-1] {4} {A\wedge B}
+	\close
+	\open
+	\hypo {5} {Q}
+	\have [\vdots] {6} {\vdots}
+	\have [m] {7} {A\wedge B}
+	\close
+	\have {8} {A\wedge B} \oe{1,2-(4),5-7}
+	\have [\vdots] {9} {\vdots}
+	\have [][100] {10} {A} \ae{8}
+	\end{nd}
+	\]
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
+	
+		\paragraph{}
+		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente 	
+	
+	
 	
 		\begin{prooftree}
 		\AxiomC{$p \lor q $}
@@ -126,6 +179,8 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 	\item M\'etodo de Fitch:
 	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
+		\paragraph{}
+		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente
 	
 		\begin{prooftree}
 		\AxiomC{$p \lor q $}
