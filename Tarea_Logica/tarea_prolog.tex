@@ -1,0 +1,88 @@
+\documentclass{article}
+\input{fitch.sty}
+\input{bussproofs.sty}
+
+\begin{document}
+
+\paragraph{}
+
+1. Demuestre los teoremas TD y DM por Fitch (teorema de la disyunci\'on y teorema de De Morgan respectivamente)
+
+\paragraph{}
+
+2. Las reglas en PROLOG son f\'ormulas en FNC que adem\'as deben ser cl\'ausulas de Horn ?`Qu\'e significa este concepto? Adem\'as deben estar "skolemizadas"?`Por qu\'e? ?`Qu\'e hace ese procedimiento? Por \'ultimo existe la unificaci\'on ?`En qu\'e consiste?
+
+\begin{itemize}
+
+\item $p \rightarrow q	
+\leftrightarrow \neg p \lor q$
+
+\[
+\begin{nd}
+\hypo {1} {P\vee Q}
+\open
+\hypo {2} {P}
+\have [\vdots] {3} {\vdots}
+\have [n][-1] {4} {A\wedge B}
+\close
+\open
+\hypo {5} {Q}
+\have [\vdots] {6} {\vdots}
+\have [m] {7} {A\wedge B}
+\close
+\have {8} {A\wedge B} \oe{1,2-(4),5-7}
+\have [\vdots] {9} {\vdots}
+\have [][100] {10} {A} \ae{8}
+\end{nd}
+\]
+
+\item $\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
+	
+\[
+\begin{nd}
+\hypo {1} {P\vee Q}
+\open
+\hypo {2} {P}
+\have [\vdots] {3} {\vdots}
+\have [n][-1] {4} {A\wedge B}
+\close
+\open
+\hypo {5} {Q}
+\have [\vdots] {6} {\vdots}
+\have [m] {7} {A\wedge B}
+\close
+\have {8} {A\wedge B} \oe{1,2-(4),5-7}
+\have [\vdots] {9} {\vdots}
+\have [][100] {10} {A} \ae{8}
+\end{nd}
+\]
+
+
+
+
+\end{itemize}
+
+\paragraph{}
+
+3. Demuestre por Fitch y Resoluci\'on por refutaci\'on
+
+\begin{itemize}
+
+	\item $\{A \rightarrow (( B \lor \neg A) \land D), E \rightarrow (\neg B \land \neg C), (B \land G) \rightarrow (\neg C \land \neg D)\} \\ \vdash G  \rightarrow ((A \lor C) \rightarrow ( \neg B \land \neg E))$
+	
+	\item  $\neg p \rightarrow (q \lor r)) \vdash ((\neg p \rightarrow \neg q) \lor r)$ 
+	
+\end{itemize}
+
+\begin{prooftree}
+\AxiomC{$p \lor q $}
+				\AxiomC{$p \lor \neg q $}
+							\AxiomC{C}
+				\BinaryInfC{D}
+		\BinaryInfC{E}
+\end{prooftree}
+
+
+\end{document}
+
+
