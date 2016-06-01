@@ -144,7 +144,7 @@ Ahora se demostrar\'a $\neg p \lor \neg q \rightarrow \neg (p \land q)$
 \close
 \have {12} {\neg (p \land q) } \ni{11}
 \close
-\have {13} {\neg (p \land q) } \oe{1,7,12}
+\have {13} {\neg (p \land q) } \oe{1,2,8}
 \end{nd}
 \]
 		
@@ -196,82 +196,112 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 	\item M\'etodo de Fitch:
 	
 	
-\[
-\begin{nd}
-\have {1} {A \rightarrow (( B \lor \neg A) \land D)}
-\have {2} {E \rightarrow (\neg B \land \neg C)}
-\have {3} {(B \land G) \rightarrow (\neg C \land \neg D)}
-\hypo {4} {G}
-\open
-\hypo {5} {A \lor C}
-\open
-\hypo {6} {A}
-\open
-\hypo {7} {B \lor E}
-\have {8} {( B \lor \neg A) \land D} \ie{1,6}
-\have {9} {D} \ae{8}
-\have {10} { B \lor \neg A} \ae{8}
-\have {11} {A \rightarrow B,   Teorema TD} 
-\have {12} {B} \ie{11,6}
-\have {13} {B \land G} \ai{12,4}
-\have {14} {\neg C \land \neg D} \ie{3,13}
-\have {15} {\neg D} \ae{14}
-\have {16} {D \land \neg D,  \bot} \ai{9,15}
-\close
-\have {17} {\neg (B \lor E)}
-\have {18} {\neg B \land \neg E, Teorema DM}
-
-\close
-\open
-\hypo {19} {C}
-\have {20} {E \rightarrow (\neg B \land \neg C)} \r{2}
-\have {21} {\neg E \lor (\neg B \land \neg C), Teorema TD}
-\have {22} {\neg E \lor \neg (B \lor C), Teorema TD}
-\have {23} {(B \lor C) \rightarrow \neg E, Teorema TD}
-\have {24} { B \lor C } \oi{19}
-\have {25} {\neg E} \ie{23,24}
-\have {26} {(B \land G) \rightarrow (\neg C \land \neg D)} \r{3}
-\have {27} {\neg (B \land G) \lor (\neg C \land \neg D), Teorema TD} 
-\have {28} {\neg (B \land G) \lor \neg (C \lor D), Teorema DM }
-\have {29} {(C \lor D) \rightarrow \neg (B \land G), Teorema DM }  
-\have {30} { C \lor D } \oi{19}
-\have {31} {\neg (B \land G)} \ie{29,30} 
-\have {32} {\neg B \lor \neg G, Teorema DM } 
-\have {33} {G \rightarrow \neg B, Teorema TD } 
-\have {34} {\neg B} \ie {33,4}
-\have {35} {\neg B \land \neg E} \ai{34,25}
-\close
-\have {35} {\neg B \land \neg E} \oe{5,18,35}
-
-\close
-\end{nd}
-\]
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	\[
+	\begin{nd}
+	\hypo {1} {P\vee Q}
+	\open
+	\hypo {2} {P}
+	\have [\vdots] {3} {\vdots}
+	\have [n][-1] {4} {A\wedge B}
+	\close
+	\open
+	\hypo {5} {Q}
+	\have [\vdots] {6} {\vdots}
+	\have [m] {7} {A\wedge B}
+	\close
+	\have {8} {A\wedge B} \oe{1,2-(4),5-7}
+	\have [\vdots] {9} {\vdots}
+	\have [][100] {10} {A} \ae{8}
+	\end{nd}
+	\]	
 	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
 	
 		\paragraph{}
-		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente 	
-	
-	
-	
+		Para poder usar este m\'etodo, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an cada una de las hip\'otesis y lo que se desea demostrar por separado para sus respectivas transformaciones. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
+		
+		Se tiene:
+		
+		\begin{itemize}
+
+		\item $ A \rightarrow (( B \lor \neg A ) \land D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$\neg A \lor ((B \lor \neg A) \land D)\\$		
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 		
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg A \lor (B \lor \neg A)) \land (\neg A \lor D) \\$
+				$\equiv < \text{Simetr\'ia de la Disyunci\'on}, 
+					p \lor q \leftrightarrow q \lor p >\\$
+				$(\neg A \lor (\neg A \lor B)) \land (\neg A \lor D) \\$
+				$\equiv <\text{Asociatividad de la Disyunci\'on}, 
+					p \lor (q \lor r) \leftrightarrow (p \lor q) \lor r) >\\$
+				$((\neg A \lor \neg A) \lor B) \land (\neg A \lor D) \\$
+				$\equiv <\text{Idempotencia de la Disyunci\'on}, 
+					p \lor p \leftrightarrow p\\$
+				$(\neg A \lor B) \land (\neg A \lor D)\\$
+								
+		\item $ (B \land G) \rightarrow (\neg C \land \neg D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg (B \land G) \lor (\neg C \land \neg D)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg(B \land G) \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$							$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg B \lor \neg G \lor \neg D) \\$
+		
+		\item $ E \rightarrow (\neg C \land \neg D)$ \\ 
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg E \lor (\neg B \land \neg C)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg E \lor \neg B) \land (\neg E \lor \neg C)\\$
+				
+		\paragraph{}		
+		Es decir, ya se tiene la FNC para cada una de las hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
+		
+		\item $\neg( G \rightarrow ((A \lor C) \rightarrow (\neg B \land \neg E)))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg(\neg G \lor ((A \lor C) \rightarrow (\neg B \land \neg E)))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land \neg((A \lor C) \rightarrow (\neg B \land \neg E))\\$
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ G \land \neg(\neg(A \lor C) \lor (\neg B \land \neg E))\\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ G \land \neg(\neg(A \lor C) \lor \neg(B \lor E))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land (A \lor C) \land (B \lor E)\\$
+
+		\end{itemize}				 
+		
+		\paragraph{}
+		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
+		
+		\begin{itemize}
+		\item $\Gamma = \{\neg A \lor B,\neg A \lor D,\neg B \lor \neg G \lor \neg C ,\neg B \lor \neg G \lor \neg D,\neg E \lor \neg B, \neg E \lor \neg C, G, A \lor C, B \lor E\} $
+		\end{itemize}
+		
+		\paragraph{}
+		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
+		
 		\begin{prooftree}
-		\AxiomC{$p \lor q $}
-		\AxiomC{$p \lor \neg q $}
-		\AxiomC{C}
-		\BinaryInfC{D}
-		\BinaryInfC{E}
+		\AxiomC{$\neg q$}
+		\AxiomC{$ q $}
+		\BinaryInfC{ $\bot$}
 		\end{prooftree}
+		
+		\paragraph{}
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
 	
 	\end{itemize}		
 	
@@ -294,10 +324,10 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 					p \rightarrow q \leftrightarrow \neg p \lor q >$ \\
 				$ \neg( \neg p \lor (q \lor r))$ \\
 				$ \equiv <\text{De Morgan}, 
-					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p>  $ \\
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
 				$ p \land \neg ( q \lor r)$ \\
 				$ \equiv <\text{De Morgan}, 
-					\neg(p \land q) \leftrightarrow \neg p \lor \neg q>  $ \\
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q>  $ \\
 				$ p \land \neg q \land \neg r$
 		
 		\paragraph{}		
@@ -332,7 +362,7 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 		\BinaryInfC{ $\bot$}
 		\end{prooftree}
 		
-		\paragraph{•}
+		\paragraph{}
 		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
 	
 	\end{itemize}	
