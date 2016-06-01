@@ -194,7 +194,6 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 	
 	\item M\'etodo de Fitch:
 	
-	
 \[
 \begin{nd}
 \have {1} {A \rightarrow (( B \lor \neg A) \land D)}
@@ -219,7 +218,6 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 \close
 \have {17} {\neg (B \lor E)}
 \have {18} {\neg B \land \neg E, Teorema DM}
-
 \close
 \open
 \hypo {19} {C}
@@ -241,20 +239,9 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 \have {35} {\neg B \land \neg E} \ai{34,25}
 \close
 \have {35} {\neg B \land \neg E} \oe{5,18,35}
-
 \close
 \end{nd}
 \]
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
@@ -279,6 +266,22 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 	\begin{itemize}
 	
 	\item M\'etodo de Fitch:
+\[
+\begin{nd}
+\have {1} {\neg (p \rightarrow (q \lor r))}
+\hypo {2} {\neg p \lor (q \lor r)} 
+\open
+\have {3} {p \rightarrow (q \lor r), Teorema TD }
+\have {4} {p \rightarrow (q \lor r) \land \neg (p \rightarrow (q \lor r)), \bot} \ai{3,1}
+\close
+\have {5} {\neg (\neg p \lor (q \lor r))} \ni{4}
+\have {6} {\neg \neg p \land \neg (q \lor r)), Teorema DM}
+\have {7} {\neg \neg p} \ae{6}
+\have {8} {\neg \neg p \lor \neg q} \oi{7}
+\have {9} {\neg p \rightarrow \neg q, Teorema TD} 
+\have {10} {\neg p \rightarrow \neg q \lor r} \oi{9} 
+\end{nd}
+\]
 	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
 		\paragraph{}
