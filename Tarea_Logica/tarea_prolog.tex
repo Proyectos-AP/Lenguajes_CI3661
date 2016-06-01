@@ -3,7 +3,6 @@
 \input{bussproofs.sty}
 \usepackage{fullpage}
 \usepackage{graphicx}
-\usepackage{mathtools}
 
 \title{Tarea 2}
 \date{02/02/2016}
@@ -195,7 +194,7 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 	
 	\item M\'etodo de Fitch:
 	
-\[
+$
 \begin{nd}
 \have {1} {A \rightarrow (( B \lor \neg A) \land D)}
 \have {2} {E \rightarrow (\neg B \land \neg C)}
@@ -220,6 +219,11 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 \have {17} {\neg (B \lor E)}
 \have {18} {\neg B \land \neg E, Teorema DM}
 \close
+\end{nd}
+$
+
+$
+\begin{ndresume}
 \open
 \hypo {19} {C}
 \have {20} {E \rightarrow (\neg B \land \neg C)} \r{2}
@@ -239,10 +243,15 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 \have {34} {\neg B} \ie {33,4}
 \have {35} {\neg B \land \neg E} \ai{34,25}
 \close
-\have {35} {\neg B \land \neg E} \oe{5,18,35}
+\have {36} {\neg B \land \neg E} \oe{5,18,35}
 \close
-\end{nd}
-\]
+\have {37} {(A \lor C) \rightarrow \neg B \land \neg E} \ii{5,36}
+\close
+\have {38} {G \rightarrow ((A \lor C) \rightarrow \neg B \land \neg E)} \ii{4,37}
+\end{ndresume}
+$
+
+
 	
 	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
@@ -262,7 +271,7 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 	
 	\end{itemize}		
 	
-	\item  $\neg(p \rightarrow (q \lor r)) \vdash ((\neg p \rightarrow \neg q) \lor r)$ 
+	\item  $\neg (p \rightarrow (q \lor r)) \vdash ((\neg p \rightarrow \neg q) \lor r)$ 
 	
 	\begin{itemize}
 	
@@ -270,8 +279,8 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 \[
 \begin{nd}
 \have {1} {\neg (p \rightarrow (q \lor r))}
-\hypo {2} {\neg p \lor (q \lor r)} 
 \open
+\hypo {2} {\neg p \lor (q \lor r)} 
 \have {3} {p \rightarrow (q \lor r), Teorema TD }
 \have {4} {p \rightarrow (q \lor r) \land \neg (p \rightarrow (q \lor r)), \bot} \ai{3,1}
 \close
@@ -280,63 +289,21 @@ Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 \have {7} {\neg \neg p} \ae{6}
 \have {8} {\neg \neg p \lor \neg q} \oi{7}
 \have {9} {\neg p \rightarrow \neg q, Teorema TD} 
-\have {10} {\neg p \rightarrow \neg q \lor r} \oi{9} 
+\have {10} {(\neg p \rightarrow \neg q) \lor r} \oi{9} 
 \end{nd}
 \]
 	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
 		\paragraph{}
-		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an la hip\'otesis y lo que se desea demostrar por separdo para la transformaci\'on. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
-		
-		Se tiene:
-		
-		\begin{itemize}
-
-		\item $\neg(p \rightarrow (q \lor r))$ \\
-				$\equiv < \text{Teorema de la Disyunci\'on},  
-					p \rightarrow q \leftrightarrow \neg p \lor q >$ \\
-				$ \neg( \neg p \lor (q \lor r))$ \\
-				$ \equiv <\text{De Morgan}, 
-					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p>  $ \\
-				$ p \land \neg ( q \lor r)$ \\
-				$ \equiv <\text{De Morgan}, 
-					\neg(p \land q) \leftrightarrow \neg p \lor \neg q>  $ \\
-				$ p \land \neg q \land \neg r$
-		
-		\paragraph{}		
-		Es decir, ya se obtuvo la FNC para la hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
-		
-		\item $\neg((\neg p \rightarrow \neg q) \lor r))$ \\
-				$\equiv < \text{Teorema de la Disyunci\'on},  
-					p \rightarrow q \leftrightarrow \neg p \lor q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p >$ \\
-				$\neg((p \lor \neg q) \lor r))$ \\
-				$\equiv <\text{De Morgan}, 
-					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
-				$ \neg(p \lor \neg q) \land \neg r \\$				
-				$\equiv <\text{De Morgan}, 
-					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
-				$\neg p \land q \land \neg r$
-
-		\end{itemize}				 
-		
-		\paragraph{}
-		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
-		
-		\begin{itemize}
-		\item $\Gamma = \{p,\neg q,\neg r,\neg p,q,\neg r\} $
-		\end{itemize}
-		
-		\paragraph{}
-		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
-		
+		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente
+	
 		\begin{prooftree}
-		\AxiomC{$\neg q$}
-		\AxiomC{$ q $}
-		\BinaryInfC{ $\bot$}
+		\AxiomC{$p \lor q $}
+		\AxiomC{$p \lor \neg q $}
+		\AxiomC{C}
+		\BinaryInfC{D}
+		\BinaryInfC{E}
 		\end{prooftree}
-		
-		\paragraph{•}
-		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
 	
 	\end{itemize}	
 	
