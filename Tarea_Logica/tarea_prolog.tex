@@ -92,14 +92,66 @@
 
 
 \item $\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
-	
+
+Primero se demostrar\'a $\neg (p \land q) \rightarrow \neg p \lor \neg q$
+
 \[
 \begin{nd}
-\hypo {1} {\neg( p \land q ) \leftrightarrow \neg p \lor \neg q} 
+\hypo {1} {\neg (p \land q)} 
+\open
+\hypo {2} {\neg (\neg p \lor \neg q)}
+\open
+\hypo {3} {p}
+\open
+\hypo {4} {q}
+\have {5} {p \land q} \ai{3,4}
+\have {6} {p \land q \land \neg (p \land q),  \bot } \ai{5,1}
+\close
+\have {7} {\neg q} \ni{6}
+\have {8}  {\neg q \lor \neg p} \oi{7}
+\have {9}  {\neg q \lor \neg p \land \neg (p \land q), \bot } \ai{9,1}
+\close
+\have {10} {\neg p} \ni{9}
+\have {11} {\neg p \lor \neg q} \oi{10}
+\have {12} {\neg p \lor \neg q \land \neg (\neg p \lor \neg q), \bot } \ai{11,2}
+\close
+\have {13} {\neg p \lor \neg q} \ni{13}
+\close
 \end{nd}
 \]
 
-
+Ahora se demostrar\'a $\neg p \lor \neg q \rightarrow \neg (p \land q)$
+\[
+\begin{nd}
+\hypo {1} {\neg p \lor \neg q} 
+\open
+\hypo {2} {\neg p}
+\open
+\hypo {3} {p \land q }
+\have {4} {p} \ae{3}
+\have {5} {\neg p} \r{2}
+\have {6} {p \land \neg p,  \bot} \ai{4,5}
+\close
+\have {7} {\neg (p \land q) } \ni{6}
+\close
+\open
+\hypo {8} {\neg q}
+\open
+\hypo {9} {p \land q }
+\have {10} {q} \ae{9}
+\have {11} {q \land \neg q,  \bot} \ai{9,10}
+\close
+\have {12} {\neg (p \land q) } \ni{11}
+\close
+\have {13} {\neg (p \land q) } \oe{1,2,8}
+\end{nd}
+\]
+		
+Como se demostr\'o que se cumple: \
+\item $\neg (p \land q) \rightarrow \neg p \lor \neg q$ y \
+\item $\neg p \lor \neg q \rightarrow \neg (p \land q)$ \
+entonces, en efecto queda demostrado
+$\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
 \end{itemize}
 
 \paragraph{}
