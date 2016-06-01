@@ -3,6 +3,7 @@
 \input{bussproofs.sty}
 \usepackage{fullpage}
 \usepackage{graphicx}
+\usepackage{mathtools}
 
 \title{Tarea 2}
 \date{02/02/2016}
@@ -255,10 +256,82 @@ $
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
 	
 		\paragraph{}
-		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente 	
-	
-	
-	
+		Para poder usar este m\'etodo, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an cada una de las hip\'otesis y lo que se desea demostrar por separado para sus respectivas transformaciones. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
+		
+		Se tiene:
+		
+		\begin{itemize}
+
+		\item $ A \rightarrow (( B \lor \neg A ) \land D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$\neg A \lor ((B \lor \neg A) \land D)\\$		
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 		
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg A \lor (B \lor \neg A)) \land (\neg A \lor D) \\$
+				$\equiv < \text{Simetr\'ia de la Disyunci\'on}, 
+					p \lor q \leftrightarrow q \lor p >\\$
+				$(\neg A \lor (\neg A \lor B)) \land (\neg A \lor D) \\$
+				$\equiv <\text{Asociatividad de la Disyunci\'on}, 
+					p \lor (q \lor r) \leftrightarrow (p \lor q) \lor r) >\\$
+				$((\neg A \lor \neg A) \lor B) \land (\neg A \lor D) \\$
+				$\equiv <\text{Idempotencia de la Disyunci\'on}, 
+					p \lor p \leftrightarrow p\\$
+				$(\neg A \lor B) \land (\neg A \lor D)\\$
+								
+		\item $ (B \land G) \rightarrow (\neg C \land \neg D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg (B \land G) \lor (\neg C \land \neg D)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg(B \land G) \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$							$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg B \lor \neg G \lor \neg D) \\$
+		
+		\item $ E \rightarrow (\neg C \land \neg D)$ \\ 
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg E \lor (\neg B \land \neg C)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg E \lor \neg B) \land (\neg E \lor \neg C)\\$
+				
+		\paragraph{}		
+		Es decir, ya se tiene la FNC para cada una de las hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
+		
+		\item $\neg( G \rightarrow ((A \lor C) \rightarrow (\neg B \land \neg E)))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg(\neg G \lor ((A \lor C) \rightarrow (\neg B \land \neg E)))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land \neg((A \lor C) \rightarrow (\neg B \land \neg E))\\$
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ G \land \neg(\neg(A \lor C) \lor (\neg B \land \neg E))\\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ G \land \neg(\neg(A \lor C) \lor \neg(B \lor E))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land (A \lor C) \land (B \lor E)\\$
+
+		\end{itemize}				 
+		
+		\paragraph{}
+		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
+		
+		\begin{itemize}
+		\item $\Gamma = \{\neg A \lor B,\neg A \lor D,\neg B \lor \neg G \lor \neg C ,\neg B \lor \neg G \lor \neg D,\neg E \lor \neg B, \neg E \lor \neg C, G, A \lor C, B \lor E\} $
+		\end{itemize}
+		
+		\paragraph{}
+		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
+		
 		\begin{prooftree}
 		\AxiomC{$p \lor q $}
 		\AxiomC{$p \lor \neg q $}
@@ -266,10 +339,13 @@ $
 		\BinaryInfC{D}
 		\BinaryInfC{E}
 		\end{prooftree}
+		
+		\paragraph{}
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
 	
 	\end{itemize}		
 	
-	\item  $\neg (p \rightarrow (q \lor r)) \vdash ((\neg p \rightarrow \neg q) \lor r)$ 
+	\item  $\neg(p \rightarrow (q \lor r)) \vdash ((\neg p \rightarrow \neg q) \lor r)$ 
 	
 	\begin{itemize}
 	
@@ -293,15 +369,57 @@ $
 	
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
 		\paragraph{}
-		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente
-	
+		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an la hip\'otesis y lo que se desea demostrar por separdo para la transformaci\'on. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
+		
+		Se tiene:
+		
+		\begin{itemize}
+
+		\item $\neg(p \rightarrow (q \lor r))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q >$ \\
+				$ \neg( \neg p \lor (q \lor r))$ \\
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ p \land \neg ( q \lor r)$ \\
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q>  $ \\
+				$ p \land \neg q \land \neg r$
+		
+		\paragraph{}		
+		Es decir, ya se obtuvo la FNC para la hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
+		
+		\item $\neg((\neg p \rightarrow \neg q) \lor r))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p >$ \\
+				$\neg((p \lor \neg q) \lor r))$ \\
+				$\equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
+				$ \neg(p \lor \neg q) \land \neg r \\$				
+				$\equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
+				$\neg p \land q \land \neg r$
+
+		\end{itemize}				 
+		
+		\paragraph{}
+		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
+		
+		\begin{itemize}
+		\item $\Gamma = \{p,\neg q,\neg r,\neg p,q,\neg r\} $
+		\end{itemize}
+		
+		\paragraph{}
+		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
+		
 		\begin{prooftree}
-		\AxiomC{$p \lor q $}
-		\AxiomC{$p \lor \neg q $}
-		\AxiomC{C}
-		\BinaryInfC{D}
-		\BinaryInfC{E}
+		\AxiomC{$\neg q$}
+		\AxiomC{$ q $}
+		\BinaryInfC{ $\bot$}
 		\end{prooftree}
+		
+		\paragraph{}
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
 	
 	\end{itemize}	
 	
