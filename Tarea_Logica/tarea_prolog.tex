@@ -7,6 +7,7 @@
 \usepackage{mathtools}
 \usepackage{hyperref}
 \usepackage{url}
+\renewcommand{\refname}{\normalsize Referencias}
 
 
 \title{Tarea 2}
@@ -96,13 +97,10 @@ Ahora se demostrar\'a $ \neg p \lor q \rightarrow p \rightarrow q$
 \end{nd}
 \]
 
-Como se demostr\'o que se cumple: \
-\item $p \rightarrow q \rightarrow \neg p \lor q$ y \
-\item $ \neg p \lor q \rightarrow p \rightarrow q$ \
-entonces, en efecto queda demostrado
-$p \rightarrow q \leftrightarrow \neg p \lor q$
+\paragraph{}
+Como se demostr\'o que se cumple: $p \rightarrow q \rightarrow \neg p \lor q$, y $ \neg p \lor q \rightarrow p \rightarrow q$ entonces, en efecto queda demostrado $p \rightarrow q \leftrightarrow \neg p \lor q$
 
-
+\newpage
 
 \item $\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
 
@@ -162,11 +160,11 @@ Ahora se demostrar\'a $\neg p \lor \neg q \rightarrow \neg (p \land q)$
 \have {14} {(\neg p \lor \neg q) \rightarrow \neg (p \land q) } \ii{1,13}
 \end{nd}
 \]
-		
-Como se demostr\'o que se cumple: \
-\item $\neg (p \land q) \rightarrow \neg p \lor \neg q$ y \
-\item $\neg p \lor \neg q \rightarrow \neg (p \land q)$ \
-entonces, en efecto queda demostrado
+
+\newpage
+	
+\paragraph{}	
+Como se demostr\'o que se cumple: $\neg (p \land q) \rightarrow \neg p \lor \neg q$, y $\neg p \lor \neg q \rightarrow \neg (p \land q)$ entonces, en efecto queda demostrado
 $\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
 \end{itemize}
 
@@ -209,6 +207,7 @@ Uno de los usos de la skolemizaci\'on es aplicarlo en el m\'etodo de resoluci\'o
 
 Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 
+\newpage
 
 \paragraph{}
 
@@ -279,10 +278,10 @@ $
 \have {37} {(A \lor C) \rightarrow \neg B \land \neg E} \ii{5,36}
 \close
 \have {38} {G \rightarrow ((A \lor C) \rightarrow \neg B \land \neg E)} \ii{4,37}
-\end{ndresume}
-$
+\end{ndresume} 
+$ \\
 
-	
+
 	\item M\'etodo de Resoluci\'on por Refutaci\'on:
 	
 		\paragraph{}
@@ -348,7 +347,7 @@ $
 				$ G \land \neg(\neg(A \lor C) \lor \neg(B \lor E))\\$
 				$ \equiv <\text{De Morgan}, 
 					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
-				$ G \land (A \lor C) \land (B \lor E)\\$
+				$ G \land (A \lor C) \land (B \lor E)$
 
 		\end{itemize}				 
 		
@@ -438,6 +437,8 @@ $
 		\paragraph{}
 		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an la hip\'otesis y lo que se desea demostrar por separdo para la transformaci\'on. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
 		
+		\newpage		
+		
 		Se tiene:
 		
 		\begin{itemize}
@@ -493,13 +494,24 @@ $
 	
 \end{itemize}
 
+\begin{thebibliography}{9}
 
-\paragraph{Referencias} 
+\bibitem{wikipediaSkolem} 
+Wikipedia: Forma normal de Skolem,
+\\\texttt{$http://es.wikipedia.org/wiki/Forma\_normal\_de\_Skolem$}
 
-\begin{itemize}
-\item \url{https://es.wikipedia.org/wiki/Forma_normal_de_Skolem}
-\item \url{http://www.uhu.es/nieves.pavon/pprogramacion/temario/anexo/anexo.html#_Toc495148247}
-\item \url{https://es.wikipedia.org/wiki/Forma_normal_de_Skolem}
-\item \url{http://wainu.ii.uned.es/grados/primero/LED/apuntes/logica-de-predicados-uniovi}
-\end{itemize}
+\bibitem{logicaMatematica} 
+L\'ogica Matem\'atica: Resoluci\'on y unificaci\'on, M\'etodos,
+\\\texttt{$http://www.uhu.es/nieves.pavon/pprogramacion/temario/anexo/anexo.html\#\_Toc495148247$}
+
+\bibitem{logicaMatematica} 
+Cuaderno Did\'actico: L\'ogica de Predicados,
+\\\texttt{$http://wainu.ii.uned.es/grados/primero/LED/apuntes/logica\-de\-predicados\-uniovi$}
+\end{thebibliography}
+
+
+
 \end{document}
+
+
+
