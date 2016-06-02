@@ -182,7 +182,7 @@ Luego, una Clausula de Horn no es m\'as que una cl\'ausula, en la cual existe ex
 La skolemizaci\'on consiste en la eliminaci\'on de los cuantificadores existenciales.
 Uno de los usos de la skolemizaci\'on es aplicarlo en el m\'etodo de resoluci\'on de la l\'ogica de predicados.
 
- Las reglas básicas para realizar la skolemización son:
+ Las reglas básicas para realizar la skolemizaci\'n son:
 \begin{enumerate}
 
 \item Si un cuantificador existencial no se encuentra dentro del \'ambito de ning\'un cuantificador universal, se sustituye la variable cuantificada existencialmente por una constante que aun no haya sido utilizada y el cuantificador existencial es eliminado.
@@ -350,6 +350,485 @@ $
 		\end{itemize}
 		
 		\paragraph{}
+		Como puede observarse en las hip\'otesis, el \'unico literal es $G$. Por esta raz\'on, se intentar\'a obtener una contradicci\'on con este y su negado. La idea, es obtener $\neg G$ a partir de la hip\'otesis $\neg B \lor \neg G \lor \neg C$. 
+		
+		\paragraph{}
+		Para ello, en primer lugar se probar\'a que puede obtenerse $C$ como literal a partir de las cl\'ausulas dadas. Este se usar\'a tanto como para eliminarlo de la expresi\'on de inter\'es, como para obtener el literal $B$. Luego de esto, $C$ se utilizar\'a como nueva hip\'otesis en la demostraci\'on principal: \\ \\ \\
+		
+		\begin{itemize}
+		
+		\item Prueba para obtener el literal $C$ a partir de las hip\'otesis:
+		
+		\begin{prooftree}		
+		\AxiomC{$ \neg A \lor D $}		
+		\AxiomC{$\neg B \lor \neg G \lor \neg D $}				
+		\BinaryInfC{$\neg A \lor \neg B \lor \neg G$}
+		\AxiomC{$A \lor C $}		
+		\BinaryInfC{$\neg B \lor \neg G \lor \neg C$}
+		\AxiomC{$G$}	
+		\BinaryInfC{$\neg B \lor C$}
+		\AxiomC{$\neg A \lor B$}
+		\BinaryInfC{$C \lor \neg A$}
+		\AxiomC{$A \lor C$}
+		\BinaryInfC{$C$}
+		\end{prooftree}
+		
+		
+	
+		
+		\paragraph{}
+		A partir de este momento, se utilizar\'a el literal $C$ como si fuese parte de las hip\'otesis obtenidas al momento de la conversi\'on de las expresiones en la Forma Normal Conjuntiva. \\
+				
+		\item Prueba del teorema por el m\'etodo de resoluci\'on por refutaci\'on:
+		
+		\begin{prooftree}		
+		\AxiomC{$ C$}		
+		\AxiomC{$\neg E \lor \neg C $}				
+		\BinaryInfC{$\neg E$}
+		\AxiomC{$B \lor E $}		
+		\BinaryInfC{$B$}
+		\AxiomC{$\neg B \lor \neg G \lor \neg C$}	
+		\BinaryInfC{$\neg G \lor \neg C$}
+		\AxiomC{$C$}
+		\BinaryInfC{$\neg G$}
+		\AxiomC{$G$}
+		\BinaryInfC{$\bot$}
+		\end{prooftree}
+		
+		\paragraph{}
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on:
+		
+		\end{itemize}
+	
+	\end{itemize}		
+	
+	\item  $\neg(p \rightarrow (q \lor r)) \vdash ((\neg p \rightarrow \neg q) \lor r)$ 
+	
+	\begin{itemize}
+	
+	\item M\'etodo de Fitch:
+\[
+\begin{nd}
+\have {1} {\neg (p \rightarrow (q \lor r))}
+\open
+\hypo {2} {\neg p \lor (q \lor r)} 
+\have {3} {p \rightarrow (q \lor r), Teorema TD }
+\have {4} {p \rightarrow (q \lor r) \land \neg (p \rightarrow (q \lor r)), \bot} \ai{3,1}
+\close
+\have {5} {\neg (\neg p \lor (q \lor r))} \ni{4}
+\have {6} {\neg \neg p \land \neg (q \lor r)), Teorema DM}
+\have {7} {\neg \neg p} \ae{6}
+\have {8} {\neg \neg p \lor \neg q} \oi{7}
+\have {9} {\neg p \rightarrow \neg q, Teorema TD} 
+\have {10} {(\neg p \rightarrow \neg q) \lor r} \oi{9} 
+\end{nd}
+\]
+	
+	\item M\'etodo de Resoluci\'on por Refutaci\'on:
+		\paragraph{}
+		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an la hip\'otesis y lo que se desea demostrar por separdo para la transformaci\'on. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
+		
+		Se tiene:
+		
+		\begin{itemize}
+
+		\item $\neg(p \rightarrow (q \lor r))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q >$ \\
+				$ \neg( \neg p \lor (q \lor r))$ \\
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ p \land \neg ( q \lor r)$ \\
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q>  $ \\
+				$ p \land \neg q \land \neg r$
+		
+		\paragraph{}		
+		Es decir, ya se obtuvo la FNC para la hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
+		
+		\item $\neg((\neg p \rightarrow \neg q) \lor r))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p >$ \\
+				$\neg((p \lor \neg q) \lor r))$ \\
+				$\equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
+				$ \neg(p \lor \neg q) \land \neg r \\$				
+				$\equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
+				$\neg p \land q \land \neg r$
+
+		\end{itemize}				 
+		
+		\paragraph{}
+		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
+		
+		\begin{itemize}
+		\item $\Gamma = \{p,\neg q,\neg r,\neg p,q,\neg r\} $
+		\end{itemize}
+		
+		\paragraph{}
+		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
+		
+		\begin{prooftree}
+		\AxiomC{$\neg q$}
+		\AxiomC{$ q $}
+		\BinaryInfC{ $\bot$}
+		\end{prooftree}
+		
+		\paragraph{}
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
+	
+	\end{itemize}	
+	
+	
+	
+\end{itemize}
+
+
+\paragraph{Referencias} 
+
+\begin{itemize}
+\item
+\end{itemize}
+\url{https://es.wikipedia.org/wiki/Forma_normal_de_Skolem}
+\end{document}
+
+
+\documentclass{article}
+\input{fitch.sty}
+\input{bussproofs.sty}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{mathtools}
+
+\title{Tarea 2}
+\date{02/02/2016}
+\author{Alejandra Cordero (12-10645) y Pablo Maldonado (12-10561)}
+
+\begin{document}
+
+\pagenumbering{gobble}
+\begin{titlepage}
+
+\begin{center}
+\includegraphics[width=3cm, height=2cm]{logo.png}\\[0.4cm]
+\large{Universidad Sim\'on Bol\'ivar}\\
+\large{Departamento de Computaci\'on y Tecnolog\'ia de la Informaci\'on}\\
+\large{Laboratorio de Lenguajes de Programaci\'on - CI3661}\\[7cm]
+\Huge\textbf{Tarea 2}\\[7cm]
+\begin{raggedleft}
+\large{Alejandra Cordero - 12-10645}\\
+\large{Pablo Maldonado -12-10561}\\
+\large Abril - Julio 2016
+\end{raggedleft} 
+
+\end{center}
+
+\end{titlepage}
+
+\pagenumbering{arabic}
+
+\paragraph{}
+
+1. Demuestre los teoremas TD y DM por Fitch (teorema de la disyunci\'on y teorema de De Morgan respectivamente)
+
+
+\begin{itemize}
+
+\item $p \rightarrow q	
+\leftrightarrow \neg p \lor q$
+
+\[
+\begin{nd}
+\hypo {1} {p \rightarrow q	
+\leftrightarrow \neg p \lor q}
+\open
+\hypo {2} {p \rightarrow q}
+\open
+\hypo {3} { \neg ( \neg p \lor q )}
+\open
+\hypo {4} {p}
+\have {5} {q} \ie{1,3}
+\have {6} {\neg p \lor q} \oi{5}
+\have {7} {(\neg p \lor q) \land \neg  (\neg p \lor q ), \bot}   \ai{2,5}
+\close
+\have {8} { \neg p } 
+\have {9} {\neg p \lor q} \oi{8}
+\have {10} {(\neg p \lor q) \land \neg  (\neg p \lor q ),  \bot}   \ai{5,8}
+\close
+\have {11} {\neg p \lor q}
+\close
+\open
+\hypo {12} {\neg p \lor q}
+\open
+\hypo {13} {p}
+\have {14} {\neg p \lor q} \r{11}
+\open
+\hypo {15} {\neg p} 
+\open 
+\hypo {16} {\neg q}
+\have {17} {p} \r{12}
+\have {18} {\neg p} \r{14}
+\have {19} {p \land \neg p,  \bot} \ai{12,14}
+\close
+\have {20} {q}
+\close
+\open
+\hypo {21} {q}
+\have {22} {q}
+\close
+\have {23} {q}
+\close
+\have {24} {p \rightarrow q}
+\close
+\have {25} {p \rightarrow q \leftrightarrow \neg p \lor q}
+\close
+\end{nd}
+\]
+
+
+
+\item $\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
+
+Primero se demostrar\'a $\neg (p \land q) \rightarrow \neg p \lor \neg q$
+
+\[
+\begin{nd}
+\hypo {1} {\neg (p \land q)} 
+\open
+\hypo {2} {\neg (\neg p \lor \neg q)}
+\open
+\hypo {3} {p}
+\open
+\hypo {4} {q}
+\have {5} {p \land q} \ai{3,4}
+\have {6} {p \land q \land \neg (p \land q),  \bot } \ai{5,1}
+\close
+\have {7} {\neg q} \ni{6}
+\have {8}  {\neg q \lor \neg p} \oi{7}
+\have {9}  {\neg q \lor \neg p \land \neg (p \land q), \bot } \ai{9,1}
+\close
+\have {10} {\neg p} \ni{9}
+\have {11} {\neg p \lor \neg q} \oi{10}
+\have {12} {\neg p \lor \neg q \land \neg (\neg p \lor \neg q), \bot } \ai{11,2}
+\close
+\have {13} {\neg p \lor \neg q} \ni{13}
+\close
+\end{nd}
+\]
+
+Ahora se demostrar\'a $\neg p \lor \neg q \rightarrow \neg (p \land q)$
+\[
+\begin{nd}
+\hypo {1} {\neg p \lor \neg q} 
+\open
+\hypo {2} {\neg p}
+\open
+\hypo {3} {p \land q }
+\have {4} {p} \ae{3}
+\have {5} {\neg p} \r{2}
+\have {6} {p \land \neg p,  \bot} \ai{4,5}
+\close
+\have {7} {\neg (p \land q) } \ni{6}
+\close
+\open
+\hypo {8} {\neg q}
+\open
+\hypo {9} {p \land q }
+\have {10} {q} \ae{9}
+\have {11} {q \land \neg q,  \bot} \ai{9,10}
+\close
+\have {12} {\neg (p \land q) } \ni{11}
+\close
+\have {13} {\neg (p \land q) } \oe{1,7,12}
+\end{nd}
+\]
+		
+Como se demostr\'o que se cumple: \
+\item $\neg (p \land q) \rightarrow \neg p \lor \neg q$ y \
+\item $\neg p \lor \neg q \rightarrow \neg (p \land q)$ \
+entonces, en efecto queda demostrado
+$\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
+\end{itemize}
+
+\paragraph{}
+
+2. Las reglas en PROLOG son f\'ormulas en FNC que adem\'as deben ser cl\'ausulas de Horn ?`Qu\'e significa este concepto? Adem\'as deben estar "skolemizadas"?`Por qu\'e? ?`Qu\'e hace ese procedimiento? Por \'ultimo existe la unificaci\'on ?`En qu\'e consiste?
+
+\paragraph{Cl\'ausula de Horn}\mbox{}\\
+
+En primer lugar, se desea saber qu\'e es una Clausula de Horn. Para ello, hace falta definir primero los siguientes t\'erminos:
+
+\begin{itemize}
+
+\item Literal: Es una f\'ormula at\'omica o su negaci\'on. Por ejemplo, son literales: $p, \neg q, z, \neg t$, etc.
+\item Cl\'ausula: Disyunci\'on de literales. Ejemplo: $ p \lor \neg q \lor \neg t \lor ... \lor z $ 
+
+\end{itemize}
+
+Luego, una Clausula de Horn no es m\'as que una cl\'ausula, en la cual existe exactamente un literal positivo. Por ejemplo: $ \neg p \lor \neg q \lor ... \lor \neg t \lor u$ 
+
+\paragraph{Skolemizaci\'on}\mbox{}\\
+
+
+
+
+
+\paragraph{Unificaci\'on}\mbox{}\\
+
+Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
+
+
+\paragraph{}
+
+3. Demuestre por Fitch y Resoluci\'on por refutaci\'on
+
+\begin{itemize}
+
+	\item $\{A \rightarrow (( B \lor \neg A) \land D), E \rightarrow (\neg B \land \neg C), (B \land G) \rightarrow (\neg C \land \neg D)\} \vdash G  \rightarrow ((A \lor C) \rightarrow ( \neg B \land \neg E))$
+
+	\begin{itemize}
+	
+	\item M\'etodo de Fitch:
+	
+	
+	
+	
+$
+\begin{nd}
+\have {1} {A \rightarrow (( B \lor \neg A) \land D)}
+\have {2} {E \rightarrow (\neg B \land \neg C)}
+\have {3} {(B \land G) \rightarrow (\neg C \land \neg D)}
+\hypo {4} {G}
+\open
+\hypo {5} {A \lor C}
+\open
+\hypo {6} {A}
+\open
+\hypo {7} {B \lor E}
+\have {8} {( B \lor \neg A) \land D} \ie{1,6}
+\have {9} {D} \ae{8}
+\have {10} { B \lor \neg A} \ae{8}
+\have {11} {A \rightarrow B,   Teorema TD} 
+\have {12} {B} \ie{11,6}
+\have {13} {B \land G} \ai{12,4}
+\have {14} {\neg C \land \neg D} \ie{3,13}
+\have {15} {\neg D} \ae{14}
+\have {16} {D \land \neg D,  \bot} \ai{9,15}
+\close
+\have {17} {\neg (B \lor E)}
+\have {18} {\neg B \land \neg E, Teorema DM}
+\close
+\end{nd}
+$
+
+$
+\begin{ndresume}
+\open
+\hypo {19} {C}
+\have {20} {E \rightarrow (\neg B \land \neg C)} \r{2}
+\have {21} {\neg E \lor (\neg B \land \neg C), Teorema TD}
+\have {22} {\neg E \lor \neg (B \lor C), Teorema TD}
+\have {23} {(B \lor C) \rightarrow \neg E, Teorema TD}
+\have {24} { B \lor C } \oi{19}
+\have {25} {\neg E} \ie{23,24}
+\have {26} {(B \land G) \rightarrow (\neg C \land \neg D)} \r{3}
+\have {27} {\neg (B \land G) \lor (\neg C \land \neg D), Teorema TD} 
+\have {28} {\neg (B \land G) \lor \neg (C \lor D), Teorema DM }
+\have {29} {(C \lor D) \rightarrow \neg (B \land G), Teorema DM }  
+\have {30} { C \lor D } \oi{19}
+\have {31} {\neg (B \land G)} \ie{29,30} 
+\have {32} {\neg B \lor \neg G, Teorema DM } 
+\have {33} {G \rightarrow \neg B, Teorema TD } 
+\have {34} {\neg B} \ie {33,4}
+\have {35} {\neg B \land \neg E} \ai{34,25}
+\close
+\have {36} {\neg B \land \neg E} \oe{5,18,35}
+\close
+\have {37} {(A \lor C) \rightarrow \neg B \land \neg E} \ii{5,36}
+\close
+\have {38} {G \rightarrow ((A \lor C) \rightarrow \neg B \land \neg E)} \ii{4,37}
+\end{ndresume}
+$
+
+	
+	\item M\'etodo de Resoluci\'on por Refutaci\'on:
+	
+		\paragraph{}
+		Para poder usar este m\'etodo, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an cada una de las hip\'otesis y lo que se desea demostrar por separado para sus respectivas transformaciones. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
+		
+		Se tiene:
+		
+		\begin{itemize}
+
+		\item $ A \rightarrow (( B \lor \neg A ) \land D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$\neg A \lor ((B \lor \neg A) \land D)\\$		
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 		
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg A \lor (B \lor \neg A)) \land (\neg A \lor D) \\$
+				$\equiv < \text{Simetr\'ia de la Disyunci\'on}, 
+					p \lor q \leftrightarrow q \lor p >\\$
+				$(\neg A \lor (\neg A \lor B)) \land (\neg A \lor D) \\$
+				$\equiv <\text{Asociatividad de la Disyunci\'on}, 
+					p \lor (q \lor r) \leftrightarrow (p \lor q) \lor r) >\\$
+				$((\neg A \lor \neg A) \lor B) \land (\neg A \lor D) \\$
+				$\equiv <\text{Idempotencia de la Disyunci\'on}, 
+					p \lor p \leftrightarrow p\\$
+				$(\neg A \lor B) \land (\neg A \lor D)\\$
+								
+		\item $ (B \land G) \rightarrow (\neg C \land \neg D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg (B \land G) \lor (\neg C \land \neg D)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg(B \land G) \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$							$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg B \lor \neg G \lor \neg D) \\$
+		
+		\item $ E \rightarrow (\neg C \land \neg D)$ \\ 
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg E \lor (\neg B \land \neg C)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg E \lor \neg B) \land (\neg E \lor \neg C)\\$
+				
+		\paragraph{}		
+		Es decir, ya se tiene la FNC para cada una de las hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
+		
+		\item $\neg( G \rightarrow ((A \lor C) \rightarrow (\neg B \land \neg E)))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg(\neg G \lor ((A \lor C) \rightarrow (\neg B \land \neg E)))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land \neg((A \lor C) \rightarrow (\neg B \land \neg E))\\$
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ G \land \neg(\neg(A \lor C) \lor (\neg B \land \neg E))\\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ G \land \neg(\neg(A \lor C) \lor \neg(B \lor E))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land (A \lor C) \land (B \lor E)\\$
+
+		\end{itemize}				 
+		
+		\paragraph{}
+		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
+		
+		\begin{itemize}
+		\item $\Gamma = \{\neg A \lor B,\neg A \lor D,\neg B \lor \neg G \lor \neg C ,\neg B \lor \neg G \lor \neg D,\neg E \lor \neg B, \neg E \lor \neg C, G, A \lor C, B \lor E\} $
+		\end{itemize}
+		
+		\paragraph{}
 		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
 		
 		\begin{prooftree}
@@ -362,6 +841,491 @@ $
 		
 		\paragraph{}
 		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
+	
+	\end{itemize}		
+	
+	\item  $\neg(p \rightarrow (q \lor r)) \vdash ((\neg p \rightarrow \neg q) \lor r)$ 
+	
+	\begin{itemize}
+	
+	\item M\'etodo de Fitch:
+\[
+\begin{nd}
+\have {1} {\neg (p \rightarrow (q \lor r))}
+\open
+\hypo {2} {\neg p \lor (q \lor r)} 
+\have {3} {p \rightarrow (q \lor r), Teorema TD }
+\have {4} {p \rightarrow (q \lor r) \land \neg (p \rightarrow (q \lor r)), \bot} \ai{3,1}
+\close
+\have {5} {\neg (\neg p \lor (q \lor r))} \ni{4}
+\have {6} {\neg \neg p \land \neg (q \lor r)), Teorema DM}
+\have {7} {\neg \neg p} \ae{6}
+\have {8} {\neg \neg p \lor \neg q} \oi{7}
+\have {9} {\neg p \rightarrow \neg q, Teorema TD} 
+\have {10} {(\neg p \rightarrow \neg q) \lor r} \oi{9} 
+\end{nd}
+\]
+	
+	\item M\'etodo de Resoluci\'on por Refutaci\'on:
+		\paragraph{}
+		En primer lugar, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an la hip\'otesis y lo que se desea demostrar por separdo para la transformaci\'on. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
+		
+		Se tiene:
+		
+		\begin{itemize}
+
+		\item $\neg(p \rightarrow (q \lor r))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q >$ \\
+				$ \neg( \neg p \lor (q \lor r))$ \\
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ p \land \neg ( q \lor r)$ \\
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q>  $ \\
+				$ p \land \neg q \land \neg r$
+		
+		\paragraph{}		
+		Es decir, ya se obtuvo la FNC para la hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
+		
+		\item $\neg((\neg p \rightarrow \neg q) \lor r))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p >$ \\
+				$\neg((p \lor \neg q) \lor r))$ \\
+				$\equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
+				$ \neg(p \lor \neg q) \land \neg r \\$				
+				$\equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q> \\$
+				$\neg p \land q \land \neg r$
+
+		\end{itemize}				 
+		
+		\paragraph{}
+		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
+		
+		\begin{itemize}
+		\item $\Gamma = \{p,\neg q,\neg r,\neg p,q,\neg r\} $
+		\end{itemize}
+		
+		\paragraph{}
+		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
+		
+		\begin{prooftree}
+		\AxiomC{$\neg q$}
+		\AxiomC{$ q $}
+		\BinaryInfC{ $\bot$}
+		\end{prooftree}
+		
+		\paragraph{}
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
+	
+	\end{itemize}	
+	
+	
+	
+\end{itemize}
+\documentclass{article}
+\input{fitch.sty}
+\input{bussproofs.sty}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{hyperref}
+
+
+\title{Tarea 2}
+\date{02/02/2016}
+\author{Alejandra Cordero (12-10645) y Pablo Maldonado (12-10561)}
+
+\begin{document}
+
+\pagenumbering{gobble}
+\begin{titlepage}
+
+\begin{center}
+\includegraphics[width=3cm, height=2cm]{logo.png}\\[0.4cm]
+\large{Universidad Sim\'on Bol\'ivar}\\
+\large{Departamento de Computaci\'on y Tecnolog\'ia de la Informaci\'on}\\
+\large{Laboratorio de Lenguajes de Programaci\'on - CI3661}\\[7cm]
+\Huge\textbf{Tarea 2}\\[7cm]
+\begin{raggedleft}
+\large{Alejandra Cordero - 12-10645}\\
+\large{Pablo Maldonado -12-10561}\\
+\large Abril - Julio 2016
+\end{raggedleft} 
+
+\end{center}
+
+\end{titlepage}
+
+\pagenumbering{arabic}
+
+\paragraph{}
+
+1. Demuestre los teoremas TD y DM por Fitch (teorema de la disyunci\'on y teorema de De Morgan respectivamente)
+
+
+\begin{itemize}
+
+\item $p \rightarrow q	
+\leftrightarrow \neg p \lor q$
+
+\[
+\begin{nd}
+\hypo {1} {p \rightarrow q	
+\leftrightarrow \neg p \lor q}
+\open
+\hypo {2} {p \rightarrow q}
+\open
+\hypo {3} { \neg ( \neg p \lor q )}
+\open
+\hypo {4} {p}
+\have {5} {q} \ie{1,3}
+\have {6} {\neg p \lor q} \oi{5}
+\have {7} {(\neg p \lor q) \land \neg  (\neg p \lor q ), \bot}   \ai{2,5}
+\close
+\have {8} { \neg p } 
+\have {9} {\neg p \lor q} \oi{8}
+\have {10} {(\neg p \lor q) \land \neg  (\neg p \lor q ),  \bot}   \ai{5,8}
+\close
+\have {11} {\neg p \lor q}
+\close
+\open
+\hypo {12} {\neg p \lor q}
+\open
+\hypo {13} {p}
+\have {14} {\neg p \lor q} \r{11}
+\open
+\hypo {15} {\neg p} 
+\open 
+\hypo {16} {\neg q}
+\have {17} {p} \r{12}
+\have {18} {\neg p} \r{14}
+\have {19} {p \land \neg p,  \bot} \ai{12,14}
+\close
+\have {20} {q}
+\close
+\open
+\hypo {21} {q}
+\have {22} {q}
+\close
+\have {23} {q}
+\close
+\have {24} {p \rightarrow q}
+\close
+\have {25} {p \rightarrow q \leftrightarrow \neg p \lor q}
+\close
+\end{nd}
+\]
+
+
+
+\item $\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
+
+Primero se demostrar\'a $\neg (p \land q) \rightarrow \neg p \lor \neg q$
+
+\[
+\begin{nd}
+\hypo {1} {\neg (p \land q)} 
+\open
+\hypo {2} {\neg (\neg p \lor \neg q)}
+\open
+\hypo {3} {p}
+\open
+\hypo {4} {q}
+\have {5} {p \land q} \ai{3,4}
+\have {6} {p \land q \land \neg (p \land q),  \bot } \ai{5,1}
+\close
+\have {7} {\neg q} \ni{6}
+\have {8}  {\neg q \lor \neg p} \oi{7}
+\have {9}  {\neg q \lor \neg p \land \neg (p \land q), \bot } \ai{9,1}
+\close
+\have {10} {\neg p} \ni{9}
+\have {11} {\neg p \lor \neg q} \oi{10}
+\have {12} {\neg p \lor \neg q \land \neg (\neg p \lor \neg q), \bot } \ai{11,2}
+\close
+\have {13} {\neg p \lor \neg q} \ni{13}
+\close
+\have {14} {\neg (p \land q) \rightarrow (\neg p \lor \neg q)} \ii{1,13}
+\end{nd}
+\]
+
+Ahora se demostrar\'a $\neg p \lor \neg q \rightarrow \neg (p \land q)$
+\[
+\begin{nd}
+\hypo {1} {\neg p \lor \neg q} 
+\open
+\hypo {2} {\neg p}
+\open
+\hypo {3} {p \land q }
+\have {4} {p} \ae{3}
+\have {5} {\neg p} \r{2}
+\have {6} {p \land \neg p,  \bot} \ai{4,5}
+\close
+\have {7} {\neg (p \land q) } \ni{6}
+\close
+\open
+\hypo {8} {\neg q}
+\open
+\hypo {9} {p \land q }
+\have {10} {q} \ae{9}
+\have {11} {q \land \neg q,  \bot} \ai{9,10}
+\close
+\have {12} {\neg (p \land q) } \ni{11}
+\close
+\have {13} {\neg (p \land q) } \oe{1,7,12}
+\close
+\have {14} {(\neg p \lor \neg q) \rightarrow \neg (p \land q) } \ii{1,13}
+\end{nd}
+\]
+		
+Como se demostr\'o que se cumple: \
+\item $\neg (p \land q) \rightarrow \neg p \lor \neg q$ y \
+\item $\neg p \lor \neg q \rightarrow \neg (p \land q)$ \
+entonces, en efecto queda demostrado
+$\neg (p \land q) \leftrightarrow \neg p \lor \neg q$
+\end{itemize}
+
+\paragraph{}
+
+2. Las reglas en PROLOG son f\'ormulas en FNC que adem\'as deben ser cl\'ausulas de Horn ?`Qu\'e significa este concepto? Adem\'as deben estar "skolemizadas"?`Por qu\'e? ?`Qu\'e hace ese procedimiento? Por \'ultimo existe la unificaci\'on ?`En qu\'e consiste?
+
+\paragraph{Cl\'ausula de Horn}\mbox{}\\
+
+En primer lugar, se desea saber qu\'e es una Clausula de Horn. Para ello, hace falta definir primero los siguientes t\'erminos:
+
+\begin{itemize}
+
+\item Literal: Es una f\'ormula at\'omica o su negaci\'on. Por ejemplo, son literales: $p, \neg q, z, \neg t$, etc.
+\item Cl\'ausula: Disyunci\'on de literales. Ejemplo: $ p \lor \neg q \lor \neg t \lor ... \lor z $ 
+
+\end{itemize}
+
+Luego, una Clausula de Horn no es m\'as que una cl\'ausula, en la cual existe exactamente un literal positivo. Por ejemplo: $ \neg p \lor \neg q \lor ... \lor \neg t \lor u$ 
+
+\paragraph{Skolemizaci\'on}\mbox{}\\
+
+La skolemizaci\'on consiste en la eliminaci\'on de los cuantificadores existenciales.
+Uno de los usos de la skolemizaci\'on es aplicarlo en el m\'etodo de resoluci\'on de la l\'ogica de predicados.
+
+ Las reglas básicas para realizar la skolemizaci\'n son:
+\begin{enumerate}
+
+\item Si un cuantificador existencial no se encuentra dentro del \'ambito de ning\'un cuantificador universal, se sustituye la variable cuantificada existencialmente por una constante que aun no haya sido utilizada y el cuantificador existencial es eliminado.
+
+\item Si un cuantificador existencial se encuentra dentro del \'ambito de un cuantificador universal, se ha de sustituir la variable cuantificada existencialmente por una funci\'on de la variable cuantificada universalmente y se elimina el cuantificador existencial.
+	
+\item Si un cuantificador existencial se encuentra dentro del \'ambito de más de un cuantificador universal se sustituir\'a la variable cuantificada existencialmente por una funci\'on de todas las variables afectadas por estos cuantificadores universales y se elimina el cuantificador existencial. La funci\'on no puede haber sido utilizada previamente ni podr\'a utilizarse posteriormente.
+
+\end{enumerate}
+
+\paragraph{Unificaci\'on}\mbox{}\\
+
+"Se puede definir la Unificación como un procedimiento de emparejamiento que compara dos literales y descubre si existe un conjunto de sustituciones que los haga id\'enticos"
+
+Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
+
+
+\paragraph{}
+
+3. Demuestre por Fitch y Resoluci\'on por refutaci\'on
+
+\begin{itemize}
+
+	\item $\{A \rightarrow (( B \lor \neg A) \land D), E \rightarrow (\neg B \land \neg C), (B \land G) \rightarrow (\neg C \land \neg D)\} \vdash G  \rightarrow ((A \lor C) \rightarrow ( \neg B \land \neg E))$
+
+	\begin{itemize}
+	
+	\item M\'etodo de Fitch:
+	
+	
+	
+	
+$
+\begin{nd}
+\have {1} {A \rightarrow (( B \lor \neg A) \land D)}
+\have {2} {E \rightarrow (\neg B \land \neg C)}
+\have {3} {(B \land G) \rightarrow (\neg C \land \neg D)}
+\hypo {4} {G}
+\open
+\hypo {5} {A \lor C}
+\open
+\hypo {6} {A}
+\open
+\hypo {7} {B \lor E}
+\have {8} {( B \lor \neg A) \land D} \ie{1,6}
+\have {9} {D} \ae{8}
+\have {10} { B \lor \neg A} \ae{8}
+\have {11} {A \rightarrow B,   Teorema TD} 
+\have {12} {B} \ie{11,6}
+\have {13} {B \land G} \ai{12,4}
+\have {14} {\neg C \land \neg D} \ie{3,13}
+\have {15} {\neg D} \ae{14}
+\have {16} {D \land \neg D,  \bot} \ai{9,15}
+\close
+\have {17} {\neg (B \lor E)}
+\have {18} {\neg B \land \neg E, Teorema DM}
+\close
+\end{nd}
+$
+
+$
+\begin{ndresume}
+\open
+\hypo {19} {C}
+\have {20} {E \rightarrow (\neg B \land \neg C)} \r{2}
+\have {21} {\neg E \lor (\neg B \land \neg C), Teorema TD}
+\have {22} {\neg E \lor \neg (B \lor C), Teorema TD}
+\have {23} {(B \lor C) \rightarrow \neg E, Teorema TD}
+\have {24} { B \lor C } \oi{19}
+\have {25} {\neg E} \ie{23,24}
+\have {26} {(B \land G) \rightarrow (\neg C \land \neg D)} \r{3}
+\have {27} {\neg (B \land G) \lor (\neg C \land \neg D), Teorema TD} 
+\have {28} {\neg (B \land G) \lor \neg (C \lor D), Teorema DM }
+\have {29} {(C \lor D) \rightarrow \neg (B \land G), Teorema DM }  
+\have {30} { C \lor D } \oi{19}
+\have {31} {\neg (B \land G)} \ie{29,30} 
+\have {32} {\neg B \lor \neg G, Teorema DM } 
+\have {33} {G \rightarrow \neg B, Teorema TD } 
+\have {34} {\neg B} \ie {33,4}
+\have {35} {\neg B \land \neg E} \ai{34,25}
+\close
+\have {36} {\neg B \land \neg E} \oe{5,18,35}
+\close
+\have {37} {(A \lor C) \rightarrow \neg B \land \neg E} \ii{5,36}
+\close
+\have {38} {G \rightarrow ((A \lor C) \rightarrow \neg B \land \neg E)} \ii{4,37}
+\end{ndresume}
+$
+
+	
+	\item M\'etodo de Resoluci\'on por Refutaci\'on:
+	
+		\paragraph{}
+		Para poder usar este m\'etodo, es necesario transformar la expresi\'on a la FNC correspondiente. Se tomar\'an cada una de las hip\'otesis y lo que se desea demostrar por separado para sus respectivas transformaciones. Esto se har\'a con uso de las leyes de De Morgan y las distributividades que existen entre la disyunci\'on y la conjunci\'on: \\
+		
+		Se tiene:
+		
+		\begin{itemize}
+
+		\item $ A \rightarrow (( B \lor \neg A ) \land D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$\neg A \lor ((B \lor \neg A) \land D)\\$		
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 		
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg A \lor (B \lor \neg A)) \land (\neg A \lor D) \\$
+				$\equiv < \text{Simetr\'ia de la Disyunci\'on}, 
+					p \lor q \leftrightarrow q \lor p >\\$
+				$(\neg A \lor (\neg A \lor B)) \land (\neg A \lor D) \\$
+				$\equiv <\text{Asociatividad de la Disyunci\'on}, 
+					p \lor (q \lor r) \leftrightarrow (p \lor q) \lor r) >\\$
+				$((\neg A \lor \neg A) \lor B) \land (\neg A \lor D) \\$
+				$\equiv <\text{Idempotencia de la Disyunci\'on}, 
+					p \lor p \leftrightarrow p\\$
+				$(\neg A \lor B) \land (\neg A \lor D)\\$
+								
+		\item $ (B \land G) \rightarrow (\neg C \land \neg D)$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg (B \land G) \lor (\neg C \land \neg D)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg(B \land G) \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg(B \land G) \lor \neg D) \\$							$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ (\neg B \lor G \lor \neg C) \land (\neg B \lor \neg G \lor \neg D) \\$
+		
+		\item $ E \rightarrow (\neg C \land \neg D)$ \\ 
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg E \lor (\neg B \land \neg C)\\$
+				$\equiv <\text{Distributividad del $\lor$ sobre el $\land$}, 	
+					p \lor (q \land r) \leftrightarrow (p \lor q) \land (p \lor r)>\\$
+				$ (\neg E \lor \neg B) \land (\neg E \lor \neg C)\\$
+				
+		\paragraph{}		
+		Es decir, ya se tiene la FNC para cada una de las hip\'otesis. A continuaci\'on, para usar el m\'etodo de resoluci\'on por refutaci\'on ser\'a necesario negar lo que se desea probar, y llevarlo a la Forma Normal Conjuntiva. Este proceso se mostrar\'a en el siguiente punto: \\
+		
+		\item $\neg( G \rightarrow ((A \lor C) \rightarrow (\neg B \land \neg E)))$ \\
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ \neg(\neg G \lor ((A \lor C) \rightarrow (\neg B \land \neg E)))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land \neg((A \lor C) \rightarrow (\neg B \land \neg E))\\$
+				$\equiv < \text{Teorema de la Disyunci\'on},  
+					p \rightarrow q \leftrightarrow \neg p \lor q > \\$
+				$ G \land \neg(\neg(A \lor C) \lor (\neg B \land \neg E))\\$
+				$\equiv <\text{De Morgan}, 
+					\neg(p \land q) \leftrightarrow \neg p \lor \neg q> \\$
+				$ G \land \neg(\neg(A \lor C) \lor \neg(B \lor E))\\$
+				$ \equiv <\text{De Morgan}, 
+					\neg(p \lor q) \leftrightarrow \neg p \land \neg q \text {; Doble Negaci\'on}, \neg \neg p \leftrightarrow p> \\ $
+				$ G \land (A \lor C) \land (B \lor E)\\$
+
+		\end{itemize}				 
+		
+		\paragraph{}
+		Luego, se tendr\'an como hip\'otesis todo el conjunto de cl\'ausulas obtenidas para tratar de encontrar una contradicci\'on haciendo uso del m\'etodo de resoluci\'on. Es decir:
+		
+		\begin{itemize}
+		\item $\Gamma = \{\neg A \lor B,\neg A \lor D,\neg B \lor \neg G \lor \neg C ,\neg B \lor \neg G \lor \neg D,\neg E \lor \neg B, \neg E \lor \neg C, G, A \lor C, B \lor E\} $
+		\end{itemize}
+		
+		\paragraph{}
+		Como puede observarse en las hip\'otesis, el \'unico literal es $G$. Por esta raz\'on, se intentar\'a obtener una contradicci\'on con este y su negado. La idea, es obtener $\neg G$ a partir de la hip\'otesis $\neg B \lor \neg G \lor \neg C$. 
+		
+		\paragraph{}
+		Para ello, en primer lugar se probar\'a que puede obtenerse $C$ como literal a partir de las cl\'ausulas dadas. Este se usar\'a tanto como para eliminarlo de la expresi\'on de inter\'es, como para obtener el literal $B$. Luego de esto, $C$ se utilizar\'a como nueva hip\'otesis en la demostraci\'on principal: \\ \\ \\
+		
+		\begin{itemize}
+		
+		\item Prueba para obtener el literal $C$ a partir de las hip\'otesis:
+		
+		\begin{prooftree}		
+		\AxiomC{$ \neg A \lor D $}		
+		\AxiomC{$\neg B \lor \neg G \lor \neg D $}				
+		\BinaryInfC{$\neg A \lor \neg B \lor \neg G$}
+		\AxiomC{$A \lor C $}		
+		\BinaryInfC{$\neg B \lor \neg G \lor \neg C$}
+		\AxiomC{$G$}	
+		\BinaryInfC{$\neg B \lor C$}
+		\AxiomC{$\neg A \lor B$}
+		\BinaryInfC{$C \lor \neg A$}
+		\AxiomC{$A \lor C$}
+		\BinaryInfC{$C$}
+		\end{prooftree}
+		
+		
+	
+		
+		\paragraph{}
+		A partir de este momento, se utilizar\'a el literal $C$ como si fuese parte de las hip\'otesis obtenidas al momento de la conversi\'on de las expresiones en la Forma Normal Conjuntiva. \\
+				
+		\item Prueba del teorema por el m\'etodo de resoluci\'on por refutaci\'on:
+		
+		\begin{prooftree}		
+		\AxiomC{$ C$}		
+		\AxiomC{$\neg E \lor \neg C $}				
+		\BinaryInfC{$\neg E$}
+		\AxiomC{$B \lor E $}		
+		\BinaryInfC{$B$}
+		\AxiomC{$\neg B \lor \neg G \lor \neg C$}	
+		\BinaryInfC{$\neg G \lor \neg C$}
+		\AxiomC{$C$}
+		\BinaryInfC{$\neg G$}
+		\AxiomC{$G$}
+		\BinaryInfC{$\bot$}
+		\end{prooftree}
+		
+		\paragraph{}
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on:
+		
+		\end{itemize}
 	
 	\end{itemize}		
 	
@@ -892,14 +1856,21 @@ $
 
 \paragraph{Referencias} 
 
-\begin{itemize}
 
 \url{http://www.uhu.es/nieves.pavon/pprogramacion/temario/anexo/anexo.html#_Toc495148247}\
 \url{https://es.wikipedia.org/wiki/Forma_normal_de_Skolem}\
 \url{http://wainu.ii.uned.es/grados/primero/LED/apuntes/logica-de-predicados-uniovi}\
 
-\end{itemize}
 
 \end{document}
 
 
+\paragraph{Referencias} 
+
+
+\url{http://www.uhu.es/nieves.pavon/pprogramacion/temario/anexo/anexo.html#_Toc495148247}\
+\url{https://es.wikipedia.org/wiki/Forma_normal_de_Skolem}\
+\url{http://wainu.ii.uned.es/grados/primero/LED/apuntes/logica-de-predicados-uniovi}\
+
+
+\end{document}
