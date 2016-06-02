@@ -118,6 +118,7 @@ Primero se demostrar\'a $\neg (p \land q) \rightarrow \neg p \lor \neg q$
 \close
 \have {13} {\neg p \lor \neg q} \ni{13}
 \close
+\have {14} {\neg (p \land q) \rightarrow (\neg p \lor \neg q)} \ii{1,13}
 \end{nd}
 \]
 
@@ -145,6 +146,8 @@ Ahora se demostrar\'a $\neg p \lor \neg q \rightarrow \neg (p \land q)$
 \have {12} {\neg (p \land q) } \ni{11}
 \close
 \have {13} {\neg (p \land q) } \oe{1,7,12}
+\close
+\have {14} {(\neg p \lor \neg q) \rightarrow \neg (p \land q) } \ii{1,13}
 \end{nd}
 \]
 		
