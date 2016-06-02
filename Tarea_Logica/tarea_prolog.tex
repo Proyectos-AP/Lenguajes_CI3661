@@ -44,53 +44,61 @@
 \item $p \rightarrow q	
 \leftrightarrow \neg p \lor q$
 
+Primero se demostrar\'a $p \rightarrow q \rightarrow \neg p \lor q$
+
+
 \[
 \begin{nd}
-\hypo {1} {p \rightarrow q	
-\leftrightarrow \neg p \lor q}
+\hypo {1} {p \rightarrow q}
 \open
-\hypo {2} {p \rightarrow q}
+\hypo {2} { \neg ( \neg p \lor q )}
 \open
-\hypo {3} { \neg ( \neg p \lor q )}
-\open
-\hypo {4} {p}
-\have {5} {q} \ie{1,3}
-\have {6} {\neg p \lor q} \oi{5}
-\have {7} {(\neg p \lor q) \land \neg  (\neg p \lor q ), \bot}   \ai{2,5}
+\hypo {3} {p}
+\have {4} {q} \ie{1,3}
+\have {5} {\neg p \lor q} \oi{5}
+\have {6} {(\neg p \lor q) \land \neg  (\neg p \lor q ), \bot}   \ai{2,5}
 \close
-\have {8} { \neg p } 
-\have {9} {\neg p \lor q} \oi{8}
-\have {10} {(\neg p \lor q) \land \neg  (\neg p \lor q ),  \bot}   \ai{5,8}
+\have {7} { \neg p } 
+\have {8} {\neg p \lor q} \oi{8}
+\have {9} {(\neg p \lor q) \land \neg  (\neg p \lor q ),  \bot}   \ai{2,8}
 \close
-\have {11} {\neg p \lor q}
-\close
-\open
-\hypo {12} {\neg p \lor q}
-\open
-\hypo {13} {p}
-\have {14} {\neg p \lor q} \r{11}
-\open
-\hypo {15} {\neg p} 
-\open 
-\hypo {16} {\neg q}
-\have {17} {p} \r{12}
-\have {18} {\neg p} \r{14}
-\have {19} {p \land \neg p,  \bot} \ai{12,14}
-\close
-\have {20} {q}
-\close
-\open
-\hypo {21} {q}
-\have {22} {q}
-\close
-\have {23} {q}
-\close
-\have {24} {p \rightarrow q}
-\close
-\have {25} {p \rightarrow q \leftrightarrow \neg p \lor q}
-\close
+\have {10} {\neg p \lor q}
 \end{nd}
 \]
+
+Ahora se demostrar\'a $ \neg p \lor q \rightarrow p \rightarrow q$
+
+\[
+\begin{nd}
+\hypo {1} {\neg p \lor q}
+\open
+\hypo {2} {p}
+\have {3} {\neg p \lor q} \r{1}
+\open
+\hypo {4} {\neg p} 
+\open 
+\hypo {5} {\neg q}
+\have {6} {p} \r{2}
+\have {7} {\neg p} \r{4}
+\have {8} {p \land \neg p,  \bot} \ai{6,7}
+\close
+\have {9} {q}
+\close
+\open
+\hypo {10} {q}
+\have {11} {q}
+\close
+\have {12} {q}
+\close
+\have {13} {p \rightarrow q}
+\end{nd}
+\]
+
+Como se demostr\'o que se cumple: \
+\item $p \rightarrow q \rightarrow \neg p \lor q$ y \
+\item $ \neg p \lor q \rightarrow p \rightarrow q$ \
+entonces, en efecto queda demostrado
+$p \rightarrow q \leftrightarrow \neg p \lor q$
 
 
 
