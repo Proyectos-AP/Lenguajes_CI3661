@@ -118,7 +118,6 @@ Primero se demostrar\'a $\neg (p \land q) \rightarrow \neg p \lor \neg q$
 \close
 \have {13} {\neg p \lor \neg q} \ni{13}
 \close
-\have {14} {\neg (p \land q) \rightarrow (\neg p \lor \neg q)} \ii{1,13}
 \end{nd}
 \]
 
@@ -146,8 +145,6 @@ Ahora se demostrar\'a $\neg p \lor \neg q \rightarrow \neg (p \land q)$
 \have {12} {\neg (p \land q) } \ni{11}
 \close
 \have {13} {\neg (p \land q) } \oe{1,7,12}
-\close
-\have {14} {(\neg p \lor \neg q) \rightarrow \neg (p \land q) } \ii{1,13}
 \end{nd}
 \]
 		
@@ -177,23 +174,11 @@ Luego, una Clausula de Horn no es m\'as que una cl\'ausula, en la cual existe ex
 
 \paragraph{Skolemizaci\'on}\mbox{}\\
 
-La skolemizaci\'on consiste en la eliminaci\'on de los cuantificadores existenciales.
-Uno de los usos de la skolemizaci\'on es aplicarlo en el m\'etodo de resoluci\'on de la l\'ogica de predicados.
 
- Las reglas básicas para realizar la skolemización son:
-\begin{enumerate}
 
-\item Si un cuantificador existencial no se encuentra dentro del \'ambito de ning\'un cuantificador universal, se sustituye la variable cuantificada existencialmente por una constante que aun no haya sido utilizada y el cuantificador existencial es eliminado.
 
-\item Si un cuantificador existencial se encuentra dentro del \'ambito de un cuantificador universal, se ha de sustituir la variable cuantificada existencialmente por una funci\'on de la variable cuantificada universalmente y se elimina el cuantificador existencial.
-	
-\item Si un cuantificador existencial se encuentra dentro del \'ambito de más de un cuantificador universal se sustituir\'a la variable cuantificada existencialmente por una funci\'on de todas las variables afectadas por estos cuantificadores universales y se elimina el cuantificador existencial. La funci\'on no puede haber sido utilizada previamente ni podr\'a utilizarse posteriormente.
-
-\end{enumerate}
 
 \paragraph{Unificaci\'on}\mbox{}\\
-
-"Se puede definir la Unificación como un procedimiento de emparejamiento que compara dos literales y descubre si existe un conjunto de sustituciones que los haga id\'enticos"
 
 Procedimiento mediante el cual Prolog "matches" dos t\'erminos.
 
@@ -348,18 +333,55 @@ $
 		\end{itemize}
 		
 		\paragraph{}
-		Se puede observar que existe la posibilidad de encontrar dos contradicciones, tanto con $p$ como con $q$. Si se elige $q$:
+		Como puede observarse en las hip\'otesis, el \'unico literal es $G$. Por esta raz\'on, se intentar\'a obtener una contradicci\'on con este y su negado. La idea, es obtener $\neg G$ a partir de la hip\'otesis $\neg B \lor \neg G \lor \neg C$. 
 		
-		\begin{prooftree}
-		\AxiomC{$p \lor q $}
-		\AxiomC{$p \lor \neg q $}
-		\AxiomC{C}
-		\BinaryInfC{D}
-		\BinaryInfC{E}
+		\paragraph{}
+		Para ello, en primer lugar se probar\'a que puede obtenerse $C$ como literal a partir de las cl\'ausulas dadas. Este se usar\'a tanto como para eliminarlo de la expresi\'on de inter\'es, como para obtener el literal $B$. Luego de esto, $C$ se utilizar\'a como nueva hip\'otesis en la demostraci\'on principal: \\ \\ \\
+		
+		\begin{itemize}
+		
+		\item Prueba para obtener el literal $C$ a partir de las hip\'otesis:
+		
+		\begin{prooftree}		
+		\AxiomC{$ \neg A \lor D $}		
+		\AxiomC{$\neg B \lor \neg G \lor \neg D $}				
+		\BinaryInfC{$\neg A \lor \neg B \lor \neg G$}
+		\AxiomC{$A \lor C $}		
+		\BinaryInfC{$\neg B \lor \neg G \lor \neg C$}
+		\AxiomC{$G$}	
+		\BinaryInfC{$\neg B \lor C$}
+		\AxiomC{$\neg A \lor B$}
+		\BinaryInfC{$C \lor \neg A$}
+		\AxiomC{$A \lor C$}
+		\BinaryInfC{$C$}
+		\end{prooftree}
+		
+		
+	
+		
+		\paragraph{}
+		A partir de este momento, se utilizar\'a el literal $C$ como si fuese parte de las hip\'otesis obtenidas al momento de la conversi\'on de las expresiones en la Forma Normal Conjuntiva. \\
+				
+		\item Prueba del teorema por el m\'etodo de resoluci\'on por refutaci\'on:
+		
+		\begin{prooftree}		
+		\AxiomC{$ C$}		
+		\AxiomC{$\neg E \lor \neg C $}				
+		\BinaryInfC{$\neg E$}
+		\AxiomC{$B \lor E $}		
+		\BinaryInfC{$B$}
+		\AxiomC{$\neg B \lor \neg G \lor \neg C$}	
+		\BinaryInfC{$\neg G \lor \neg C$}
+		\AxiomC{$C$}
+		\BinaryInfC{$\neg G$}
+		\AxiomC{$G$}
+		\BinaryInfC{$\bot$}
 		\end{prooftree}
 		
 		\paragraph{}
-		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on
+		Al obtener una contradicci\'on, se habr\'a logrado probar la expresi\'on por el m\'etodo de resoluci\'on por refutaci\'on:
+		
+		\end{itemize}
 	
 	\end{itemize}		
 	
@@ -449,8 +471,11 @@ $
 \paragraph{Referencias} 
 
 \begin{itemize}
-\item
+
+\item 
+
 \end{itemize}
+
 \end{document}
 
 
