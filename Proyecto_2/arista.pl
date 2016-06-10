@@ -22,7 +22,9 @@ lista([H|T],A,N) :-
 	lista(H,A1,N1),
 	lista(T,A2,N2),
 	append(A1,A2,A),
-	append(N1,N2,N).
+	is_set(A),
+	append(N1,N2,N),
+	is_set(N).
 
 bien_etiquetado(nodo(X,[])).
 bien_etiquetado(nodo(X,[H|T])) :-
@@ -36,6 +38,3 @@ bien_etiquetado(nodo(X,[H|T])) :-
 
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
 	bien_etiquetado(nodo(Y,A)).
-
-
-	
