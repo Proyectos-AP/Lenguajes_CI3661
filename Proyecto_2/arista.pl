@@ -1,3 +1,6 @@
+%---------------------------------------------------------
+% Estructuras
+%---------------------------------------------------------
 arista(X,A) :- 
 	integer(X),
 	X > 0,
@@ -18,7 +21,6 @@ lista(arista(X,nodo(Y,A)),Ar,N):-
 	Ar = [X|R1],
 	N =  [Y|R2].
 
-
 lista([H|T],A,N) :-
 	lista(H,A1,N1),
 	lista(T,A2,N2),
@@ -26,6 +28,9 @@ lista([H|T],A,N) :-
 	is_set(A),
 	append(N1,N2,N),
 	is_set(N).
+%---------------------------------------------------------
+% Predicado para verificar si un arbol esta bien etiquetado
+%---------------------------------------------------------
 
 bien_etiquetado(nodo(_,[])).
 bien_etiquetado(nodo(X,[H|T])) :-
@@ -39,12 +44,21 @@ bien_etiquetado(nodo(X,[H|T])) :-
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
 	bien_etiquetado(nodo(Y,A)).
 
+%---------------------------------------------------------
+% Predicados auxiliares para el esqueleto
+%---------------------------------------------------------
+% Predicado que suma los elementos de una lista 
+%                (Se puede eliminar)
+%---------------------------------------------------------
 suma([],0).
 suma([H|T],Sumalista) :-
 	integer(H),
 	suma(T,R),
 	Sumalista is H + R.
 
+%---------------------------------------------------------
+% Predicado que genera una lista dado un rango
+%---------------------------------------------------------
 generar(0,0,[]).
 generar(N,M,[M]):- 	
 	integer(N),
@@ -59,8 +73,11 @@ generar(N,M,L):-
 	generar(N1,M,L1),
 	L = [N|L1].
 
-generador(N,NHijos,_,[]) :- integer(N), N==0, NHijos==0 ,!.
+%---------------------------------------------------------
+%      Predicado generador de esqueletos
+%---------------------------------------------------------
 
+generador(N,NHijos,_,[]) :- integer(N), N==0, NHijos==0 ,!.
 generador(N,NHijos,ListaG,L) :- 
 	integer(N), 
 	N==0,
@@ -77,6 +94,10 @@ generador(N,NHijos,ListaG,L) :-
 	X1 is N - Result,
 	generador(X1,Result,ListaG,L2),
 	append([L1],L2,L).
+
+%---------------------------------------------------------
+%    Predicado que genera la listas del esqueleto
+%---------------------------------------------------------
 
 generar_esqueleto(_,NHijos,_,[]):- integer(NHijos), NHijos==0,!.
 generar_esqueleto(_,_,[],[]).
@@ -100,6 +121,10 @@ generar_esqueleto(N,NHijos,ListaG,Esqueleto) :-
 	X2 is NHijos - 1,
 	generar_esqueleto(X1,X2,ListaG,L1), 
 	append([X],L1,Esqueleto).
+
+%---------------------------------------------------------
+%                Predicado esqueleto
+%---------------------------------------------------------
 
 esqueleto(N,R,[]) :- integer(R), R > 0, N==0. 
 esqueleto(N,R,L) :-
