@@ -39,12 +39,18 @@ bien_etiquetado(nodo(X,[H|T])) :-
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
 	bien_etiquetado(nodo(Y,A)).
 
+suma([],0).
+suma([H|T],Sumalista) :-
+	integer(H),
+	suma(T,R),
+	Sumalista is H + R.
 
 generar(0,0,[]).
 generar(N,M,[M]):- 	
 	integer(N),
 	integer(M),
 	N==M.
+
 generar(N,M,L):-
 	integer(N),
 	integer(M),
@@ -53,15 +59,27 @@ generar(N,M,L):-
 	generar(N1,M,L1),
 	L = [N|L1].
 
-generar_esqueleto(N,_,[]):- integer(N), N==0,!.
-generar_esqueleto(_,[],[]).
-generar_esqueleto(N,ListaG,Esqueleto) :-
+generador(N,_,_,[]) :- integer(N), N==0,!.
+generador(N,NHijos,ListaG,L) :-
+	integer(N),
+	integer(NHijos),
+	generar_esqueleto(N,NHijos,ListaG,L1),
+	suma(L1,Result),
+	X1 is N - Result,
+	generador(X1,Result,ListaG,L2),
+	append([L1],L2,L).
+
+generar_esqueleto(_,NHijos,_,[]):- integer(NHijos), NHijos==0,!.
+generar_esqueleto(N,_,_,[]):- integer(N), N==0,!.
+generar_esqueleto(_,_,[],[]).
+generar_esqueleto(N,NHijos,ListaG,Esqueleto) :-
 	integer(N),
 	N > 0,
 	member(X,ListaG),
 	X1 is N-X,
-	generar_esqueleto(X1,ListaG,L1), 
-	append([[X]],L1,Esqueleto).
+	X2 is NHijos -1,
+	generar_esqueleto(X1,X2,ListaG,L1), 
+	append([X],L1,Esqueleto).
 
 esqueleto(N,R,[]) :- integer(R), R > 0,N==0. 
 esqueleto(N,R,L) :-
@@ -71,8 +89,9 @@ esqueleto(N,R,L) :-
 	R>0,
 	generar(1,R,ListGen),
 	member(X,ListGen),
-	XN is N-X,
-	generar_esqueleto(XN,ListGen,LN),
+	\+ X == 0,
+	XN is N-X-1,
+	generador(XN,X,ListGen,LN),
 	append([[X]],LN,L).
 
 
