@@ -7,7 +7,7 @@ arbol(nodo(X,[])) :-
 	integer(X),
 	X > 0.
 	
-arbol(nodo(X,[H|T])) :-
+arbol(nodo(X,_)) :-
 	integer(X),
 	X > 0.
 
@@ -27,7 +27,7 @@ lista([H|T],A,N) :-
 	append(N1,N2,N),
 	is_set(N).
 
-bien_etiquetado(nodo(X,[])).
+bien_etiquetado(nodo(_,[])).
 bien_etiquetado(nodo(X,[H|T])) :-
 	buscarA(H,Arist,Nod),
 	Etiqueta is abs(X-Nod),
@@ -53,12 +53,27 @@ generar(N,M,L):-
 	generar(N1,M,L1),
 	L = [N|L1].
 
+generar_esqueleto(N,_,[]):- integer(N), N==0,!.
+generar_esqueleto(_,[],[]).
+generar_esqueleto(N,ListaG,Esqueleto) :-
+	integer(N),
+	N > 0,
+	member(X,ListaG),
+	X1 is N-X,
+	generar_esqueleto(X1,ListaG,L1), 
+	append([[X]],L1,Esqueleto).
+
 esqueleto(N,R,[]) :- integer(R), R > 0,N==0. 
 esqueleto(N,R,L) :-
 	integer(N),
-	generar(1,N,ListGen),
+	N > 0,
+	integer(R),
+	R>0,
+	generar(1,R,ListGen),
 	member(X,ListGen),
-	X1 is N-X,
-	esqueleto(X1,R,L1),
-	append([[X]],L1,L).
+	XN is N-X,
+	generar_esqueleto(XN,ListGen,LN),
+	append([[X]],LN,L).
+
+
 
