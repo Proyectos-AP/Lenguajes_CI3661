@@ -160,5 +160,31 @@ esqueleto(N,R,L) :-
 	generador(XN,X,ListGen,LN),
 	append([[X]],LN,L).
 
+%---------------------------------------------------------
+%                Predicado etiquetable
+%---------------------------------------------------------
+
+etiquetable([[]],[]).
+etiquetable([H|T],Arbol) :- 
+	suma(H,Result),
+	generar_aristas(Result,T,Arist),
+	Arbol = nodo(3,Arist).
+
+generar_aristas(N,_,[]):- 
+	integer(N), 
+	N==0,!.
+
+generar_aristas(_,[[]],[]).
+
+generar_aristas(N,Esqueleto,Arist) :-
+	integer(N),
+	N > 0,
+	N1 is N-1,
+	[H|T] = Esqueleto,
+	[H1|T1] = H,
+	append([T1],T,Nuevo_esqueleto),
+	generar_aristas(H1,T,Arist1),
+	generar_aristas(N1,Nuevo_esqueleto,Arist2),
+	append([arista(5,nodo(6,Arist1))],Arist2,Arist).
 
 
