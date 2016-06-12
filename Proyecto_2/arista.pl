@@ -82,35 +82,34 @@ generador(N,NHijos,ListaG,L) :-
 	integer(N), 
 	N==0,
 	NHijos > 0,
-	generar_esqueleto(N,NHijos,ListaG,_,L1),
+	generar_esqueleto(N,NHijos,ListaG,_,Suma,L1),
 	L = [L1],!.
 
 generador(N,NHijos,ListaG,L) :-
 	integer(N),
 	integer(NHijos),
-	generar_esqueleto(N,NHijos,ListaG,Min,L1),
-	suma(L1,Result),
-	Result \= 0,
-	X1 is N - Result,
-	generador(X1,Result,ListaG,L2),
+	generar_esqueleto(N,NHijos,ListaG,Min,Suma,L1),
+	Suma \= 0,
+	X1 is N - Suma ,
+	generador(X1,Suma,ListaG,L2),
 	append([L1],L2,L).
 
 %---------------------------------------------------------
 %    Predicado que genera la listas del esqueleto
 %---------------------------------------------------------
 
-generar_esqueleto(_,NHijos,_,0,[]):- integer(NHijos), NHijos==0,!.
-generar_esqueleto(_,_,[],0,[]).
-generar_esqueleto(N,NHijos,ListaG,0,Esqueleto):- 
+generar_esqueleto(_,NHijos,_,0,0,[]):- integer(NHijos), NHijos==0,!.
+generar_esqueleto(_,_,[],0,0,[]).
+generar_esqueleto(N,NHijos,ListaG,0,0,Esqueleto):- 
 	integer(N),
 	integer(NHijos), 
 	N == 0,
 	NHijos > 0,
 	X1 is NHijos - 1,
-	generar_esqueleto(N,X1,ListaG,Min,L1),
+	generar_esqueleto(N,X1,ListaG,Min,Suma,L1),
 	append([0],L1,Esqueleto).
 
-generar_esqueleto(N,NHijos,ListaG,Minimo,Esqueleto) :-
+generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
 	integer(N),
 	integer(NHijos),
 	N > 0,
@@ -119,9 +118,10 @@ generar_esqueleto(N,NHijos,ListaG,Minimo,Esqueleto) :-
 	X =< N,
 	X1 is N-X,
 	X2 is NHijos - 1,
-	generar_esqueleto(X1,X2,ListaG,Min,L1), 
+	generar_esqueleto(X1,X2,ListaG,Min,Suma2,L1), 
 	X >= Min ,
 	Minimo = X,
+	Suma is Suma2 + X,
 	append([X],L1,Esqueleto).
 
 %---------------------------------------------------------
