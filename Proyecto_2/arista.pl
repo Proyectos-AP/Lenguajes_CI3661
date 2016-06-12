@@ -1,6 +1,7 @@
 %---------------------------------------------------------
 % Estructuras
 %---------------------------------------------------------
+
 arista(X,A) :- 
 	integer(X),
 	X > 0,
@@ -28,21 +29,36 @@ lista([H|T],A,N) :-
 	is_set(A),
 	append(N1,N2,N),
 	is_set(N).
+
 %---------------------------------------------------------
 % Predicado para verificar si un arbol esta bien etiquetado
 %---------------------------------------------------------
 
-bien_etiquetado(nodo(_,[])).
+bien_etiquetado(nodo(1,[])).
 bien_etiquetado(nodo(X,[H|T])) :-
+	bien_etiquetadoR(nodo(X,[H|T]),A,N),
+	append(N,[X],NR),
+	length(NR,LN),
+	LA is LN - 1,
+	etiquetas_validas(A,LA),
+	etiquetas_validas(NR,LN).
+
+bien_etiquetadoR(nodo(_,[]),_,_).
+bien_etiquetadoR(nodo(X,[H|T]),A,N) :-
 	buscarA(H,Arist,Nod),
 	Etiqueta is abs(X-Nod),
 	Etiqueta == Arist,
 	lista([H|T],A,N),
 	\+ member(X,N),
-	bien_etiquetado(nodo(X,T)).
+	bien_etiquetadoR(nodo(X,T),_,_).
 
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
-	bien_etiquetado(nodo(Y,A)).
+	bien_etiquetadoR(nodo(Y,A),_,_).
+
+etiquetas_validas([],_).
+etiquetas_validas([H|T],UpperLimit) :-
+	H =< UpperLimit,
+	etiquetas_validas(T,UpperLimit).
 
 %---------------------------------------------------------
 % Predicados auxiliares para el esqueleto
@@ -50,6 +66,7 @@ buscarA(arista(X,nodo(Y,A)),X,Y) :-
 % Predicado que suma los elementos de una lista 
 %                (Se puede eliminar)
 %---------------------------------------------------------
+
 suma([],0).
 suma([H|T],Sumalista) :-
 	integer(H),
@@ -59,6 +76,7 @@ suma([H|T],Sumalista) :-
 %---------------------------------------------------------
 % Predicado que genera una lista dado un rango
 %---------------------------------------------------------
+
 generar(0,0,[]).
 generar(N,M,[M]):- 	
 	integer(N),
@@ -142,32 +160,5 @@ esqueleto(N,R,L) :-
 	generador(XN,X,ListGen,LN),
 	append([[X]],LN,L).
 
-
-%---------------------------------------------------------
-%                Predicado etiquetable
-%---------------------------------------------------------
-
-etiquetable([[]],[]).
-etiquetable([H|T],Arbol) :- 
-	suma(H,Result),
-	generar_aristas(Result,T,Arist),
-	Arbol = nodo(3,Arist).
-
-generar_aristas(N,_,[]):- 
-	integer(N), 
-	N==0,!.
-
-generar_aristas(_,[[]],[]).
-
-generar_aristas(N,Esqueleto,Arist) :-
-	integer(N),
-	N > 0,
-	N1 is N-1,
-	[H|T] = Esqueleto,
-	[H1|T1] = H,
-	append([T1],T,Nuevo_esqueleto),
-	generar_aristas(H1,T,Arist1),
-	generar_aristas(N1,Nuevo_esqueleto,Arist2),
-	append([arista(5,nodo(6,Arist1))],Arist2,Arist).
 
 
