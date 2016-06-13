@@ -1,7 +1,6 @@
 %---------------------------------------------------------
 % Estructuras
 %---------------------------------------------------------
-
 arista(X,A) :- 
 	integer(X),
 	X > 0,
@@ -29,36 +28,21 @@ lista([H|T],A,N) :-
 	is_set(A),
 	append(N1,N2,N),
 	is_set(N).
-
 %---------------------------------------------------------
 % Predicado para verificar si un arbol esta bien etiquetado
 %---------------------------------------------------------
 
-bien_etiquetado(nodo(1,[])).
+bien_etiquetado(nodo(_,[])).
 bien_etiquetado(nodo(X,[H|T])) :-
-	bien_etiquetadoR(nodo(X,[H|T]),A,N),
-	append(N,[X],NR),
-	length(NR,LN),
-	LA is LN - 1,
-	etiquetas_validas(A,LA),
-	etiquetas_validas(NR,LN).
-
-bien_etiquetadoR(nodo(_,[]),_,_).
-bien_etiquetadoR(nodo(X,[H|T]),A,N) :-
 	buscarA(H,Arist,Nod),
 	Etiqueta is abs(X-Nod),
 	Etiqueta == Arist,
 	lista([H|T],A,N),
 	\+ member(X,N),
-	bien_etiquetadoR(nodo(X,T),_,_).
+	bien_etiquetado(nodo(X,T)).
 
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
-	bien_etiquetadoR(nodo(Y,A),_,_).
-
-etiquetas_validas([],_).
-etiquetas_validas([H|T],UpperLimit) :-
-	H =< UpperLimit,
-	etiquetas_validas(T,UpperLimit).
+	bien_etiquetado(nodo(Y,A)).
 
 %---------------------------------------------------------
 % Predicados auxiliares para el esqueleto
@@ -66,23 +50,15 @@ etiquetas_validas([H|T],UpperLimit) :-
 % Predicado que suma los elementos de una lista 
 %                (Se puede eliminar)
 %---------------------------------------------------------
-
 suma([],0).
 suma([H|T],Sumalista) :-
 	integer(H),
 	suma(T,R),
 	Sumalista is H + R.
 
-sumarLista([[]],0).
-sumarLista([],0).
-sumarLista([H|T],N):-
-	suma(H,N1),
-	sumarLista(T,N2),
-	N is N1+N2.
 %---------------------------------------------------------
 % Predicado que genera una lista dado un rango
 %---------------------------------------------------------
-
 generar(0,0,[]).
 generar(N,M,[M]):- 	
 	integer(N),
@@ -106,34 +82,35 @@ generador(N,NHijos,ListaG,L) :-
 	integer(N), 
 	N==0,
 	NHijos > 0,
-	generar_esqueleto(N,NHijos,ListaG,_,Suma,L1),
+	generar_esqueleto(N,NHijos,ListaG,L1),
 	L = [L1],!.
 
 generador(N,NHijos,ListaG,L) :-
 	integer(N),
 	integer(NHijos),
-	generar_esqueleto(N,NHijos,ListaG,Min,Suma,L1),
-	Suma \= 0,
-	X1 is N - Suma ,
-	generador(X1,Suma,ListaG,L2),
+	generar_esqueleto(N,NHijos,ListaG,L1),
+	suma(L1,Result),
+	Result \= 0,
+	X1 is N - Result,
+	generador(X1,Result,ListaG,L2),
 	append([L1],L2,L).
 
 %---------------------------------------------------------
 %    Predicado que genera la listas del esqueleto
 %---------------------------------------------------------
 
-generar_esqueleto(_,NHijos,_,0,0,[]):- integer(NHijos), NHijos==0,!.
-generar_esqueleto(_,_,[],0,0,[]).
-generar_esqueleto(N,NHijos,ListaG,0,0,Esqueleto):- 
+generar_esqueleto(_,NHijos,_,[]):- integer(NHijos), NHijos==0,!.
+generar_esqueleto(_,_,[],[]).
+generar_esqueleto(N,NHijos,ListaG,Esqueleto):- 
 	integer(N),
 	integer(NHijos), 
 	N == 0,
 	NHijos > 0,
 	X1 is NHijos - 1,
-	generar_esqueleto(N,X1,ListaG,Min,Suma,L1),
-	append([0],L1,Esqueleto).
+	generar_esqueleto(N,X1,ListaG,L1),
+	append([0],L1,Esqueleto),!.
 
-generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
+generar_esqueleto(N,NHijos,ListaG,Esqueleto) :-
 	integer(N),
 	integer(NHijos),
 	N > 0,
@@ -142,10 +119,7 @@ generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
 	X =< N,
 	X1 is N-X,
 	X2 is NHijos - 1,
-	generar_esqueleto(X1,X2,ListaG,Min,Suma2,L1), 
-	X >= Min ,
-	Minimo = X,
-	Suma is Suma2 + X,
+	generar_esqueleto(X1,X2,ListaG,L1), 
 	append([X],L1,Esqueleto).
 
 %---------------------------------------------------------
@@ -173,48 +147,43 @@ esqueleto(N,R,L) :-
 etiquetable([[]],[]).
 etiquetable([H|T],Arbol) :- 
 	suma(H,Result),
-	sumarLista([H|T],N),
-	N1 is N +1,
-	generar(1,N1,Lista_nodo),
-	delete(Lista_nodo,N1,Lista_arist),
-	
-	member(X,Lista_nodo),
-	delete(Lista_nodo,X,Lista_nodo1),
-	generar_aristas(Result,T,Lista_nodo1,Lista_arist,LN,LA,X,Arist),
-	Arbol = nodo(X,Arist).
+	generar_aristas(Result,T,Arist),
+	Arbol = nodo(3,Arist).
 
-generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
+generar_aristas(N,_,[]):- 
 	integer(N), 
-	N==0,
-	Lista_nodo = LN,
-	Lista_arist = LA,!.
+	N==0,!.
 
-generar_aristas(_,[],Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
-	Lista_nodo = LN,
-	Lista_arist = LA,!.
+generar_aristas(_,[[]],[]).
+generar_aristas(_,[],[]).
 
-generar_aristas(_,[[]],Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
-	Lista_nodo = LN,
-	Lista_arist = LA,!.
-generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
+generar_aristas(N,Esqueleto,Arist) :-
 	integer(N),
-	N > 0,
+	N > 0,                          
 	N1 is N-1,
 	[H|T] = Esqueleto,
 	[H1|T1] = H,
-	append([T1],T,Nuevo_esqueleto),
+	g_drop(H1,T,T2,Tail),
+	append([Tail],T2,Nuevo_esqueleto2),
+	append([T1],Nuevo_esqueleto2,Nuevo_esqueleto),
+	generar_aristas(H1,T,Arist1),
+	generar_aristas(N1,Nuevo_esqueleto,Arist2),
+	append([arista(5,nodo(6,Arist1))],Arist2,Arist).
 
-	member(X,Lista_nodo),
-	member(Y,Lista_arist),
-	Verificar is abs(N_nod-X),
-	Y == Verificar,
-	delete(Lista_nodo,X,Lista_nodo1),
-	delete(Lista_arist,Y,Lista_arist1),
 
-	generar_aristas(H1,T,Lista_nodo1,Lista_arist1,LN1,LA1,X,Arist1),
-	generar_aristas(N1,Nuevo_esqueleto,LN1,LA1,LN2,LA2,N_nod,Arist2),
-	LN = LN2,
-	LA = LA2,
-	append([arista(Y,nodo(X,Arist1))],Arist2,Arist).
 
+g_drop(_,[],[],[]).
+g_drop(N,Lista,Tail,Drop):-
+	[H|Tail] = Lista,
+	drop(N,H,Drop).
+
+
+drop(N,[],[]).
+drop(N,Lista,Lista) :- integer(N), N == 0.
+drop(N,Lista,Tail) :-
+	integer(N),
+	N1 is N-1,
+	[H|T] = Lista,
+	drop(N1,T,Tail2),!,
+	Tail = Tail2.
 
