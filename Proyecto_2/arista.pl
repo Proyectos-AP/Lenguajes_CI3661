@@ -177,39 +177,36 @@ etiquetable([H|T],Arbol) :-
 	N1 is N +1,
 	generar(1,N1,Lista_nodo),
 	delete(Lista_nodo,N1,Lista_arist),
-	generar_aristas(Result,T,Lista_nodo,Lista_arist,LN,LA,N_nod,N_a,Arist),
-	member(X,LN),
-	Verificar is abs(N_nod - X),
-	N_a == Verificar,
+	
+	member(X,Lista_nodo),
+	delete(Lista_nodo,X,Lista_nodo1),
+	generar_aristas(Result,T,Lista_nodo1,Lista_arist,LN,LA,X,Arist),
 	Arbol = nodo(X,Arist).
 
-generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,N_nod,N_a,[]):- 
+generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
 	integer(N), 
 	N==0,
-	member(N_nod,Lista_nodo),
-	member(N_a,Lista_nodo),
 	Lista_nodo = LN,
-	Lista_arist = LA.
+	Lista_arist = LA,!.
 
-generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,N_a,Arist) :-
+generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 	integer(N),
 	N > 0,
 	N1 is N-1,
 	[H|T] = Esqueleto,
 	[H1|T1] = H,
 	append([T1],T,Nuevo_esqueleto),
-	generar_aristas(H1,T,Lista_nodo,Lista_arist,LN1,LA1,N_nod1,N_a1,Arist1),
 
-	member(X,LN1),
-	Verificar is abs(N_nod1-X),
-	N_a1 == Verificar,
-	member(Y,LA1),
-	delete(LN1,X,LN),
-	delete(LA1,Y,LA),
+	member(X,Lista_nodo),
+	member(Y,Lista_arist),
+	Verificar is abs(N_nod-X),
+	Y == Verificar,
+	delete(Lista_nodo,X,Lista_nodo1),
+	delete(Lista_arist,Y,Lista_arist1),
 
-	generar_aristas(N1,Nuevo_esqueleto,LN,LA,LN2,LA2,N_nod2,N_a2,Arist2),
-	append([arista(Y,nodo(X,Arist1))],Arist2,Arist),
-	N_nod = X,
-	N_a = Y.
+	generar_aristas(H1,T,Lista_nodo1,Lista_arist1,LN1,LA1,X,Arist1),
+	generar_aristas(N1,Nuevo_esqueleto,LN1,LA1,LN2,LA2,N_nod,Arist2),
+
+	append([arista(Y,nodo(X,Arist1))],Arist2,Arist).
 
 
