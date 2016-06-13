@@ -73,6 +73,12 @@ suma([H|T],Sumalista) :-
 	suma(T,R),
 	Sumalista is H + R.
 
+sumarLista([[]],0).
+sumarLista([],0).
+sumarLista([H|T],N):-
+	suma(H,N1),
+	sumarLista(T,N2),
+	N is N1+N2.
 %---------------------------------------------------------
 % Predicado que genera una lista dado un rango
 %---------------------------------------------------------
@@ -167,24 +173,43 @@ esqueleto(N,R,L) :-
 etiquetable([[]],[]).
 etiquetable([H|T],Arbol) :- 
 	suma(H,Result),
-	generar_aristas(Result,T,Arist),
-	Arbol = nodo(3,Arist).
+	sumarLista([H|T],N),
+	N1 is N +1,
+	generar(1,N1,Lista_nodo),
+	delete(Lista_nodo,N1,Lista_arist),
+	generar_aristas(Result,T,Lista_nodo,Lista_arist,LN,LA,N_nod,N_a,Arist),
+	member(X,LN),
+	Verificar is abs(N_nod - X),
+	N_a == Verificar,
+	Arbol = nodo(X,Arist).
 
-generar_aristas(N,_,[]):- 
+generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,N_nod,N_a,[]):- 
 	integer(N), 
-	N==0,!.
+	N==0,
+	member(N_nod,Lista_nodo),
+	member(N_a,Lista_nodo),
+	Lista_nodo = LN,
+	Lista_arist = LA.
 
-generar_aristas(_,[[]],[]).
-
-generar_aristas(N,Esqueleto,Arist) :-
+generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,N_a,Arist) :-
 	integer(N),
 	N > 0,
 	N1 is N-1,
 	[H|T] = Esqueleto,
 	[H1|T1] = H,
 	append([T1],T,Nuevo_esqueleto),
-	generar_aristas(H1,T,Arist1),
-	generar_aristas(N1,Nuevo_esqueleto,Arist2),
-	append([arista(5,nodo(6,Arist1))],Arist2,Arist).
+	generar_aristas(H1,T,Lista_nodo,Lista_arist,LN1,LA1,N_nod1,N_a1,Arist1),
+
+	member(X,LN1),
+	Verificar is abs(N_nod1-X),
+	N_a1 == Verificar,
+	member(Y,LA1),
+	delete(LN1,X,LN),
+	delete(LA1,Y,LA),
+
+	generar_aristas(N1,Nuevo_esqueleto,LN,LA,LN2,LA2,N_nod2,N_a2,Arist2),
+	append([arista(Y,nodo(X,Arist1))],Arist2,Arist),
+	N_nod = X,
+	N_a = Y.
 
 
