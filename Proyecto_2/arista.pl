@@ -196,13 +196,16 @@ generar_aristas(_,[],Lista_nodo,Lista_arist,LN,LA,N_nod,[]):-
 generar_aristas(_,[[]],Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
+	
 generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 	integer(N),
 	N > 0,
 	N1 is N-1,
 	[H|T] = Esqueleto,
 	[H1|T1] = H,
-	append([T1],T,Nuevo_esqueleto),
+	g_drop(H1,T,T2,Tail),
+	append([Tail],T2,Nuevo_esqueleto2),
+	append([T1],Nuevo_esqueleto2,Nuevo_esqueleto),
 
 	member(X,Lista_nodo),
 	member(Y,Lista_arist),
@@ -217,4 +220,18 @@ generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 	LA = LA2,
 	append([arista(Y,nodo(X,Arist1))],Arist2,Arist).
 
+
+g_drop(_,[],[],[]).
+g_drop(N,Lista,Tail,Drop):-
+	[H|Tail] = Lista,
+	drop(N,H,Drop),!.
+
+drop(N,[],[]).
+drop(N,Lista,Lista) :- integer(N), N == 0.
+drop(N,Lista,Tail) :-
+	integer(N),
+	N1 is N-1,
+	[H|T] = Lista,
+	drop(N1,T,Tail2),!,
+	Tail = Tail2.
 
