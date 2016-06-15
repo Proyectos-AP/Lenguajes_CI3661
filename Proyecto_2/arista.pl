@@ -170,8 +170,8 @@ esqueleto(N,R,L) :-
 %                Predicado etiquetable
 %---------------------------------------------------------
 
-etiquetable([[]],[]).
-etiquetable([H|T],Arbol) :- 
+etiquetamiento([[]],[]).
+etiquetamiento([H|T],Arbol) :- 
 	suma(H,Result),
 	sumarLista([H|T],N),
 	N1 is N +1,
@@ -227,7 +227,7 @@ g_drop(N,Lista,Tail,Drop):-
 	drop(N,H,Drop),!.
 
 drop(N,[],[]).
-drop(N,Lista,Lista) :- integer(N), N == 0.
+drop(N,Lista,Lista) :- integer(N), N == 0,!.
 drop(N,Lista,Tail) :-
 	integer(N),
 	N1 is N-1,
@@ -235,3 +235,17 @@ drop(N,Lista,Tail) :-
 	drop(N1,T,Tail2),!,
 	Tail = Tail2.
 
+
+%---------------------------------------------------------
+%                Predicado es_etiquetable
+%---------------------------------------------------------
+
+esqEtiquetable(0,R).
+esqEtiquetable(N,R) :-
+	integer(N),
+	integer(R),
+	forall((esqueleto(N,R,E),etiquetamiento(E,A)),bien_etiquetado(A)).
+
+
+
+mayor_cero(N) :- integer(N), N>0.
