@@ -13,7 +13,6 @@
  *
 */
 
-
 %------------------------------------------------------------------------------%
 %                        DEFINICIÓN DE ESTRUCTURAS                             %
 %------------------------------------------------------------------------------%
@@ -398,19 +397,25 @@ g_drop(N,Lista,Tail,Drop):-
 
 %------------------------------------------------------------------------------%
 
-% drop/3:
+% drop/3: Dado un numero n, y una lista L, se obtiene la misma lista sin los 
+% primeros n eleementos.
 %
 
-%%
-%%
+%% En el caso de hacer drop a una lista vacía, se devuelve la misma.
 drop(_,[],[]).
 
-%%
-%%
+%% En el caso de que se quiera hacer drop de 0 elementos, se devuelve la misma
+%% lista.
 drop(N,Lista,Lista) :- integer(N), N == 0,!.
 
-%%
-%%
+%% Caso recursivo, en el que se va calculando el drop de la lista.
+%%     - N : Número de elementos que desean eliminarse de la lista.	
+%%     - Lista : Lista al
+%%     - Tail :
+%%     - N1 :
+%%     - T :
+%%     - Tail2 :
+
 drop(N,Lista,Tail) :-
 	integer(N),
 	N1 is N-1,
@@ -446,7 +451,6 @@ describirEtiquetamiento(Arbol) :- describirEtiquetamiento(0,Arbol).
 
 % describirEtiquetamiento/2: Permite imprimir el árbol en un formato agradable
 % para el usuario.
-
 
 %% Caso recursivo para imprimir un nodo, y su lista de aristas asociada:
 %%     - Indent : Corresponde al nivel de indentación asociado al predicado
