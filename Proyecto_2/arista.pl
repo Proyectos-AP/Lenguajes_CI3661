@@ -18,8 +18,11 @@
 %                        DEFINICIÓN DE ESTRUCTURAS                             %
 %------------------------------------------------------------------------------%
 
-%%
-%%
+%% arista/2: Define la estructura aristas con las condiciones dadas. Es decir,
+%% posee una etiqueta (entero positivo) y un subárbol asociado.
+%%     - X : Etiqueta asociada al nodo.
+%%     - A : Árbol asociado al nodo.
+
 arista(X,A) :- 
 	integer(X),
 	X > 0,
@@ -27,19 +30,26 @@ arista(X,A) :-
 
 %------------------------------------------------------------------------------%
 
-%%
-%%
+%% arbol/2: Define la estructura de un nodo con las condiciones establecidas.
+%% Es decir, posee una etiqueta (entero positivo) y una lista de aristas
+%% asociada.
+
+%% Caso en el que es una hoja (Lista vacía):  
+%%     - X : Etiqueta asociada al nodo.
 arbol(nodo(X,[])) :- 
 	integer(X),
 	X > 0.
 
-%%
-%%	
+%% Caso en el que el nodo tiene al menos un hijo en su lista de aristas.
+%%     - X : Etiqueta asociada al nodo.
 arbol(nodo(X,_)) :-
 	integer(X),
 	X > 0.
 
 %------------------------------------------------------------------------------%
+
+% lista/3:
+%
 
 %%
 %%
@@ -67,6 +77,9 @@ lista([H|T],A,N) :-
 %              VERIFICACIÓN DE BUEN ETIQUETAMIENDO DE UN ÁRBOL                 %
 %------------------------------------------------------------------------------%
 
+% bienEtiquetado/2:
+%
+
 %%
 %%
 bienEtiquetado(nodo(1,[])).
@@ -82,6 +95,9 @@ bienEtiquetado(nodo(X,[H|T])) :-
 	etiquetas_validas(NR,LN).
 
 %------------------------------------------------------------------------------%
+
+% bienEtiquetadoR/3:
+%
 
 %%
 %%
@@ -99,10 +115,18 @@ bienEtiquetadoR(nodo(X,[H|T]),A,N) :-
 
 %------------------------------------------------------------------------------%
 
+% buscarA/3:
+%
+
 %%
 %%
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
 	bienEtiquetadoR(nodo(Y,A),_,_).
+
+%------------------------------------------------------------------------------%
+
+% etiquetas_validas/2:
+%
 
 %%
 %%
@@ -120,6 +144,9 @@ etiquetas_validas([H|T],UpperLimit) :-
 %                     SUMAR LOS ELEMENTOS DE UNA LISTA               
 %------------------------------------------------------------------------------%
 
+% suma/2:
+%
+
 %%
 %%
 suma([],0).
@@ -132,6 +159,9 @@ suma([H|T],Sumalista) :-
 	Sumalista is H + R.
 
 %------------------------------------------------------------------------------%
+
+% sumarLista/2:
+%
 
 %%
 %%
@@ -151,6 +181,9 @@ sumarLista([H|T],N):-
 %------------------------------------------------------------------------------%
 %                      GENERAR UNA LISTA DADO UN RANGO                         %
 %------------------------------------------------------------------------------%
+
+% generar/3:
+%
 
 %%
 %%
@@ -176,6 +209,9 @@ generar(N,M,L):-
 %------------------------------------------------------------------------------%
 %                         GENERADOR DE ESQUELETOS                              %
 %------------------------------------------------------------------------------%
+
+% generador/4:
+%
 
 %%
 %%
@@ -204,6 +240,9 @@ generador(N,NHijos,ListaG,L) :-
 %------------------------------------------------------------------------------%
 %                  GENERADOR DE LAS LISTAS DEL ESQUELETO                       %
 %------------------------------------------------------------------------------%
+
+% generar_esqueleto/5:
+%
 
 %%
 %%
@@ -245,6 +284,9 @@ generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
 %                                 ESQUELETO                                    %
 %------------------------------------------------------------------------------%
 
+% esqueleto/3s:
+%
+
 %%
 %%
 esqueleto(N,R,[]) :- integer(R), R > 0, N==0. 
@@ -268,6 +310,9 @@ esqueleto(N,R,L) :-
 %                                 ETIQUETABLE                                  %
 %------------------------------------------------------------------------------%
 
+% etiquetamiento/2:
+%
+
 %%
 %%
 etiquetamiento([[]],[]).
@@ -287,6 +332,9 @@ etiquetamiento([H|T],Arbol) :-
 	Arbol = nodo(X,Arist).
 
 %------------------------------------------------------------------------------%
+
+% generar_aristas/8:
+%
 
 %%
 %%
@@ -335,6 +383,9 @@ generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 
 %------------------------------------------------------------------------------%
 
+% g_drop/4:
+%
+
 %%
 %%
 g_drop(_,[],[],[]).
@@ -346,6 +397,9 @@ g_drop(N,Lista,Tail,Drop):-
 	drop(N,H,Drop),!.
 
 %------------------------------------------------------------------------------%
+
+% drop/3:
+%
 
 %%
 %%
@@ -368,6 +422,9 @@ drop(N,Lista,Tail) :-
 %                            ESQ_ETIQUETABLE                                   %
 %------------------------------------------------------------------------------%
 
+% esqEtiquetable/2:
+%
+
 %%
 %%
 esqEtiquetable(0,R):- integer(R), R>=0.
@@ -383,12 +440,19 @@ esqEtiquetable(N,R) :-
 %                        DESCRIBIR ETIQUETAMIENTO                              %
 %------------------------------------------------------------------------------%
 
-%%
-%%
+%% describirEtiquetamiento/1: Se utiliza para agregarle a la llamada el nivel
+%% de indentación inicial.
 describirEtiquetamiento(Arbol) :- describirEtiquetamiento(0,Arbol).
 
-%%
-%%
+% describirEtiquetamiento/2: Permite imprimir el árbol en un formato agradable
+% para el usuario.
+
+
+%% Caso recursivo para imprimir un nodo, y su lista de aristas asociada:
+%%     - Indent : Corresponde al nivel de indentación asociado al predicado
+%%		 actual.
+%%     - X : Etiqueta asociada a la primera arista de la lista.
+%%     - L : Lista de aristas asociadas al nodo relacionado con la primera lista.
 describirEtiquetamiento(Indent,nodo(X,L)) :-
 	nl, tab(Indent),
 	write(nodo),write('('),write(X),
@@ -396,14 +460,22 @@ describirEtiquetamiento(Indent,nodo(X,L)) :-
 	describirEtiquetamiento(NuevaIndent,L),
 	write(')').
 
-%%
-%%
+%% Caso base de la recursión para imprimir el caso en el que un nodo no tiene
+%% aristas asociadas.
+%%     - Indent : Corresponde al nivel de indentación asociado al predicado
+%%		 actual.
 describirEtiquetamiento(Indent,[]) :-
 	nl, tab(Indent),
 	write('[]').
 
-%%
-%%
+%% Caso para imprimir una lista de aristas. Este utiliza el predicado Auxiliar
+%% imprimirArista.
+%%     - Indent : Corresponde al nivel de indentación asociado al predicado
+%%		 actual.
+%%     - X : Etiqueta asociada a la primera arista de la lista.
+%%     - Y : Etiqueta asociada al nodo asociado a la primera arista.
+%%     - L : Lista de aristas asociadas al nodo relacionado con la primera lista.
+%%	   - T : Cola de la lista de aristas.
 describirEtiquetamiento(Indent,[arista(X,nodo(Y,L))|T]) :-
 	nl, tab(Indent),
 	write('['),
@@ -412,12 +484,21 @@ describirEtiquetamiento(Indent,[arista(X,nodo(Y,L))|T]) :-
 
 %------------------------------------------------------------------------------%
 
-%%
-%%
+% imprimirArista/2: Auxiliar de describirEtiquetamiento que permite imprimir
+% la lista de aristas en un formato amigable para el usuario [1].
+
+%% Caso base de la recursión para el caso en el que no hayan más aristas por
+%% imprimir:
 imprimirArista(_,[]).
 
-%%
-%%
+%% Caso recursivo de la impresión para el caso en el que quedan más aristas por
+%% imprimir.
+%%     - Indent : Corresponde al nivel de indentación asociado al predicado
+%%		 actual.
+%%     - X : Etiqueta asociada a la primera arista de la lista.
+%%     - Y : Etiqueta asociada al nodo asociado a la primera arista.
+%%     - L : Lista de aristas asociadas al nodo relacionado con la primera lista.
+%%	   - T : Cola de la lista de aristas.
 imprimirArista(Indent,[arista(X,nodo(Y,L))|T]) :-
 	write(arista), write('('), write(X),
 	NuevaIndent is Indent + 8,
@@ -425,3 +506,24 @@ imprimirArista(Indent,[arista(X,nodo(Y,L))|T]) :-
 	write(')'),
 	nl,tab(Indent),
 	imprimirArista(Indent,T).
+
+%------------------------------------------------------------------------------%
+
+%% [1] - Ejemplo del formato de impresión para describirEtiquetamiento/2: 
+%% - Entrada: describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),
+	arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).         
+%% - Impresión en pantalla:
+			nodo(4
+			 [arista(1
+			         nodo(3
+			              []))
+			 arista(2
+			         nodo(2
+			              []))
+			 arista(3
+			         nodo(1
+			              []))
+			 ])
+
+
+%------------------------------------------------------------------------------%
