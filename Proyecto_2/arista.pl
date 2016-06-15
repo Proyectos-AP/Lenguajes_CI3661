@@ -34,26 +34,26 @@ lista([H|T],A,N) :-
 % Predicado para verificar si un arbol esta bien etiquetado
 %---------------------------------------------------------
 
-bien_etiquetado(nodo(1,[])).
-bien_etiquetado(nodo(X,[H|T])) :-
-	bien_etiquetadoR(nodo(X,[H|T]),A,N),
+bienEtiquetado(nodo(1,[])).
+bienEtiquetado(nodo(X,[H|T])) :-
+	bienEtiquetadoR(nodo(X,[H|T]),A,N),
 	append(N,[X],NR),
 	length(NR,LN),
 	LA is LN - 1,
 	etiquetas_validas(A,LA),
 	etiquetas_validas(NR,LN).
 
-bien_etiquetadoR(nodo(_,[]),_,_).
-bien_etiquetadoR(nodo(X,[H|T]),A,N) :-
+bienEtiquetadoR(nodo(_,[]),_,_).
+bienEtiquetadoR(nodo(X,[H|T]),A,N) :-
 	buscarA(H,Arist,Nod),
 	Etiqueta is abs(X-Nod),
 	Etiqueta == Arist,
 	lista([H|T],A,N),
 	\+ member(X,N),
-	bien_etiquetadoR(nodo(X,T),_,_).
+	bienEtiquetadoR(nodo(X,T),_,_).
 
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
-	bien_etiquetadoR(nodo(Y,A),_,_).
+	bienEtiquetadoR(nodo(Y,A),_,_).
 
 etiquetas_validas([],_).
 etiquetas_validas([H|T],UpperLimit) :-
@@ -244,7 +244,7 @@ esqEtiquetable(0,R).
 esqEtiquetable(N,R) :-
 	integer(N),
 	integer(R),
-	forall((esqueleto(N,R,E),etiquetamiento(E,A)),bien_etiquetado(A)).
+	forall((esqueleto(N,R,E),etiquetamiento(E,A)),bienEtiquetado(A)).
 
 
 
