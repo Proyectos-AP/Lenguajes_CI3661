@@ -106,13 +106,13 @@ generador(N,NHijos,ListaG,L) :-
 	integer(N), 
 	N==0,
 	NHijos > 0,
-	generar_esqueleto(N,NHijos,ListaG,_,Suma,L1),
+	generar_esqueleto(N,NHijos,ListaG,_,_,L1),
 	L = [L1],!.
 
 generador(N,NHijos,ListaG,L) :-
 	integer(N),
 	integer(NHijos),
-	generar_esqueleto(N,NHijos,ListaG,Min,Suma,L1),
+	generar_esqueleto(N,NHijos,ListaG,_,Suma,L1),
 	Suma \= 0,
 	X1 is N - Suma ,
 	generador(X1,Suma,ListaG,L2),
@@ -130,7 +130,7 @@ generar_esqueleto(N,NHijos,ListaG,0,0,Esqueleto):-
 	N == 0,
 	NHijos > 0,
 	X1 is NHijos - 1,
-	generar_esqueleto(N,X1,ListaG,Min,Suma,L1),
+	generar_esqueleto(N,X1,ListaG,_,_,L1),
 	append([0],L1,Esqueleto).
 
 generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
@@ -180,20 +180,20 @@ etiquetamiento([H|T],Arbol) :-
 	
 	member(X,Lista_nodo),
 	delete(Lista_nodo,X,Lista_nodo1),
-	generar_aristas(Result,T,Lista_nodo1,Lista_arist,LN,LA,X,Arist),
+	generar_aristas(Result,T,Lista_nodo1,Lista_arist,_,_,X,Arist),
 	Arbol = nodo(X,Arist).
 
-generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
+generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	integer(N), 
 	N==0,
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 
-generar_aristas(_,[],Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
+generar_aristas(_,[],Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 
-generar_aristas(_,[[]],Lista_nodo,Lista_arist,LN,LA,N_nod,[]):- 
+generar_aristas(_,[[]],Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 	
@@ -226,12 +226,12 @@ g_drop(N,Lista,Tail,Drop):-
 	[H|Tail] = Lista,
 	drop(N,H,Drop),!.
 
-drop(N,[],[]).
+drop(_,[],[]).
 drop(N,Lista,Lista) :- integer(N), N == 0,!.
 drop(N,Lista,Tail) :-
 	integer(N),
 	N1 is N-1,
-	[H|T] = Lista,
+	[_|T] = Lista,
 	drop(N1,T,Tail2),!,
 	Tail = Tail2.
 
@@ -240,7 +240,7 @@ drop(N,Lista,Tail) :-
 %                Predicado es_etiquetable
 %---------------------------------------------------------
 
-esqEtiquetable(0,R).
+esqEtiquetable(0,R):- integer(R), R>=0.
 esqEtiquetable(N,R) :-
 	integer(N),
 	integer(R),
