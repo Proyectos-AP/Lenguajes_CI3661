@@ -245,7 +245,3 @@ esqEtiquetable(N,R) :-
 	integer(N),
 	integer(R),
 	forall((esqueleto(N,R,E),etiquetamiento(E,A)),bienEtiquetado(A)).
-
-
-
-mayor_cero(N) :- integer(N), N>0.
