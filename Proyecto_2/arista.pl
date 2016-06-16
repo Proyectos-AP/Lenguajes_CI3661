@@ -316,26 +316,21 @@ generador(N,NHijos,ListaG,L) :-
 %                  GENERADOR DE LAS LISTAS DEL ESQUELETO                       %
 %------------------------------------------------------------------------------%
 
-% generar_esqueleto/5: Dado un numero de nodos, una cantidad de hijos y una
-%  						lista de elementos "generar_esqueleto" genera una lista
-%						de la longitud del numero de hijos con elementos que esten
-%						en la lista de elementos pasada.
-%
+%% generar_esqueleto/5: Dado un número de nodos, una cantidad de hijos y una
+%% lista de elementos "generar_esqueleto" genera una lista de la longitud del 
+%% número de hijos con elementos que estén en la lista de elementos pasada.
 
-%%  Caso base 1: El numero de hijos es 0, entonces la lista de retorno sera
-%				 vacia.
-%%
+%% Caso base 1: El número de hijos es 0, entonces la lista de retorno sera
+%% vacía.
 generar_esqueleto(_,NHijos,_,0,0,[]):- integer(NHijos), NHijos==0,!.
 
-%%  Caso base 2: La lista de elementos es vacia, entonces la lista de 
-%%				retorno sera vacia.
-%%
+%% Caso base 2: La lista de elementos es vacía, entonces la lista de 
+%% retorno sera vacía.
 generar_esqueleto(_,_,[],0,0,[]).
 
-%%  Caso base 3: El numero de nodos es 0 pero los hijos son mayores que 0, 
+%%  Caso base 3: El número de nodos es 0 pero los hijos son mayores que 0, 
 %%				entonces la lista de elementos sera una lista de la longitud
-%%				del numero de hijos llenas de 0's.
-%%
+%%				del número de hijos llenas de 0's.
 generar_esqueleto(N,NHijos,ListaG,0,0,Esqueleto):- 
 	integer(N),
 	integer(NHijos), 
@@ -374,12 +369,12 @@ generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
 %                                 ESQUELETO                                    %
 %------------------------------------------------------------------------------%
 
-% esqueleto/3: Dado un numero de nodos N y una aridad R el predicado 
-%				"esqueleto" genera todos los posibles esqueletos
+% esqueleto/3: Dado un número de nodos N y una aridad R el predicado 
+%				"esqueleto" genera todos los posibles esqueletos.
 %
 
-%% Caso base: Si el numero de nodos N es igual a 0 entonces el esqueletos
-%%			  sera vacio.
+%% Caso base: Si el número de nodos N es igual a 0 entonces el esqueletos
+%%			  sera vacío.
 %%
 esqueleto(N,R,[]) :- integer(R), R > 0, N==0. 
 
@@ -387,7 +382,6 @@ esqueleto(N,R,[]) :- integer(R), R > 0, N==0.
 %%     + N : Número de nodos.	
 %%     + R : Aridad.
 %%     - L : Esqueleto formado.
-%%
 esqueleto(N,R,L) :-
 	integer(N),
 	integer(R),
@@ -410,20 +404,17 @@ esqueleto(N,R,L) :-
 %					posibles arbole bien etiquetados a partir del mismo.
 %
 
-%% Caso base: Si el esqueleto esta vacio, entonces no se generara ningun 
-%%			  arbol.
-%%
+%% Caso base: Si el esqueleto esta vacío, entonces no se generara ningún 
+%% árbol.
 etiquetamiento(esq([]),[]).
 
 %% Caso recursivo, Se van generando los arboles recursivamente.
-%%		Primero se calcula el numero de nodos totales, se escoje una
-%%		etiqueta para la raiz del arbol y se genera una lista de elementos
-%%		para las aristas y para los nodos, finalmente se generan todas las 
-%%		aristas de la raiz con "generar_aristas".
-%%
+%% Primero se calcula el número de nodos totales, se escoje una
+%% etiqueta para la raíz del arbol y se genera una lista de elementos
+%% para las aristas y para los nodos. Finalmente se generan todas las 
+%% aristas de la raíz con "generar_aristas".
 %%     + esq([H|T]) : Esqueleto dado.	
 %%     - Arbol : Arbol generado.
-%%
 etiquetamiento(esq([H|T]),Arbol) :- 
 	suma(H,Result),
 	sumarLista([H|T],N),
@@ -445,33 +436,29 @@ etiquetamiento(esq([H|T]),Arbol) :-
 %					 como para las aristas cumpliendo con las restricciones de 
 %					 bien etiquetado.
 
-%% Caso base1: Si el numero de nodos es igual a 0 entonces la lista de aristas
-%%			   es vacia.
-%%
+%% Caso base1: Si el número de nodos es igual a 0 entonces la lista de aristas
+%% es vacía.
 generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	integer(N), 
 	N==0,
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 
-%% Caso base2: Si el esqueleto esta vacio, entonces la lista de aristas
-%%			   es vacia.
-%%
+%% Caso base2: Si el esqueleto esta vacío, entonces la lista de aristas
+%% es vacía.
 generar_aristas(_,[],Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 
-%% Caso base3: Si el esqueleto esta vacio, entonces la lista de aristas
-%%			   es vacia.
-%%
+%% Caso base3: Si el esqueleto esta vacío, entonces la lista de aristas
+%% es vacía.
 generar_aristas(_,[[]],Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 	
-%% Caso recursivo: .
-%%
+%% Caso recursivo:
 %%     + N: Numero de nodos.
-%%	   + Esquleto: Esqueleto a partir del cual se generaran las aristas.
+%%	   + Esquleto: Esqueleto a partir del cuál se generarán las aristas.
 %%     + Lista_nodo: Lista de elementos disponibles para seleccionar
 %%				     etiquetas de nodos.
 %%     + Lista_arist: Lista de elementos disponibles para seleccionar
@@ -482,7 +469,6 @@ generar_aristas(_,[[]],Lista_nodo,Lista_arist,LN,LA,_,[]):-
 %%				     etiquetas de aristas.
 %%	   + N_nod:	Etiqueta del nodo papa de la arista.
 %%     - Arist : Aristas generadas.
-%%
 generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 	integer(N),
 	N > 0,
@@ -513,18 +499,16 @@ generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 %			listas.
 %
 
-%% Caso base: Si la lista es vacia entonces se devuleve una lista vacia
+%% Caso base: Si la lista es vacía entonces se devuleve una lista vacía
 %%
 g_drop(_,[],[],[]).
 
-%% Caso recursivo: .
-%%
-%%     + N: Numero de elementos a eliminar de una lista.
+%% Caso recursivo:
+%%     + N: Número de elementos a eliminar de una lista.
 %%	   + Lista: Lista a la que se eliminaran elementos.
 %%     - Tail :  Tail de "Lista"
-%%     - Drop : Elementos de la cabecera de a lista a la cual se le aplico 
+%%     - Drop : Elementos de la cabecera de a lista a la cuál se le aplicó 
 %%				"drop" 
-%%
 g_drop(N,Lista,Tail,Drop):-
 	[H|Tail] = Lista,
 	drop(N,H,Drop),!.
@@ -559,15 +543,14 @@ drop(N,Lista,Tail) :-
 %                            ESQ_ETIQUETABLE                                   %
 %------------------------------------------------------------------------------%
 
-% esqEtiquetable/2:
-%
+% esqEtiquetable/2: predicado que verifica si todos los árboles R-arios con N
+% nodos etiquetables son bien etiquetados
 
-%%
-%%
+%% Caso en el que se quiere verificar el predicado con 0 nodos.
 esqEtiquetable(0,R):- integer(R), R>=0.
 
-%%
-%%
+%% Caso recursivo en el que se realiza la verificación de todas las posibles
+%% opciones.
 esqEtiquetable(N,R) :-
 	integer(N),
 	integer(R),
