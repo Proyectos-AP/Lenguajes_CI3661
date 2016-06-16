@@ -10,10 +10,10 @@ Integrantes:
 ## Descripción:
 
 * Puede encontrar la descripción de la implementación [aquí](https://github.com/Proyectos-AP/Lenguajes_CI3661/blob/master/Proyecto_2/Enunciado.pdf).
-* La implementación utilizada fue [swi-prolog](http://www.swi-prolog.org/).
+* La implementación de Prolog utilizada para el desarrollo fue [swi-prolog](http://www.swi-prolog.org/), versión 6.6.
 
 ## Antes de utilizar alguno de los predicados:
-1.- Abra su intérprete de comandos y ejecute swi-prolog.
+1.- Abra su intérprete de comandos y ejecute el intérprete de *swi-prolog*.
 ```shell
 ~$ prolog
 ``` 
@@ -21,27 +21,33 @@ Integrantes:
 ```prolog
 ?- [arista].
 ```
-3.- A partir de este momento, podrá utilizar cualquiera de los predicados definidos
+3.- A partir de este momento, podrá utilizar cualquiera de los predicados definidos.
 
-### Árboles como listas:
-
+## Árboles como listas: 
+* Si desea verificar el buen etiquetamiento de un árbol, use la función *bienEtiquetado(+Arbol)/1*
 ```prolog
-	bienEtiquetado(+Arbol).
+	% Ejemplo:
+	bienEtiquetado(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
+```
+   y el intérprete dará la respuesta correspondiente:
+``` prolog
+    ?- true.
 ```
 
-### Árboles como estructuras:
-
+## Árboles como estructuras:
+*
 ```prolog
 	esqueleto(+N,+R,-esqueleto).
 ```
+*
 ```prolog
 	etiquetamiento(+Esqueleto,-Arbol).
 ```
-
+*
 ```prolog
 	esqEtiquetables(+R,+N).
 ```
-
+* Si desea imprimir en un 
 ```prolog
 	describirEtiquetamiento(+Arbol).
 ```
