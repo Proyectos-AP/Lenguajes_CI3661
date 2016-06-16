@@ -19,8 +19,8 @@
 
 %% arista/2: Define la estructura aristas con las condiciones dadas. Es decir,
 %% posee una etiqueta (entero positivo) y un subárbol asociado.
-%%     - X : Etiqueta asociada al nodo.
-%%     - A : Árbol asociado al nodo.
+%%     + X : Etiqueta asociada al nodo.
+%%     + A : Árbol asociado al nodo.
 arista(X,A) :- 
 	integer(X),
 	X > 0,
@@ -33,35 +33,47 @@ arista(X,A) :-
 %% asociada.
 
 %% Caso en el que es una hoja (Lista vacía):  
-%%     - X : Etiqueta asociada al nodo.
+%%     + X : Etiqueta asociada al nodo.
 arbol(nodo(X,[])) :- 
 	integer(X),
 	X > 0.
 
 %% Caso en el que el nodo tiene al menos un hijo en su lista de aristas.
-%%     - X : Etiqueta asociada al nodo.
+%%     + X : Etiqueta asociada al nodo.
 arbol(nodo(X,_)) :-
 	integer(X),
 	X > 0.
 
 %------------------------------------------------------------------------------%
 
-% lista/3: Dada la arista con todo su subarbol este predicado devuleve dos listas
-%    una con todas las etiquetas de los nodos y otra con las etiquetas de las
-%    aristas.
+%% lista/3: este predicado verifica que tanto las etiquetas de las aristas
+%% como la de los nodos no se repitan entre sí. 
 
 %% Caso base de la inicialización de las listas:
 lista([],[],[]).
 
-%% Caso en el que solo sea una arista
+%% Caso en el que se  está revisando una arista.
+%%     + X : Etiqueta de la arista.
+%%     + Y : Etiqueta del nodo asociado a la arista.
+%%     + A : Lista de aristas asociadas al nodo.
+%%     - Ar : Lista de las etiquetas de las aristas del árbol.
+%%     - N : Lista de las etiquetas de los nodos del árbol. 
 lista(arista(X,nodo(Y,A)),Ar,N):-
 	lista(A,R1,R2),
 	\+ member(X,R1),
 	Ar = [X|R1],
 	N =  [Y|R2].
 
-%%
-%% Caso en el que sea una lista de aristas
+%% En este caso, se recibe una lista de aristas, y se hacen las llamadas 
+%% recursivas correspondientes:
+%%     + H : Cabeza de la lista de aristas.
+%%     + T : Cola de la lista de aristas
+%%     - A : Lista de las etiquetas de las aristas del árbol.
+%%     - N : Lista de las etiquetas de los nodos del árbol.
+%%     * A1 : Construcción parcial de las etiquetas de aristas del árbol (H)
+%%     * N1 : Construcción parcial de las etiquetas de nodos del árbol (H)
+%%     * A2 : Construcción parcial de las etiquetas de aristas del árbol (T)
+%%     * N2 : Construcción parcial de las etiquetas de nodos del árbol (H)
 lista([H|T],A,N) :-
 	lista(H,A1,N1),
 	lista(T,A2,N2),
@@ -74,15 +86,26 @@ lista([H|T],A,N) :-
 %              VERIFICACIÓN DE BUEN ETIQUETAMIENDO DE UN ÁRBOL                 %
 %------------------------------------------------------------------------------%
 
-% bienEtiquetado/2: 
-%
+%% bienEtiquetado/2: este predicado permite verificar si un árbol está bien 
+%% etiquetado. Para ello, se verifica la buena construcción y cumplimiento
+%% de los rangos establecidos para las mismas.
 
 %% Caso base para verificar que un nodo esté bien etiquetado. En caso de que 
-%% sea uno sólo, su etiqueta debe ser igual a uno (1).
+%% esto suceda, su etiqueta debe ser igual a uno (1).
 bienEtiquetado(nodo(1,[])).
 
-%% Caso cuando 
-%%
+%% Caso en el que existe más de un nodo. Se verifica el buen etiquetamiento
+%% con la función auxiliar bienEtiquetadoR/3, y luego se verifican que todas
+%% las etiquetas (tanto de nodos como de aristas) cumplan con el rango 
+%% establecido (etiquetasNodos -> {1,..,N}, etiquetasAristas -> {1,..,N-1}) 
+%%     + X : Etiqueta asociada al nodo.
+%%     + H : Cabeza de la lista de aristas.
+%%     + T : Cola de la lista de aristas
+%%     * A : Lista de las etiquetas de las aristas del árbol.
+%%     * N : Lista de las etiquetas de los nodos del árbol.
+%%     * NR : Lista de las etiquetas de los nodos del árbol que incluye a x.
+%%     * LN : Número de nodos del árbol.
+%%     * LA : Número de aristas del árbol.
 bienEtiquetado(nodo(X,[H|T])) :-
 	bienEtiquetadoR(nodo(X,[H|T]),A,N),
 	append(N,[X],NR),
@@ -93,15 +116,25 @@ bienEtiquetado(nodo(X,[H|T])) :-
 
 %------------------------------------------------------------------------------%
 
-% bienEtiquetadoR/3:
-%
+%% bienEtiquetadoR/3: predicado auxiliar para la verificación del buen 
+%% etiquetamiento de un árbol.
 
-%%
-%%
+%% Caso base de la recursión en el que un nodo no tiene aristas asociadas, 
+%% por lo que no hace falta verificar ningún etiquetamiento.
 bienEtiquetadoR(nodo(_,[]),_,_).
 
-%%
-%%
+%% Caso en el que si existen aristas asociadas al nodo. Para cada una de ellas
+%% se verifica que el etiquetamiento satisfaga la condición establecida. Luego,
+%% se verifica que las etiquetas de aristas y nosos no se repitan, y se hace 
+%% la llamada recursiva.
+%%     + X : Etiqueta asociada al nodo.
+%%     + H : Cabeza de la lista de aristas.
+%%     + T : Cola de la lista de aristas
+%%     - A : Lista de las etiquetas de las aristas del árbol.
+%%     - N : Lista de las etiquetas de los nodos del árbol.
+%%     * Arist : Etiqueta asociada a la arista.
+%%     * Nod : Etiqueta asociada al nodo (inferior)
+%%     * Etiqueta : Se utiliza para la verificación del buen etiquetamiento.
 bienEtiquetadoR(nodo(X,[H|T]),A,N) :-
 	buscarA(H,Arist,Nod),
 	Etiqueta is abs(X-Nod),
@@ -112,11 +145,12 @@ bienEtiquetadoR(nodo(X,[H|T]),A,N) :-
 
 %------------------------------------------------------------------------------%
 
-% buscarA/3:
-%
-
-%%
-%%
+%% buscarA/3: predicado para verificar el buen etiquetamiento del nodo asociado
+%% a una arista y obtener los valores de las etiquetas de la arista y del nodo
+%% (inferior).
+%%     +/- X : Etiqueta asociada a la arista.
+%%     +/- Y : Etiqueta asociada al nodo inferior.
+%%     +/- A : Lista de aristas del nodo.
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
 	bienEtiquetadoR(nodo(Y,A),_,_).
 
@@ -160,19 +194,24 @@ suma([H|T],Sumalista) :-
 
 %------------------------------------------------------------------------------%
 
-% sumarLista/2:
-%
+%% sumarLista/2: predicado encargado de sumar todos los elementos de una lista
+%% de listas.
 
-%%
-%%
+%% Caso base en el que una lista de la lista no contenga elementos, su sumar
+%% será cero (0)
 sumarLista([[]],0).
 
-%%
-%%
+%% Caso base en el que se intenten sumar los elementos de una lista vacía. 
+%% De nuevo, el resultado será 0.
 sumarLista([],0).
 
-%%
-%%
+%% Caso recursivo para la suma de los las listas (elemento) de la lista. 
+%% Para ello, se hará uso del predicado auxiliar suma/2.
+%%     + H : Cabeza de la lista de listas.
+%%     + T : Cola de la lista de listas
+%%     - N : Suma de todos los elementos de la lista de listas.
+%%     * N1 : Suma de los elementos de la lista H.
+%%     * N2 : Suma parcial usada en la llamada recursiva del predicado.
 sumarLista([H|T],N):-
 	suma(H,N1),
 	sumarLista(T,N2),
@@ -182,26 +221,23 @@ sumarLista([H|T],N):-
 %                      GENERAR UNA LISTA DADO UN RANGO                         %
 %------------------------------------------------------------------------------%
 
-% generar/3: Dado un rango N y M "generar" genera un lista de enteros de N a M,
-%			 es decir, [N..M].
+% generar/3: este predicado genera una lista con los elementos que se 
+% encuentran en el rango [N,M] (inclusivo en ambos lados) 
 
-%% Caso en el que se genera una lista vacia.
-%%
+%% Caso base de la recursión en el que la lista incluiría solo al 0 (valor
+%% no válido).
 generar(0,0,[]).
 
-%% Caso en el que se genera un singleton.
-%%
+%% Caso base de la recursión en el que la lista correspondería a un sólo
+%% elemento ya que N == M.
 generar(N,M,[M]):- 	
 	integer(N),
 	integer(M),
 	N==M.
 
-
-%% Caso recursivo, en donde se genera una lista de mas de un elemento.
-%%     + N : Limite inferior de la lista a crear.	
-%%     + M : Limite superior de la lista a crear.
-%%     - L : Lista de elementos de N hasta M ([N..M]).
-%%
+%% Caso recursivo en el que se construye la lista de forma progresiva. La 
+%% lista generada de devolverá en L, mientras que L1 corresponde a una 
+%% construcción parcial de la misma.
 generar(N,M,L):-
 	integer(N),
 	integer(M),
@@ -485,10 +521,10 @@ drop(N,Lista,Lista) :- integer(N), N == 0,!.
 %% Caso recursivo, en el que se va calculando el drop de la lista.
 %%     - N : Número de elementos que desean eliminarse de la lista.	
 %%     - Lista : Lista a la cual se le eliminaran los elementos.
-%%     - Tail : 
+%%     - Tail : Lista a devolver, la cual tiene N elementos eliminados.
 %%     - N1 : Número de elementos que desea eliminarse en la llamada recursiva.
-%%     - T : 
-%%     - Tail2 :
+%%     - T : Lista que será pasada a la llamada recursiva.
+%%     - Tail2 : Valor de retorno de la llamada recursiva.
 drop(N,Lista,Tail) :-
 	integer(N),
 	N1 is N-1,
@@ -585,21 +621,22 @@ imprimirArista(Indent,[arista(X,nodo(Y,L))|T]) :-
 	imprimirArista(Indent,T).
 
 %------------------------------------------------------------------------------%
-
-%% [1] - Ejemplo del formato de impresión para describirEtiquetamiento/2: 
-%% - Entrada: describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),
-%%	arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).         
-%% - Impresión en pantalla:
-%%			nodo(4
-%%			 [arista(1
+%% Referencias:
+%%
+%%	   [1] - Ejemplo del formato de impresión para describirEtiquetamiento/2: 
+%%	   - Entrada: describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),
+%%		arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).         
+%%	   - Impresión en pantalla:
+%%				nodo(4
+%%				 [arista(1
 %%			         nodo(3
-%%			              []))
-%%			 arista(2
-%%			         nodo(2
-%%			              []))
-%%			 arista(3
-%%			         nodo(1
-%%			              []))
-%%			 ])
-
+%%				              []))
+%%				 arista(2
+%%				         nodo(2
+%%				              []))
+%%				 arista(3
+%%				         nodo(1
+%%				              []))
+%%				 ])
+%%
 %------------------------------------------------------------------------------%
