@@ -4,8 +4,8 @@ Universidad Simón Bolívar
 Departamento de Computación y Tecnología de la Información  
 Laboratorio de Lenguajes de Programación I (CI3661)  
 Integrantes:  
-    Alejandra Cordero / 12-10645  
-    Pablo Maldonado / 12-10561  
+&nbsp;&nbsp;&nbsp;&nbsp;Alejandra Cordero / 12-10645  
+&nbsp;&nbsp;&nbsp;&nbsp;Pablo Maldonado / 12-10561  
 
 ## Descripción:
 
@@ -29,7 +29,7 @@ Integrantes:
 	% Ejemplo:
 	bienEtiquetado(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
 ```
-y el intérprete dará la respuesta correspondiente:
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
 ``` prolog
     ?- true.
 ```
@@ -40,7 +40,7 @@ y el intérprete dará la respuesta correspondiente:
 	% Ejemplo:
 	esqueleto(3,2,Esqueleto).
 ```
-   y el intérprete dará la respuesta correspondiente:
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
 ``` prolog
     ?- esqueleto(3,5,Esqueleto).
     Esqueleto = [[1], [1], [0]] ;
@@ -53,12 +53,11 @@ y el intérprete dará la respuesta correspondiente:
 ```
 * En caso de que se desee verificar si todos los esqueletos de árboles *R-arios* con *N nodos* son bien etiquetables, use el predicado *esqEtiquetables(+R,+N)*
 
-etiquetables
 ```prolog
 	% Ejemplo:
 	esqEtiquetables(3,5).
 ```
-   y el intérprete dará la respuesta correspondiente:
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
 ``` prolog
     ?- true.
 ```
@@ -67,8 +66,7 @@ etiquetables
 	% Ejemplo:
 	describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
 ```
-
-   y el intérprete dará la respuesta correspondiente:
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
 ``` prolog
     nodo(4
          [arista(1
