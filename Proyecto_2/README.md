@@ -10,5 +10,18 @@ Integrantes:
 ## Descripción:
 
 * Puede encontrar la descripción de la implementación [aquí](https://github.com/Proyectos-AP/Lenguajes_CI3661/blob/master/Proyecto_2/Enunciado.pdf).
+* La implementación utilizada fue [swi-prolog](http://www.swi-prolog.org/).
 
 ## Instrucciones para correr una prueba:
+
+```shell
+~$ ghci
+``` 
+
+```prolog
+	[arista].
+```
+
+```prolog
+	describirEtiquetamiento(nodo(4,[])).
+```
