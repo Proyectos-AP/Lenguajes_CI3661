@@ -33,8 +33,8 @@ Integrantes:
 ``` prolog
     ?- true.
 ```
-
 ## Árboles como estructuras:
+
 * En caso de que desee generar todos los árboles *R-arios* con *N nodos (N > 0)*, use el predicado *esqueleto(+N,+R,-esqueleto)*
 ```prolog
 	% Ejemplo:
@@ -49,10 +49,18 @@ Integrantes:
 
 * Si desea obtener árboles bien etiquetados a partir de un esqueleto, utilice el predicado *etiquetamiento(+Esqueleto,-Arbol)*
 ```prolog
-	etiquetamiento(+Esqueleto,-Arbol).
+	% Ejemplo:
+	etiquetamiento(esq([[1], [1], [0]]),Etiquetable).
 ```
-* En caso de que se desee verificar si todos los esqueletos de árboles *R-arios* con *N nodos* son bien etiquetables, use el predicado *esqEtiquetables(+R,+N)*
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
+``` prolog
+    Etiquetable = nodo(1, [arista(2, nodo(3, [arista(1, nodo(2, []))]))]) ;
+    Etiquetable = nodo(2, [arista(1, nodo(1, [arista(2, nodo(3, []))]))]) ;
+    Etiquetable = nodo(2, [arista(1, nodo(3, [arista(2, nodo(1, []))]))]) ;
+    Etiquetable = nodo(3, [arista(2, nodo(1, [arista(1, nodo(2, []))]))]) .
+```
 
+* En caso de que se desee verificar si todos los esqueletos de árboles *R-arios* con *N nodos* son bien etiquetables, use el predicado *esqEtiquetables(+R,+N)*
 ```prolog
 	% Ejemplo:
 	esqEtiquetables(3,5).
@@ -61,6 +69,7 @@ Integrantes:
 ``` prolog
     ?- true.
 ```
+
 * Si desea mostrar en pantalla un árbol en un formato más sencillo de leer, use el predicado *describirEtiquetamiento(+Arbol).*
 ```prolog
 	% Ejemplo:
@@ -80,6 +89,4 @@ Integrantes:
                       []))
          ])
     true 
-
-
 ```
