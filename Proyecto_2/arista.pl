@@ -46,6 +46,17 @@ arbol(nodo(X,_)) :-
 
 %------------------------------------------------------------------------------%
 
+entero([]).
+entero(X) :- integer(X).
+entero([H|T]):- integer(H), entero(T).
+
+esq([]).
+esq([H|T]) :-
+	entero(H),
+	esq(T).
+
+%------------------------------------------------------------------------------%
+
 %% lista/3: este predicado verifica que tanto las etiquetas de las aristas
 %% como la de los nodos no se repitan entre sí. 
 
@@ -377,20 +388,21 @@ esqueleto(N,R,L) :-
 	X =< N,
 	XN is N-X-1,
 	generador(XN,X,ListGen,LN),
-	append([[X]],LN,L).
+	append([[X]],LN,L_aux),
+	L = esq(L_aux).
 
 %------------------------------------------------------------------------------%
 %                                 ETIQUETABLE                                  %
 %------------------------------------------------------------------------------%
 
 % etiquetamiento/2: Dado un esqueleto "etiquetamiento" genera todos los
-%					posibles arbole =s bien etiquetados a partir del mismo.
+%					posibles arbole bien etiquetados a partir del mismo.
 %
 
 %% Caso base: Si el esqueleto esta vacio, entonces no se generara ningun 
 %%			  arbol.
 %%
-etiquetamiento([[]],[]).
+etiquetamiento(esq([]),[]).
 
 %% Caso recursivo, Se van generando los arboles recursivamente.
 %%		Primero se calcula el numero de nodos totales, se escoje una
@@ -401,7 +413,7 @@ etiquetamiento([[]],[]).
 %%     + esq([H|T]) : Esqueleto dado.	
 %%     - Arbol : Arbol generado.
 %%
-etiquetamiento([H|T],Arbol) :- 
+etiquetamiento(esq([H|T]),Arbol) :- 
 	suma(H,Result),
 	sumarLista([H|T],N),
 	N1 is N +1,
