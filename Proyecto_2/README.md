@@ -4,16 +4,16 @@ Universidad Simón Bolívar
 Departamento de Computación y Tecnología de la Información  
 Laboratorio de Lenguajes de Programación I (CI3661)  
 Integrantes:  
-    Alejandra Cordero / 12-10645  
-    Pablo Maldonado / 12-10561  
+&nbsp;&nbsp;&nbsp;&nbsp;Alejandra Cordero / 12-10645  
+&nbsp;&nbsp;&nbsp;&nbsp;Pablo Maldonado / 12-10561  
 
 ## Descripción:
 
 * Puede encontrar la descripción de la implementación [aquí](https://github.com/Proyectos-AP/Lenguajes_CI3661/blob/master/Proyecto_2/Enunciado.pdf).
-* La implementación utilizada fue [swi-prolog](http://www.swi-prolog.org/).
+* La implementación de Prolog utilizada para el desarrollo fue [swi-prolog](http://www.swi-prolog.org/), versión 6.6.
 
 ## Antes de utilizar alguno de los predicados:
-1.- Abra su intérprete de comandos y ejecute swi-prolog.
+1.- Abra su intérprete de comandos y ejecute el intérprete de *swi-prolog*.
 ```shell
 ~$ prolog
 ``` 
@@ -21,27 +21,72 @@ Integrantes:
 ```prolog
 ?- [arista].
 ```
-3.- A partir de este momento, podrá utilizar cualquiera de los predicados definidos
+3.- A partir de este momento, podrá utilizar cualquiera de los predicados definidos.
 
-### Árboles como listas:
-
+## Árboles como listas: 
+* Si desea verificar el buen etiquetamiento de un árbol, use el predicado *bienEtiquetado(+Arbol)/1*
 ```prolog
-	bienEtiquetado(+Arbol).
+	% Ejemplo:
+	bienEtiquetado(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
+```
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
+``` prolog
+    ?- true.
+```
+## Árboles como estructuras:
+
+* En caso de que desee generar todos los árboles *R-arios* con *N nodos (N > 0)*, use el predicado *esqueleto(+N,+R,-esqueleto)*
+```prolog
+	% Ejemplo:
+	esqueleto(3,2,Esqueleto).
+```
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
+``` prolog
+    ?- esqueleto(3,5,Esqueleto).
+    Esqueleto = [[1], [1], [0]] ;
+    Esqueleto = [[2], [0, 0]] .
 ```
 
-### Árboles como estructuras:
-
+* Si desea obtener árboles bien etiquetados a partir de un esqueleto, utilice el predicado *etiquetamiento(+Esqueleto,-Arbol)*
 ```prolog
-	esqueleto(+N,+R,-esqueleto).
+	% Ejemplo:
+	etiquetamiento(esq([[1], [1], [0]]),Etiquetable).
 ```
-```prolog
-	etiquetamiento(+Esqueleto,-Arbol).
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
+``` prolog
+    Etiquetable = nodo(1, [arista(2, nodo(3, [arista(1, nodo(2, []))]))]) ;
+    Etiquetable = nodo(2, [arista(1, nodo(1, [arista(2, nodo(3, []))]))]) ;
+    Etiquetable = nodo(2, [arista(1, nodo(3, [arista(2, nodo(1, []))]))]) ;
+    Etiquetable = nodo(3, [arista(2, nodo(1, [arista(1, nodo(2, []))]))]) .
 ```
 
+* En caso de que se desee verificar si todos los esqueletos de árboles *R-arios* con *N nodos* son bien etiquetables, use el predicado *esqEtiquetables(+R,+N)*
 ```prolog
-	esqEtiquetables(+R,+N).
+	% Ejemplo:
+	esqEtiquetables(3,5).
+```
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
+``` prolog
+    ?- true.
 ```
 
+* Si desea mostrar en pantalla un árbol en un formato más sencillo de leer, use el predicado *describirEtiquetamiento(+Arbol).*
 ```prolog
-	describirEtiquetamiento(+Arbol).
+	% Ejemplo:
+	describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
+```
+&nbsp;&nbsp;&nbsp;&nbsp;y el intérprete dará la respuesta correspondiente:
+``` prolog
+    nodo(4
+         [arista(1
+                 nodo(3
+                      []))
+         arista(2
+                 nodo(2
+                      []))
+         arista(3
+                 nodo(1
+                      []))
+         ])
+    true 
 ```
