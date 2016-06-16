@@ -21,7 +21,6 @@
 %% posee una etiqueta (entero positivo) y un subárbol asociado.
 %%     - X : Etiqueta asociada al nodo.
 %%     - A : Árbol asociado al nodo.
-
 arista(X,A) :- 
 	integer(X),
 	X > 0,
@@ -47,15 +46,13 @@ arbol(nodo(X,_)) :-
 
 %------------------------------------------------------------------------------%
 
-% lista/3:
+% lista/3: 
 %
 
-%%
-%%
+%% Caso base de la inicialización de las listas:
 lista([],[],[]).
 
-%%
-%%
+%% 
 lista(arista(X,nodo(Y,A)),Ar,N):-
 	lista(A,R1,R2),
 	\+ member(X,R1),
@@ -76,14 +73,14 @@ lista([H|T],A,N) :-
 %              VERIFICACIÓN DE BUEN ETIQUETAMIENDO DE UN ÁRBOL                 %
 %------------------------------------------------------------------------------%
 
-% bienEtiquetado/2:
+% bienEtiquetado/2: 
 %
 
-%%
-%%
+%% Caso base para verificar que un nodo esté bien etiquetado. En caso de que 
+%% sea uno sólo, su etiqueta debe ser igual a uno (1).
 bienEtiquetado(nodo(1,[])).
 
-%%
+%% Caso cuando 
 %%
 bienEtiquetado(nodo(X,[H|T])) :-
 	bienEtiquetadoR(nodo(X,[H|T]),A,N),
@@ -124,15 +121,16 @@ buscarA(arista(X,nodo(Y,A)),X,Y) :-
 
 %------------------------------------------------------------------------------%
 
-% etiquetas_validas/2:
-%
+% etiquetas_validas/2: el predicado etiquetas válidas verifica si en una lista
+% todos sus elementos son menores o iguales a un cierto valor.
 
-%%
-%%
+%% Caso base: es cierto que en una lista vacía todos sus elementos son menores
+%% o iguales a cualquier valor (_).
 etiquetas_validas([],_).
 
-%%
-%%
+%% Caso recursivo: Se verifica que la cabeza de la lista sea menor o igual 
+%% al límite dado (UpperLimit). Luego, se hace la llamada recursiva con la 
+%% cola de la lista.
 etiquetas_validas([H|T],UpperLimit) :-
 	H =< UpperLimit,
 	etiquetas_validas(T,UpperLimit).
@@ -143,15 +141,17 @@ etiquetas_validas([H|T],UpperLimit) :-
 %                     SUMAR LOS ELEMENTOS DE UNA LISTA               
 %------------------------------------------------------------------------------%
 
-% suma/2:
-%
+% suma/2: suma los elementos de una lista, recibe la lista  
 
-%%
-%%
+%% Caso base en el que se intenta sumas los elementos de una lista vacía. En
+%% este caso se devuelve cero (0) como resultado.
 suma([],0).
 
-%%
-%%
+%% Caso recursivo para ir sumando los elementos de la lista [H|T]:
+%%     - H : Cabeza de la lista a la cual se le quieren sumar los elementos.
+%%     - T : Cola de la lista a la cual se le quieren sumar los elementos.
+%%     - Sumalista : Almacena el resultado de la suma de los elementos.
+%%     - R : Almacena el resultado parcial de la suma de los elementos.
 suma([H|T],Sumalista) :-
 	integer(H),
 	suma(T,R),
@@ -283,7 +283,7 @@ generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
 %                                 ESQUELETO                                    %
 %------------------------------------------------------------------------------%
 
-% esqueleto/3s:
+% esqueleto/3:
 %
 
 %%
@@ -397,9 +397,8 @@ g_drop(N,Lista,Tail,Drop):-
 
 %------------------------------------------------------------------------------%
 
-% drop/3: Dado un numero n, y una lista L, se obtiene la misma lista sin los 
-% primeros n eleementos.
-%
+% drop/3: Dado un número n, y una lista L, se obtiene la misma lista sin los 
+% primeros n elementos.
 
 %% En el caso de hacer drop a una lista vacía, se devuelve la misma.
 drop(_,[],[]).
@@ -410,12 +409,11 @@ drop(N,Lista,Lista) :- integer(N), N == 0,!.
 
 %% Caso recursivo, en el que se va calculando el drop de la lista.
 %%     - N : Número de elementos que desean eliminarse de la lista.	
-%%     - Lista : Lista al
-%%     - Tail :
-%%     - N1 :
-%%     - T :
+%%     - Lista : Lista a la cual se le eliminaran los elementos.
+%%     - Tail : 
+%%     - N1 : Número de elementos que desea eliminarse en la llamada recursiva.
+%%     - T : 
 %%     - Tail2 :
-
 drop(N,Lista,Tail) :-
 	integer(N),
 	N1 is N-1,
@@ -515,19 +513,18 @@ imprimirArista(Indent,[arista(X,nodo(Y,L))|T]) :-
 
 %% [1] - Ejemplo del formato de impresión para describirEtiquetamiento/2: 
 %% - Entrada: describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),
-	arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).         
+%%	arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).         
 %% - Impresión en pantalla:
-			nodo(4
-			 [arista(1
-			         nodo(3
-			              []))
-			 arista(2
-			         nodo(2
-			              []))
-			 arista(3
-			         nodo(1
-			              []))
-			 ])
-
+%%			nodo(4
+%%			 [arista(1
+%%			         nodo(3
+%%			              []))
+%%			 arista(2
+%%			         nodo(2
+%%			              []))
+%%			 arista(3
+%%			         nodo(1
+%%			              []))
+%%			 ])
 
 %------------------------------------------------------------------------------%
