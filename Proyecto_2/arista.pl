@@ -70,10 +70,10 @@ lista(arista(X,nodo(Y,A)),Ar,N):-
 %%     + T : Cola de la lista de aristas
 %%     - A : Lista de las etiquetas de las aristas del árbol.
 %%     - N : Lista de las etiquetas de los nodos del árbol.
-%%     - A1 : Construcción parcial de las etiquetas de aristas del árbol (H)
-%%     - N1 : Construcción parcial de las etiquetas de nodos del árbol (H)
-%%     - A2 : Construcción parcial de las etiquetas de aristas del árbol (T)
-%%     - N2 : Construcción parcial de las etiquetas de nodos del árbol (H)
+%%     * A1 : Construcción parcial de las etiquetas de aristas del árbol (H)
+%%     * N1 : Construcción parcial de las etiquetas de nodos del árbol (H)
+%%     * A2 : Construcción parcial de las etiquetas de aristas del árbol (T)
+%%     * N2 : Construcción parcial de las etiquetas de nodos del árbol (H)
 lista([H|T],A,N) :-
 	lista(H,A1,N1),
 	lista(T,A2,N2),
@@ -95,7 +95,7 @@ lista([H|T],A,N) :-
 bienEtiquetado(nodo(1,[])).
 
 %% Caso en el que existe más de un nodo. Se verifica el buen etiquetamiento
-%% con la función auxiliar bienEtiquetadoR, y luego se verifican que todas
+%% con la función auxiliar bienEtiquetadoR/3, y luego se verifican que todas
 %% las etiquetas (tanto de nodos como de aristas) cumplan con el rango 
 %% establecido (etiquetasNodos -> {1,..,N}, etiquetasAristas -> {1,..,N-1}) 
 %%     + X : Etiqueta asociada al nodo.
@@ -124,7 +124,17 @@ bienEtiquetado(nodo(X,[H|T])) :-
 bienEtiquetadoR(nodo(_,[]),_,_).
 
 %% Caso en el que si existen aristas asociadas al nodo. Para cada una de ellas
-%%
+%% se verifica que el etiquetamiento satisfaga la condición establecida. Luego,
+%% se verifica que las etiquetas de aristas y nosos no se repitan, y se hace 
+%% la llamada recursiva.
+%%     + X : Etiqueta asociada al nodo.
+%%     + H : Cabeza de la lista de aristas.
+%%     + T : Cola de la lista de aristas
+%%     - A : Lista de las etiquetas de las aristas del árbol.
+%%     - N : Lista de las etiquetas de los nodos del árbol.
+%%     * Arist : Etiqueta asociada a la arista.
+%%     * Nod : Etiqueta asociada al nodo (inferior)
+%%     * Etiqueta : Se utiliza para la verificación del buen etiquetamiento.
 bienEtiquetadoR(nodo(X,[H|T]),A,N) :-
 	buscarA(H,Arist,Nod),
 	Etiqueta is abs(X-Nod),
@@ -135,11 +145,12 @@ bienEtiquetadoR(nodo(X,[H|T]),A,N) :-
 
 %------------------------------------------------------------------------------%
 
-% buscarA/3:
-%
-
-%%
-%%
+%% buscarA/3: predicado para verificar el buen etiquetamiento del nodo asociado
+%% a una arista y obtener los valores de las etiquetas de la arista y del nodo
+%% (inferior).
+%%     +/- X : Etiqueta asociada a la arista.
+%%     +/- Y : Etiqueta asociada al nodo inferior.
+%%     +/- A : Lista de aristas del nodo.
 buscarA(arista(X,nodo(Y,A)),X,Y) :-
 	bienEtiquetadoR(nodo(Y,A),_,_).
 
@@ -183,19 +194,24 @@ suma([H|T],Sumalista) :-
 
 %------------------------------------------------------------------------------%
 
-% sumarLista/2:
-%
+%% sumarLista/2: predicado encargado de sumar todos los elementos de una lista
+%% de listas.
 
-%%
-%%
+%% Caso base en el que una lista de la lista no contenga elementos, su sumar
+%% será cero (0)
 sumarLista([[]],0).
 
-%%
-%%
+%% Caso base en el que se intenten sumar los elementos de una lista vacía. 
+%% De nuevo, el resultado será 0.
 sumarLista([],0).
 
-%%
-%%
+%% Caso recursivo para la suma de los las listas (elemento) de la lista. 
+%% Para ello, se hará uso del predicado auxiliar suma/2.
+%%     + H : Cabeza de la lista de listas.
+%%     + T : Cola de la lista de listas
+%%     - N : Suma de todos los elementos de la lista de listas.
+%%     * N1 : Suma de los elementos de la lista H.
+%%     * N2 : Suma parcial usada en la llamada recursiva del predicado.
 sumarLista([H|T],N):-
 	suma(H,N1),
 	sumarLista(T,N2),
@@ -407,11 +423,11 @@ generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 
 %------------------------------------------------------------------------------%
 
-% g_drop/4:
+% g_drop/4: 
 %
 
 %%
-%%
+%% Caso base de la generación de drops.
 g_drop(_,[],[],[]).
 
 %%
