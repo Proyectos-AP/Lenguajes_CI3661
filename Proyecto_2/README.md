@@ -24,22 +24,30 @@ Integrantes:
 3.- A partir de este momento, podrá utilizar cualquiera de los predicados definidos.
 
 ## Árboles como listas: 
-* Si desea verificar el buen etiquetamiento de un árbol, use la función *bienEtiquetado(+Arbol)/1*
+* Si desea verificar el buen etiquetamiento de un árbol, use el predicado *bienEtiquetado(+Arbol)/1*
 ```prolog
 	% Ejemplo:
 	bienEtiquetado(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
 ```
-   y el intérprete dará la respuesta correspondiente:
+y el intérprete dará la respuesta correspondiente:
 ``` prolog
     ?- true.
 ```
 
 ## Árboles como estructuras:
-*
+* En caso de que desee generar todos los árboles R-arios con N-nodos, use el predicado *esqueleto(+N,+R,-esqueleto)*
 ```prolog
-	esqueleto(+N,+R,-esqueleto).
+	% Ejemplo:
+	esqueleto(3,2,-esqueleto).
 ```
-*
+   y el intérprete dará la respuesta correspondiente:
+``` prolog
+    ?- esqueleto(3,5,Esqueleto).
+    Esqueleto = [[1], [1], [0]] ;
+    Esqueleto = [[2], [0, 0]] .
+```
+
+* Si desea obtener árboles bien etiquetados a partir de un esqueleto, utilice el predicado *etiquetamiento(+Esqueleto,-Arbol)*
 ```prolog
 	etiquetamiento(+Esqueleto,-Arbol).
 ```
@@ -47,7 +55,27 @@ Integrantes:
 ```prolog
 	esqEtiquetables(+R,+N).
 ```
-* Si desea imprimir en un 
+* Si desea mostrar en pantalla un árbol en un formato más sencillo de leer, use el predicado *describirEtiquetamiento(+Arbol).*
+* 
 ```prolog
-	describirEtiquetamiento(+Arbol).
+	% Ejemplo:
+	describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
+```
+
+   y el intérprete dará la respuesta correspondiente:
+``` prolog
+    nodo(4
+         [arista(1
+                 nodo(3
+                      []))
+         arista(2
+                 nodo(2
+                      []))
+         arista(3
+                 nodo(1
+                      []))
+         ])
+    true 
+
+
 ```
