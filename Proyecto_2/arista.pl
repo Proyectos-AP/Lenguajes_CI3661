@@ -46,11 +46,27 @@ arbol(nodo(X,_)) :-
 
 %------------------------------------------------------------------------------%
 
+%% entero/1: preficado que verifica si una lista es de enteros.
+
+%% Caso base de la recursión. En la lista vacía se cumple la condición
 entero([]).
+
+%% Se verifica que un elemento en particular sea un entero.
 entero(X) :- integer(X).
+
+%% Caso recursivo en el que se verifica el primer elemento de la lista, y luego
+%% la cola de la misma.
 entero([H|T]):- integer(H), entero(T).
 
+%------------------------------------------------------------------------------%
+
+%% esq/1: verifica que una lista corresponda a la estructura de esqueleto.
+
+%% Caso base, el esqueleto vacío.
 esq([]).
+
+%% Caso recursivo, se verifica que la cabeza de la lista sea una lista de 
+%% enteros y que su cola también lo sea. 
 esq([H|T]) :-
 	entero(H),
 	esq(T).
@@ -261,28 +277,23 @@ generar(N,M,L):-
 %                         GENERADOR DE ESQUELETOS                              %
 %------------------------------------------------------------------------------%
 
-% generador/4: Dado el numero de nodos N y un numero de nodos hijos "generados"
-% 				genera una lista de enteros del largo de numero de hijos, suma 
-%				los elementos de dicha lista y los resta a la cantidad de nodos.
+% generador/4: Dado el número de nodos N y un numero de nodos hijos "generados"
+% genera una lista de enteros del largo de numero de hijos, suma los elementos 
+%% de la misma y los resta a la cantidad de nodos.
 
 %%
-%% Caso base 1: Tanto el numero de nodos como el numero de hijos es 0.
-
+%% Caso base 1: Tanto el número de nodos como el numero de hijos es 0.
 generador(N,NHijos,_,[]) :- integer(N), N==0, NHijos==0 ,!.
 
-%%
-%% Caso base 2: El numero de nodos es 0 pero el numero de es mayor a 0.
-%%              entonces se terminara de completar la lista con 0's hasta
-%				que el numero de hijos sea 0 tambien.
-%%
-
+%% Caso base 2: El número de nodos es 0, pero el número de hijos es mayor a 0.
+%% Entonces se terminará de completar la lista con 0's hasta que el 
+%% número de hijos sea 0 también.
 generador(N,NHijos,ListaG,L) :- 
 	integer(N), 
 	N==0,
 	NHijos > 0,
 	generar_esqueleto(N,NHijos,ListaG,_,_,L1),
 	L = [L1],!.
-
 
 %% Caso recursivo, en el que se va calculando el drop de la lista.
 %%     + N : Número de nodos.	
