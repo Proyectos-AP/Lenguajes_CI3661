@@ -35,10 +35,10 @@ y el intérprete dará la respuesta correspondiente:
 ```
 
 ## Árboles como estructuras:
-* En caso de que desee generar todos los árboles R-arios con N-nodos, use el predicado *esqueleto(+N,+R,-esqueleto)*
+* En caso de que desee generar todos los árboles *R-arios* con *N nodos (N > 0)*, use el predicado *esqueleto(+N,+R,-esqueleto)*
 ```prolog
 	% Ejemplo:
-	esqueleto(3,2,-esqueleto).
+	esqueleto(3,2,Esqueleto).
 ```
    y el intérprete dará la respuesta correspondiente:
 ``` prolog
@@ -51,12 +51,18 @@ y el intérprete dará la respuesta correspondiente:
 ```prolog
 	etiquetamiento(+Esqueleto,-Arbol).
 ```
-*
+* En caso de que se desee verificar si todos los esqueletos de árboles *R-arios* con *N nodos* son bien etiquetables, use el predicado *esqEtiquetables(+R,+N)*
+
+etiquetables
 ```prolog
-	esqEtiquetables(+R,+N).
+	% Ejemplo:
+	esqEtiquetables(3,5).
+```
+   y el intérprete dará la respuesta correspondiente:
+``` prolog
+    ?- true.
 ```
 * Si desea mostrar en pantalla un árbol en un formato más sencillo de leer, use el predicado *describirEtiquetamiento(+Arbol).*
-* 
 ```prolog
 	% Ejemplo:
 	describirEtiquetamiento(nodo(4,[arista(1,nodo(3,[])),arista(2,nodo(2,[])),arista(3,nodo(1,[]))])).
