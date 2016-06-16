@@ -25,8 +25,23 @@ Integrantes:
 
 ### Árboles como listas:
 
+```prolog
+	bienEtiquetado(+Arbol).
+```
+
 ### Árboles como estructuras:
 
 ```prolog
-	describirEtiquetamiento(nodo(4,[])).
+	esqueleto(+N,+R,-esqueleto).
+```
+```prolog
+	etiquetamiento(+Esqueleto,-Arbol).
+```
+
+```prolog
+	esqEtiquetables(+R,+N).
+```
+
+```prolog
+	describirEtiquetamiento(+Arbol).
 ```
