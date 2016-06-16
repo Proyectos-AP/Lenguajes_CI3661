@@ -46,13 +46,14 @@ arbol(nodo(X,_)) :-
 
 %------------------------------------------------------------------------------%
 
-% lista/3: 
-%
+% lista/3: Dada la arista con todo su subarbol este predicado devuleve dos listas
+%    una con todas las etiquetas de los nodos y otra con las etiquetas de las
+%    aristas.
 
 %% Caso base de la inicialización de las listas:
 lista([],[],[]).
 
-%% 
+%% Caso en el que solo sea una arista
 lista(arista(X,nodo(Y,A)),Ar,N):-
 	lista(A,R1,R2),
 	\+ member(X,R1),
@@ -60,7 +61,7 @@ lista(arista(X,nodo(Y,A)),Ar,N):-
 	N =  [Y|R2].
 
 %%
-%%
+%% Caso en el que sea una lista de aristas
 lista([H|T],A,N) :-
 	lista(H,A1,N1),
 	lista(T,A2,N2),
@@ -181,21 +182,25 @@ sumarLista([H|T],N):-
 %                      GENERAR UNA LISTA DADO UN RANGO                         %
 %------------------------------------------------------------------------------%
 
-% generar/3:
-%
+% generar/3: Dado un rango N y M "generar" genera un lista de enteros de N a M,
+%			 es decir, [N..M].
 
-%%
+%% Caso en el que se genera una lista vacia.
 %%
 generar(0,0,[]).
 
-%%
+%% Caso en el que se genera un singleton.
 %%
 generar(N,M,[M]):- 	
 	integer(N),
 	integer(M),
 	N==M.
 
-%%
+
+%% Caso recursivo, en donde se genera una lista de mas de un elemento.
+%%     + N : Limite inferior de la lista a crear.	
+%%     + M : Limite superior de la lista a crear.
+%%     - L : Lista de elementos de N hasta M ([N..M]).
 %%
 generar(N,M,L):-
 	integer(N),
@@ -209,15 +214,21 @@ generar(N,M,L):-
 %                         GENERADOR DE ESQUELETOS                              %
 %------------------------------------------------------------------------------%
 
-% generador/4:
-%
+% generador/4: Dado el numero de nodos N y un numero de nodos hijos "generados"
+% 				genera una lista de enteros del largo de numero de hijos, suma 
+%				los elementos de dicha lista y los resta a la cantidad de nodos.
 
 %%
-%%
+%% Caso base 1: Tanto el numero de nodos como el numero de hijos es 0.
+
 generador(N,NHijos,_,[]) :- integer(N), N==0, NHijos==0 ,!.
 
 %%
+%% Caso base 2: El numero de nodos es 0 pero el numero de es mayor a 0.
+%%              entonces se terminara de completar la lista con 0's hasta
+%				que el numero de hijos sea 0 tambien.
 %%
+
 generador(N,NHijos,ListaG,L) :- 
 	integer(N), 
 	N==0,
@@ -225,7 +236,14 @@ generador(N,NHijos,ListaG,L) :-
 	generar_esqueleto(N,NHijos,ListaG,_,_,L1),
 	L = [L1],!.
 
-%%
+
+%% Caso recursivo, en el que se va calculando el drop de la lista.
+%%     + N : Número de nodos.	
+%%     + NHijos : Largo de la lista que sera construida (representa el numero 
+%%                de hujos de un nodo ).
+%%     + ListaG : Es la lista de elementos que pueden pertenecer a la 
+%%               lista que se generara.
+%%     - L : Lista de todas las listas generadas por "generador" .
 %%
 generador(N,NHijos,ListaG,L) :-
 	integer(N),
@@ -240,18 +258,25 @@ generador(N,NHijos,ListaG,L) :-
 %                  GENERADOR DE LAS LISTAS DEL ESQUELETO                       %
 %------------------------------------------------------------------------------%
 
-% generar_esqueleto/5:
+% generar_esqueleto/5: Dado un numero de nodos, una cantidad de hijos y una
+%  						lista de elementos "generar_esqueleto" genera una lista
+%						de la longitud del numero de hijos con elementos que esten
+%						en la lista de elementos pasada.
 %
 
-%%
+%%  Caso base 1: El numero de hijos es 0, entonces la lista de retorno sera
+%				 vacia.
 %%
 generar_esqueleto(_,NHijos,_,0,0,[]):- integer(NHijos), NHijos==0,!.
 
-%%
+%%  Caso base 2: La lista de elementos es vacia, entonces la lista de 
+%%				retorno sera vacia.
 %%
 generar_esqueleto(_,_,[],0,0,[]).
 
-%%
+%%  Caso base 3: El numero de nodos es 0 pero los hijos son mayores que 0, 
+%%				entonces la lista de elementos sera una lista de la longitud
+%%				del numero de hijos llenas de 0's.
 %%
 generar_esqueleto(N,NHijos,ListaG,0,0,Esqueleto):- 
 	integer(N),
@@ -262,7 +287,15 @@ generar_esqueleto(N,NHijos,ListaG,0,0,Esqueleto):-
 	generar_esqueleto(N,X1,ListaG,_,_,L1),
 	append([0],L1,Esqueleto).
 
-%%
+%% Caso recursivo, Se van generando listas recursivamente.
+%%     + N : Número de nodos.	
+%%     + NHijos : Largo de la lista que sera construida (representa el numero 
+%%                de hujos de un nodo ).
+%%     + ListaG : Es la lista de elementos que pueden pertenecer a la 
+%%               lista que se generara.
+%%	   + Minimo  : El Minimo de los elementos de la lista
+%%	   + Suma 	 : La suma de los elementos de la lista
+%%     - Esqueleto : Lista de todas las listas generadas por "generador" .
 %%
 generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
 	integer(N),
@@ -283,14 +316,19 @@ generar_esqueleto(N,NHijos,ListaG,Minimo,Suma,Esqueleto) :-
 %                                 ESQUELETO                                    %
 %------------------------------------------------------------------------------%
 
-% esqueleto/3:
+% esqueleto/3: Dado un numero de nodos N y una aridad R el predicado 
+%				"esqueleto" genera todos los posibles esqueletos
 %
 
-%%
+%% Caso base: Si el numero de nodos N es igual a 0 entonces el esqueletos
+%%			  sera vacio.
 %%
 esqueleto(N,R,[]) :- integer(R), R > 0, N==0. 
 
-%%
+%% Caso recursivo, Se van generando listas recursivamente.
+%%     + N : Número de nodos.	
+%%     + R : Aridad.
+%%     - L : Esqueleto formado.
 %%
 esqueleto(N,R,L) :-
 	integer(N),
@@ -309,14 +347,23 @@ esqueleto(N,R,L) :-
 %                                 ETIQUETABLE                                  %
 %------------------------------------------------------------------------------%
 
-% etiquetamiento/2:
+% etiquetamiento/2: Dado un esqueleto "etiquetamiento" genera todos los
+%					posibles arbole =s bien etiquetados a partir del mismo.
 %
 
-%%
+%% Caso base: Si el esqueleto esta vacio, entonces no se generara ningun 
+%%			  arbol.
 %%
 etiquetamiento([[]],[]).
 
+%% Caso recursivo, Se van generando los arboles recursivamente.
+%%		Primero se calcula el numero de nodos totales, se escoje una
+%%		etiqueta para la raiz del arbol y se genera una lista de elementos
+%%		para las aristas y para los nodos, finalmente se generan todas las 
+%%		aristas de la raiz con "generar_aristas".
 %%
+%%     + esq([H|T]) : Esqueleto dado.	
+%%     - Arbol : Arbol generado.
 %%
 etiquetamiento([H|T],Arbol) :- 
 	suma(H,Result),
@@ -332,10 +379,15 @@ etiquetamiento([H|T],Arbol) :-
 
 %------------------------------------------------------------------------------%
 
-% generar_aristas/8:
-%
+% generar_aristas/8: Dado un numero de nodos, un esqueleto, una lista de 
+%%					 etiquetas para los nodos y otra para las aristas
+%					 "generar_aristas" genera todas las aristas de dicho
+%					 esqueleto y escoge etiquetas tanto para los nodos
+%					 como para las aristas cumpliendo con las restricciones de 
+%					 bien etiquetado.
 
-%%
+%% Caso base1: Si el numero de nodos es igual a 0 entonces la lista de aristas
+%%			   es vacia.
 %%
 generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	integer(N), 
@@ -343,19 +395,34 @@ generar_aristas(N,_,Lista_nodo,Lista_arist,LN,LA,_,[]):-
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 
-%%
+%% Caso base2: Si el esqueleto esta vacio, entonces la lista de aristas
+%%			   es vacia.
 %%
 generar_aristas(_,[],Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 
-%%
+%% Caso base3: Si el esqueleto esta vacio, entonces la lista de aristas
+%%			   es vacia.
 %%
 generar_aristas(_,[[]],Lista_nodo,Lista_arist,LN,LA,_,[]):- 
 	Lista_nodo = LN,
 	Lista_arist = LA,!.
 	
+%% Caso recursivo: .
 %%
+%%     + N: Numero de nodos.
+%%	   + Esquleto: Esqueleto a partir del cual se generaran las aristas.
+%%     + Lista_nodo: Lista de elementos disponibles para seleccionar
+%%				     etiquetas de nodos.
+%%     + Lista_arist: Lista de elementos disponibles para seleccionar
+%%				      etiquetas de aristas.
+%%     - LN: Lista de elementos restantes para seleccionar
+%%				     etiquetas de nodos.
+%%     - LA: Lista de elementos restantes para seleccionar
+%%				     etiquetas de aristas.
+%%	   + N_nod:	Etiqueta del nodo papa de la arista.
+%%     - Arist : Aristas generadas.
 %%
 generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 	integer(N),
@@ -382,14 +449,22 @@ generar_aristas(N,Esqueleto,Lista_nodo,Lista_arist,LN,LA,N_nod,Arist) :-
 
 %------------------------------------------------------------------------------%
 
-% g_drop/4:
+% g_drop/4: Dado un numero N, y una lista g_drop utilia el predicado drop para
+%			eliminar los N primeros elementos de la cabecera de una lista de 
+%			listas.
 %
 
-%%
+%% Caso base: Si la lista es vacia entonces se devuleve una lista vacia
 %%
 g_drop(_,[],[],[]).
 
+%% Caso recursivo: .
 %%
+%%     + N: Numero de elementos a eliminar de una lista.
+%%	   + Lista: Lista a la que se eliminaran elementos.
+%%     - Tail :  Tail de "Lista"
+%%     - Drop : Elementos de la cabecera de a lista a la cual se le aplico 
+%%				"drop" 
 %%
 g_drop(N,Lista,Tail,Drop):-
 	[H|Tail] = Lista,
