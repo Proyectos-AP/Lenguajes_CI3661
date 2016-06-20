@@ -1,4 +1,5 @@
-# Implementación de manejo y recorrido de árboles en Ruby (Paradigma de estudio: Orientación a Objetos)
+# Manejo y recorrido de árboles en Ruby 
+## (Paradigma de estudio: Orientación a Objetos)
 
 Universidad Simón Bolívar  
 Departamento de Computación y Tecnología de la Información  
