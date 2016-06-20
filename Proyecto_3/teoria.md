@@ -1,6 +1,6 @@
 # Estudiantes
-### <carnet1> - <nombreEstudiante1>
-### <carnet2> - <nombreEstudiante2>
+### 12-10561 - Pablo Maldonado
+### 12-10645 - Alejandra Cordero 
 [comment]: # "Si el grupo es de un solo integrante, elimine la linea anterior"
 ---
 # Respuestas
