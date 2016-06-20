@@ -10,7 +10,7 @@ Integrantes:
 
 ## Descripción:
 
-* Puede encontrar la descripción de la implementación [aquí](https://github.com/Proyectos-AP/Lenguajes_CI3661/blob/master/Proyecto_2/Enunciado.pdf).
+* Puede encontrar la descripción de la implementación [aquí](https://github.com/Proyectos-AP/Lenguajes_CI3661/blob/master/Proyecto_3/Enunciado.pdf).
 * Para la implementación se utilizó la versión 2.2 de Ruby.
 
 ## Antes de ejecutar el proyecto:
