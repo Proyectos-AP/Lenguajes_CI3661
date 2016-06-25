@@ -11,3 +11,14 @@
 * Última modificación: 30/06/2016
 *
 =end
+
+module BFS
+
+	def bfs
+		puts "to-do"
+	end
+
+	def recoger
+		puts "to-do"	
+	end
+end

@@ -11,3 +11,10 @@
 * Última modificación: 30/06/2016
 *
 =end
+
+module DFS
+
+	def fold 
+		puts "to-do"
+	end
+end
