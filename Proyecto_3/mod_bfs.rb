@@ -31,8 +31,9 @@ module BFS
 	
 	end
 
-	def recoger
+	def recoger(&block) 
 		puts "Recoger"	
+		block.call 
 	end
 
 end

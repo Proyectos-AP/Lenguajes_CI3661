@@ -25,6 +25,18 @@ end
 #------------------------------------------------------------------------------#
 
 class Mutador
+
+	def self.int_to_array(int_val)
+		lista = []
+		digito = int_val % 10
+		lista = lista + [digito]
+		cociente = int_val / 10
+		while (cociente > 0)
+			lista = [(cociente % 10)] + lista 
+ 			cociente = cociente / 10 
+		end
+		lista
+	end
 end
 
 class Singular < Mutador
@@ -33,6 +45,14 @@ class Singular < Mutador
  		# Descripcion: int_val se muta a la multiplicación del ultimo dígito 
  		# con la suma de los dígitos restantes.
  		puts "Fixnum Singular"
+ 		lista = self.int_to_array(int_val)
+ 		acum = 0
+ 		ultimoDigito = lista[-1]
+ 		lista.pop
+ 		lista.each do |elem|
+ 			acum = acum + elem
+ 		end
+ 		ultimoDigito*acum
  	end
 
 	def self.mut_str(str_val)
@@ -62,6 +82,13 @@ class Uniforme < Mutador
 	def self.mut_fixnum(int_val)
 		# Descripcion: int_val se convierte en el promedio de sus digitos.
  		puts "Fixnum Uniforme"
+ 		lista = self.int_to_array(int_val)
+ 		numElems = lista.size
+ 		acum = 0
+ 		lista.each do |elem|
+ 			acum = acum + elem
+ 		end
+ 		acum.to_f / numElems
  	end
 
  	def self.mut_str(str_val)
@@ -94,6 +121,16 @@ class Oscuro < Mutador
 		# Descripcion: int_val se muta de forma que se elminaran los digitos
 		# en la posicion impar.
  		puts "Fixnum Oscuro"
+ 		lista = self.int_to_array(int_val)
+ 		i = 0
+ 		acum = ""
+ 		lista.each do |elem|
+ 			if (i % 2 == 0) then
+ 				acum = acum + elem.to_s
+ 			end
+ 			i = i + 1
+ 		end
+ 		acum.to_i
  	end
 
  	def self.mut_str(str_val)
