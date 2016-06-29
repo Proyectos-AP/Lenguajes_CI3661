@@ -101,3 +101,5 @@ arbolPapa = PinkTree.new(0,[arbolhijo1,arbolhijo2])
 
 arbolPapa.bfs { |n| puts "pink -> #{n.node}" }
 arbol1.bfs { |n| puts "binary -> #{n.node}"}
+
+arbolPapa.dfs

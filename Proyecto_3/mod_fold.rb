@@ -14,6 +14,16 @@
 
 module DFS
 
+	def dfs
+
+		puts "DFS"
+		puts "dfs #{self.node}"
+		self.each do |hijo|
+			hijo.dfs
+		end
+
+	end
+
 	def fold 
 		puts "Fold"
 	end
