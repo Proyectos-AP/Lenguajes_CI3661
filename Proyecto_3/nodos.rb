@@ -73,6 +73,13 @@ class Singular < Mutador
  		# Descripcion: todos los elementos de array_val se interpolan en un
  		# string separados por un espacio
  		puts "Array Singular"
+ 		lista = array_val.flatten
+ 		resultado = lista[0].to_s
+ 		lista.shift
+ 		lista.each do |c|
+ 			resultado = resultado + " " + c.to_s
+ 		end
+ 		resultado
  	end
 
 end
@@ -110,6 +117,11 @@ class Uniforme < Mutador
  	def self.mut_array(array_val)
  		# Descripcion: los elementos de array_val se mutan de manera uniforme.
  		puts "Array Uniforme"
+ 		lista = []
+ 		array_val.each do |c|
+ 			lista = lista + [c.mutar(Uniforme)]
+ 		end
+ 		lista
  	end
 
 end
@@ -155,6 +167,15 @@ class Oscuro < Mutador
  		# Descripcion: se seleccionan 50% de los elementos de array_val y 
  		# se mutan de forma oscura.
  		puts "Array Oscuro"
+ 		listaR = []
+ 		lista = array_val.shuffle
+ 		numElems = lista.size
+ 		mitad = numElems / 2
+ 		lista = lista.take(mitad)
+ 		lista.each do |c|
+ 			listaR = listaR + [c.mutar(Oscuro)]
+ 		end
+ 		listaR
  	end
 
 end
@@ -179,6 +200,6 @@ end
 
 class ::Array 
 	def mutar(mut_class)
-		mut_class.mut_str(self)
+		mut_class.mut_array(self)
 	end 
 end
