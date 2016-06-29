@@ -33,15 +33,16 @@ class BinaryTree
 	attr_reader :leftChild
 	attr_reader :rightChild
 
-
-	def initialize(val=1,lChild=nil,rChild=nil)
+	def initialize(val,lChild=nil,rChild=nil) 
 		@node = val 
 		@leftChild = lChild
 		@rightChild = rChild
 	end
 
 	def each 
-		puts "to-do"
+		[@leftChild,@rightChild].compact.each do |elem|
+			yield elem
+		end
 	end
 end
 
@@ -57,15 +58,22 @@ class PinkTree
 	attr_accessor :node
 	attr_reader :children
 
+	def initialize(val,childr = []) 
+		@node = val 
+		@children = childr
+	end
+
 	# No se si lo que esta arriba se puede poner en una clase general de arbo.
 	def each
-		puts "to-do"
+		@children.compact.each do |elem|
+			yield elem
+		end
 	end
 end
 
-arbol1 = BinaryTree.new
+arbol1 = BinaryTree.new(1)
 
-arbol2 = BinaryTree.new
+arbol2 = BinaryTree.new(2)
 
 arbol3 = BinaryTree.new(2,arbol1,arbol2)
 
@@ -79,3 +87,7 @@ hijoIzq = arbol3.leftChild()
 
 valorIzq = hijoIzq.node()
 puts "El valor del nodo del hijo izq es #{valorIzq}"
+
+arbol3.each do |child|
+	puts "hola #{child.node}"
+end
