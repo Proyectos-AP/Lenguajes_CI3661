@@ -59,14 +59,14 @@ class Singular < Mutador
 		# Descripcion: los caracteres de str_val se convierten a mayuscula si
 		# alguno de ellos pertenece a "singular"
 		puts "Str Singular"
-		# new = ""
-		# self.each_char do |c|
-		# 	if "singular".include?(c)
-		# 		c = c.upcase
-		# 	end
-		# 	new = new + c
-		# end
-		# return new
+		new = ""
+		str_val.each_char do |c|
+			if "singular".include?(c)
+		 		c = c.upcase
+		 	end
+		 	new = new + c
+		 end
+		new
  	end
 
  	def self.mut_array(array_val)
@@ -95,17 +95,16 @@ class Uniforme < Mutador
  		# Descripcion: str_val se muta y sus valores se convierten en mayuscula
  		# de forma intescalada.
  		puts "Str Uniforme"
- 		# =begin
- 		# new = ""
- 		# i = 0
- 		# self.each_char do |c|
- 		# 	if i % 2 == 0 
- 		# 		c = c.upcase
- 		# 	end
- 		# 	new = new + c
- 		# 	i = i + 1
- 		# end
- 		# return new
+ 		new = ""
+ 		i = 0
+ 		str_val.each_char do |c|
+ 		 	if i % 2 == 0 
+ 		 		c = c.upcase
+ 		 	end
+ 		 	new = new + c
+ 			i = i + 1
+ 		end
+ 		new
  	end
 
  	def self.mut_array(array_val)
@@ -138,6 +137,18 @@ class Oscuro < Mutador
  		# en posición impar concatenados del lado izquierdo y los otros 
  		# concatenados del lado derecho
  		puts "Str Oscuro"
+ 		impar = ""
+ 		par = ""
+ 		i = 0
+ 		str_val.each_char do |c|
+ 		 	if i % 2 == 0 then
+ 		 		impar = c + impar 
+ 		 	else
+ 		 		par = c + par 
+ 		 	end
+ 		 	i = i + 1
+ 		end
+ 		impar + par
  	end
 
  	def self.mut_array(array_val)
