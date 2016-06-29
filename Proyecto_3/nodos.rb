@@ -91,17 +91,21 @@ end
 class Oscuro < Mutador
 
 	def self.mut_fixnum(int_val)
-		# Descripcion: 
+		# Descripcion: int_val se muta de forma que se elminaran los digitos
+		# en la posicion impar.
  		puts "Fixnum Oscuro"
  	end
 
  	def self.mut_str(str_val)
- 		# Descripcion:
+ 		# Descripcion: str_val se muta de forma que quedaran los caracteres 
+ 		# en posición impar concatenados del lado izquierdo y los otros 
+ 		# concatenados del lado derecho
  		puts "Str Oscuro"
  	end
 
  	def self.mut_array(array_val)
- 		# Descripcion: 
+ 		# Descripcion: se seleccionan 50% de los elementos de array_val y 
+ 		# se mutan de forma oscura.
  		puts "Array Oscuro"
  	end
 

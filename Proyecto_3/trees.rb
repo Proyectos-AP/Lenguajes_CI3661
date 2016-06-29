@@ -16,8 +16,8 @@
 #                           Inclusión de los módulos                           #
 #------------------------------------------------------------------------------#
 
-require_relative 'mod_bfs'
-require_relative 'mod_fold'
+require_relative "mod_bfs"
+require_relative "mod_fold"
 
 #------------------------------------------------------------------------------#
 #                   Definición de la clase "Árbol binario"                     #
@@ -26,6 +26,7 @@ require_relative 'mod_fold'
 # lo logico seria que haya un Tree del que hereden Binary y Pink (pendiente)
 
 class BinaryTree
+
 	include BFS
 	include DFS
 
@@ -91,3 +92,12 @@ puts "El valor del nodo del hijo izq es #{valorIzq}"
 arbol3.each do |child|
 	puts "hola #{child.node}"
 end
+
+arbolNieto = PinkTree.new(3)
+arbolhijo1 = PinkTree.new(1,[arbolNieto])
+arbolhijo2 = PinkTree.new(2)
+arbolPapa = PinkTree.new(0,[arbolhijo1,arbolhijo2])
+
+
+arbolPapa.bfs { |n| puts "pink -> #{n.node}" }
+arbol1.bfs { |n| puts "binary -> #{n.node}"}

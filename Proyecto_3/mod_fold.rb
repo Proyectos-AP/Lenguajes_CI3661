@@ -15,6 +15,6 @@
 module DFS
 
 	def fold 
-		puts "to-do"
+		puts "Fold"
 	end
 end
