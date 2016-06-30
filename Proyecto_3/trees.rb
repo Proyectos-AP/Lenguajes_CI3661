@@ -20,17 +20,24 @@ require_relative "mod_bfs"
 require_relative "mod_fold"
 
 #------------------------------------------------------------------------------#
-#                   Definición de la clase "Árbol binario"                     #
+#                   Definición de la clase "Árbol"                             #
 #------------------------------------------------------------------------------#
 
-# lo logico seria que haya un Tree del que hereden Binary y Pink (pendiente)
-
-class BinaryTree
+class Arbol
 
 	include BFS
 	include DFS
 
 	attr_accessor :node
+
+end
+
+#------------------------------------------------------------------------------#
+#                   Definición de la clase "Árbol binario"                     #
+#------------------------------------------------------------------------------#
+
+class BinaryTree < Arbol
+
 	attr_reader :leftChild
 	attr_reader :rightChild
 
@@ -51,12 +58,8 @@ end
 #                   Definición de la clase "Árbol rosa"                        #
 #------------------------------------------------------------------------------#
 
-class PinkTree
+class PinkTree < Arbol
 
-	include BFS
-	include DFS
-
-	attr_accessor :node
 	attr_reader :children
 
 	def initialize(val,childr = []) 
@@ -116,9 +119,13 @@ end
 
 # Prueba para fold
 =begin
+
+
 result = arbolPapa.fold(0) {|acum,n| acum+n.node}
 puts "Acumulador main #{result}"
 
 result = arbolPapa.fold(0) {|acum,n| acum+1}
 puts "Acumulador main #{result}"
+
 =end
+
