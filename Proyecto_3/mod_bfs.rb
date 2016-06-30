@@ -39,7 +39,6 @@ module BFS
 
 		while (cola.size != 0)
 			n = cola.shift 
-			cumplePredicado = block.call(n)
 			if block.call(n) == true
 				lista = lista + [n]
 			end
