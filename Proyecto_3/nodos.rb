@@ -46,9 +46,13 @@ class Singular < Mutador
          # con la suma de los dígitos restantes.
          puts "Fixnum Singular"
          lista = self.int_to_array(int_val)
-         acum = 0
-         ultimoDigito = lista[-1]
-         lista.pop
+         ultimoDigito = lista.pop
+         if lista.size == 0 then
+         	acum = 1
+         else
+			acum = 0
+		end
+		
          lista.each do |elem|
              acum = acum + elem
          end

@@ -32,7 +32,8 @@ arbol_b_3 = ArbolBinario.new([1],
                     ArbolBinario.new([1,2,1,1],
                         ArbolBinario.new([1,1,1,2,2,1],
                             ArbolBinario.new([3,1,2,2,1,1],
-                                ArbolBinario.new([1,3,1,1,2,2,2,1]))))))
+                                ArbolBinario.new([1,3,1,1,2,2,2,1]))))),
+                ArbolBinario.new([3])                                  )
 
 arbol_b_1.bfs { |x| puts x.valor }
 # 1
@@ -60,7 +61,7 @@ end
 
 arbol_b_2.bfs { |x| x.mutar(Oscuro); puts x.valor }
 
-#arbol_b_3.dfs { |x| x.mutar(Singular); puts x.valor }
+arbol_b_3.dfs { |x| x.mutar(Singular); puts x.valor }
 
 
 
@@ -80,13 +81,16 @@ arbol_r_1 = ArbolRosa.new("animal",
             )
 
 
-=begin
+
 
 p = arbol_r_1.valor.each_char.to_a.permutation.map &:join
 
-arbol_r_1.recoger do |x|
-    (p.map { |w| w.include? x.valor }).inject(false) { |x,acc| a || acc}
+block = Proc.new do |x|
+    (p.map { |w| w.include? x.valor }).inject(false) { |x,acc| x || acc}
 end
-=end
+hola = arbol_r_1.recoger(block)
+hola.each do |n|
+    puts "Vengo de recoger #{n.valor}"
+end
 
 # [arbol_r_1, arbol_r_lana, arbol_r_lima, arbol_r_lamina, arbol_r_ala, arbol_r_mani]

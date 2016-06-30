@@ -14,11 +14,12 @@
 
 module DFS
 
-    def dfs
+    def dfs(&block)
 
         puts "DFS"
+        yield self
         self.each do |hijo|
-            hijo.dfs
+            hijo.dfs(&block)
         end
 
     end
