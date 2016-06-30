@@ -31,7 +31,7 @@ module BFS
     
     end
 
-    def recoger(&block) 
+    def recoger(block) 
         puts "Recoger"
         lista = []
         cola = []

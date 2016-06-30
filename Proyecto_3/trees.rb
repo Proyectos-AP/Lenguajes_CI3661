@@ -28,7 +28,7 @@ class Arbol
     include BFS
     include DFS
 
-    attr_accessor :node
+    attr_accessor :valor
 
 end
 
@@ -36,13 +36,13 @@ end
 #                   Definición de la clase "Árbol binario"                     #
 #------------------------------------------------------------------------------#
 
-class BinaryTree < Arbol
+class ArbolBinario < Arbol
 
     attr_reader :leftChild
     attr_reader :rightChild
 
     def initialize(val,lChild=nil,rChild=nil) 
-        @node = val 
+        @valor = val 
         @leftChild = lChild
         @rightChild = rChild
     end
@@ -58,12 +58,12 @@ end
 #                   Definición de la clase "Árbol rosa"                        #
 #------------------------------------------------------------------------------#
 
-class PinkTree < Arbol
+class ArbolRosa < Arbol
 
     attr_reader :children
 
-    def initialize(val,childr = []) 
-        @node = val 
+    def initialize(val,*childr) 
+        @valor = val 
         @children = childr
     end
 
@@ -75,6 +75,7 @@ class PinkTree < Arbol
     end
 end
 
+=begin
 arbol1 = BinaryTree.new(1)
 
 arbol2 = BinaryTree.new(2)
@@ -105,17 +106,21 @@ arbolPapa = PinkTree.new(0,[arbolhijo1,arbolhijo2])
 arbolPapa.bfs { |n| puts "pink -> #{n.node}" }
 arbol1.bfs { |n| puts "binary -> #{n.node}"}
 arbolPapa.dfs
+=end
+
 
 #Pruebas para recoger
 
 =begin
+
 addition = lambda { |n| n.node > 1}
-resultado = arbolPapa.recoger(&addition)
+resultado = arbolPapa.recoger(addition)
 resultado.each do |n|
     puts "Vengo de recoger #{n.node}"
 end
 
 =end
+
 
 # Prueba para fold
 =begin

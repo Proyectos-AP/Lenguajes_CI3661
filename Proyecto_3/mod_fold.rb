@@ -17,7 +17,6 @@ module DFS
     def dfs
 
         puts "DFS"
-        puts "dfs #{self.node}"
         self.each do |hijo|
             hijo.dfs
         end
@@ -26,7 +25,7 @@ module DFS
 
     def fold(baseValue,&block)
         puts "Fold"
-        baseValue = yield(baseValue,self)
+        baseValue = yield(self,baseValue)
         self.each do |hijo|
             resultado = hijo.fold(baseValue,&block)
             baseValue = resultado
