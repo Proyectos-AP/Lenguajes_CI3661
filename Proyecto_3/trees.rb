@@ -112,15 +112,13 @@ arbolPapa.dfs
 #Pruebas para recoger
 
 =begin
-
 addition = lambda { |n| n.node > 1}
-resultado = arbolPapa.recoger(addition)
+resultado = arbolPapa.recoger(&addition)
 resultado.each do |n|
     puts "Vengo de recoger #{n.node}"
 end
 
 =end
-
 
 # Prueba para fold
 =begin
