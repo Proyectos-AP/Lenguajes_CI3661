@@ -5,9 +5,9 @@
 * Descripción: Definición de árboles.
 * 
 * Autores:
-* 	- Alejandra Cordero / 12-10645
-* 	- Pablo Maldonado / 12-10561
-*	
+*     - Alejandra Cordero / 12-10645
+*     - Pablo Maldonado / 12-10561
+*    
 * Última modificación: 30/06/2016
 *
 =end
@@ -25,10 +25,10 @@ require_relative "mod_fold"
 
 class Arbol
 
-	include BFS
-	include DFS
+    include BFS
+    include DFS
 
-	attr_accessor :node
+    attr_accessor :node
 
 end
 
@@ -38,20 +38,20 @@ end
 
 class BinaryTree < Arbol
 
-	attr_reader :leftChild
-	attr_reader :rightChild
+    attr_reader :leftChild
+    attr_reader :rightChild
 
-	def initialize(val,lChild=nil,rChild=nil) 
-		@node = val 
-		@leftChild = lChild
-		@rightChild = rChild
-	end
+    def initialize(val,lChild=nil,rChild=nil) 
+        @node = val 
+        @leftChild = lChild
+        @rightChild = rChild
+    end
 
-	def each 
-		[@leftChild,@rightChild].compact.each do |elem|
-			yield elem
-		end
-	end
+    def each 
+        [@leftChild,@rightChild].compact.each do |elem|
+            yield elem
+        end
+    end
 end
 
 #------------------------------------------------------------------------------#
@@ -60,19 +60,19 @@ end
 
 class PinkTree < Arbol
 
-	attr_reader :children
+    attr_reader :children
 
-	def initialize(val,childr = []) 
-		@node = val 
-		@children = childr
-	end
+    def initialize(val,childr = []) 
+        @node = val 
+        @children = childr
+    end
 
-	# No se si lo que esta arriba se puede poner en una clase general de arbo.
-	def each
-		@children.compact.each do |elem|
-			yield elem
-		end
-	end
+    # No se si lo que esta arriba se puede poner en una clase general de arbo.
+    def each
+        @children.compact.each do |elem|
+            yield elem
+        end
+    end
 end
 
 arbol1 = BinaryTree.new(1)
@@ -93,7 +93,7 @@ valorIzq = hijoIzq.node()
 puts "El valor del nodo del hijo izq es #{valorIzq}"
 
 arbol3.each do |child|
-	puts "hola #{child.node}"
+    puts "hola #{child.node}"
 end
 
 arbolNieto = PinkTree.new(3)
@@ -112,7 +112,7 @@ arbolPapa.dfs
 addition = lambda { |n| n.node > 1}
 resultado = arbolPapa.recoger(&addition)
 resultado.each do |n|
-	puts "Vengo de recoger #{n.node}"
+    puts "Vengo de recoger #{n.node}"
 end
 
 =end
