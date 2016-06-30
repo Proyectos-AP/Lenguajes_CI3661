@@ -40,7 +40,7 @@
 
 > Los métodos virtuales permiten asociar, al momento de compilar, una implementación de un método sobrecargado con una llamada del mismo; eliminando el **overhead** del despacho dinámico.
 
-[comment]: #  "Las vtables no tienen implementación de métodos."
+[comment]: #  "No creo que se elimine el overhead porque lo que guaradan las vtables es básicamente las firmas de los métodos, entonces a tiempo de ejecución de igual forma se debería hacer una búsqueda de la firma correspondiente."
 
 <[Si|No] [pero]...>
 
