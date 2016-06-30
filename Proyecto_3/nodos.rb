@@ -172,15 +172,18 @@ class Oscuro < Mutador
          # Descripcion: se seleccionan 50% de los elementos de array_val y 
          # se mutan de forma oscura.
          puts "Array Oscuro"
-         listaR = []
-         lista = array_val.shuffle
+         longitud = array_val.size
+         listaR = Array.new(longitud) {|i| i}
+         lista = listaR.shuffle
          numElems = lista.size
          mitad = numElems / 2
          lista = lista.take(mitad)
+
          lista.each do |c|
-             listaR = listaR + [c.mutar(Oscuro)]
+             array_val[c] = array_val[c].mutar(Oscuro)
          end
-         listaR
+         
+         array_val
      end
 
 end
