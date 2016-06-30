@@ -36,7 +36,7 @@ end
 #                   Definición de la clase "Árbol binario"                     #
 #------------------------------------------------------------------------------#
 
-class BinaryTree < Arbol
+class ArbolBinario < Arbol
 
     attr_reader :leftChild
     attr_reader :rightChild
@@ -58,13 +58,13 @@ end
 #                   Definición de la clase "Árbol rosa"                        #
 #------------------------------------------------------------------------------#
 
-class PinkTree < Arbol
+class ArbolRosa < Arbol
 
     attr_reader :children
 
-    def initialize(val,childr = []) 
+    def initialize(val,*hijos) 
         @node = val 
-        @children = childr
+        @children = hijos
     end
 
     # No se si lo que esta arriba se puede poner en una clase general de arbo.
@@ -75,36 +75,36 @@ class PinkTree < Arbol
     end
 end
 
-arbol1 = BinaryTree.new(1)
+# arbol1 = BinaryTree.new(1)
 
-arbol2 = BinaryTree.new(2)
+# arbol2 = BinaryTree.new(2)
 
-arbol3 = BinaryTree.new(2,arbol1,arbol2)
+# arbol3 = BinaryTree.new(2,arbol1,arbol2)
 
-valor = arbol3.node()
-puts "El valor del arbol3 es #{valor}"
-arbol2.node = 3
-valor = arbol1.node()
-puts "El valor del arbol1 es #{valor}"
+# valor = arbol3.node()
+# puts "El valor del arbol3 es #{valor}"
+# arbol2.node = 3
+# valor = arbol1.node()
+# puts "El valor del arbol1 es #{valor}"
 
-hijoIzq = arbol3.leftChild()
+# hijoIzq = arbol3.leftChild()
 
-valorIzq = hijoIzq.node()
-puts "El valor del nodo del hijo izq es #{valorIzq}"
+# valorIzq = hijoIzq.node()
+# puts "El valor del nodo del hijo izq es #{valorIzq}"
 
-arbol3.each do |child|
-    puts "hola #{child.node}"
-end
+# arbol3.each do |child|
+#     puts "hola #{child.node}"
+# end
 
-arbolNieto = PinkTree.new(3)
-arbolhijo1 = PinkTree.new(1,[arbolNieto])
-arbolhijo2 = PinkTree.new(2)
-arbolPapa = PinkTree.new(0,[arbolhijo1,arbolhijo2])
+# arbolNieto = PinkTree.new(3)
+# arbolhijo1 = PinkTree.new(1,[arbolNieto])
+# arbolhijo2 = PinkTree.new(2)
+# arbolPapa = PinkTree.new(0,[arbolhijo1,arbolhijo2])
 
 
-arbolPapa.bfs { |n| puts "pink -> #{n.node}" }
-arbol1.bfs { |n| puts "binary -> #{n.node}"}
-arbolPapa.dfs
+# arbolPapa.bfs { |n| puts "pink -> #{n.node}" }
+# arbol1.bfs { |n| puts "binary -> #{n.node}"}
+# arbolPapa.dfs
 
 #Pruebas para recoger
 
