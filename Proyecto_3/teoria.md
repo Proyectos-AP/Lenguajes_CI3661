@@ -27,7 +27,7 @@
 
 >&nbsp;&nbsp;&nbsp;&nbsp;6. Los métodos virtuales permiten asociar, al momento de compilar, una implementación de un método sobrecargado con una llamada del mismo; eliminando el **overhead** del despacho dinámico.
 
->>&nbsp;&nbsp;&nbsp;&nbsp;Las vtables no tienen implementación de métodos.
+>>&nbsp;&nbsp;&nbsp;&nbsp;No creo que se elimine el overhead porque lo que guaradan las vtables es básicamente las firmas de los métodos, entonces a tiempo de ejecución de igual forma se debería hacer una búsqueda de la firma correspondiente.
 
 >&nbsp;&nbsp;&nbsp;&nbsp;7. Cuando un lenguaje de POO tiene herencia simple no ocurre el problema del diamante pero de igual forma pueden existir llamadas ambiguas de métodos, dado que incorporar interfaces, módulos, protocolos, etc, no evita colisión de nombres.
 
