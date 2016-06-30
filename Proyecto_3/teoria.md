@@ -6,7 +6,7 @@
 
 >&nbsp;&nbsp;&nbsp;&nbsp;1. Los lenguajes de programación orientados a objetos que poseen herencia simple están limitados a incorporar comportamientos de un solo ancestro al momento de definir una clase.
 
->>&nbsp;&nbsp;&nbsp;&nbsp;*No, una de las caracteristicas principales de los lenguajes orientados a objetos es que puede heredar comportamientos de sus ancestros, es decir, las instancias que se heredan no solo se limitan a la de su padre  (que sea ancestro de su ancestro). Cadena*
+>>&nbsp;&nbsp;&nbsp;&nbsp;*No, una de las caracteristicas principales de los lenguajes orientados a objetos es que puede heredar comportamientos de sus ancestros, es decir, las instancias que se heredan no solo se limitan a la de su padre ya que un clase puede heredar tanto de su abuelo, el papá de su abuelo y así sucesivamente. (que sea ancestro de su ancestro). Cadena*
 
 
 >&nbsp;&nbsp;&nbsp;&nbsp;2. Lenguajes de POO con un sistemas de tipos estático (C++, Java, C\#) no tienen la posibilidades de elegir la implementación de un método a tiempo de ejecución (despacho dinámico).
@@ -15,15 +15,15 @@
 
 >&nbsp;&nbsp;&nbsp;&nbsp;3. La introspección y reflexividad son conceptos que se manejan en la POO pero no guardan ninguna relación entre sí.
 
->>&nbsp;&nbsp;&nbsp;&nbsp;Respuesta 3
+>>&nbsp;&nbsp;&nbsp;&nbsp;No. Ambos conceptos guardan relación ya que la instrospección es la posibilidad de saber la clase de un objeto determinado.Para saber esta información es necesario que el objeto tenga un método que devuelva el tipo de la clase y que además el mismo pueda referirse a sí mismo (reflexividad). De esta manera, cuando se quiera saber el tipo de este objeto el objeto llamara el método que devuelve su clase pasandose como argumento a sí mismo.
 
 >&nbsp;&nbsp;&nbsp;&nbsp;4. En un lenguaje con un sistema de tipos dinámico la sobrecarga de métodos es innata y representa una comodidad dado que permite implementar un mismo método para distintos tipos.
 
 >>&nbsp;&nbsp;&nbsp;&nbsp;No, existen lenguajes de tipos dinámicos como Python que no sobrecargan los métodos, solo los sobreescribe. Además, por lo general en lenguajes de tipos dinámicos no hace falta sobrecargar porque se pueden usar técnicas como el duck typing debido a la flexibilidad que brinda sus sistema de tipos.
 
->&nbsp;&nbsp;&nbsp;&nbsp;5. En los lenguajes POO existen los términos interfaz, módulo, clase abstracta, rol, etc; definidos como objetos que pueden encapsular definiciones de clases o implementaciones concretas de métodos.
+>&nbsp;&nbsp;&nbsp;&nbsp;5. En los lenguajes POO existen los términos interfaz, módulo, clase abstracta, rol, etc; definidos como objetos que pueden encapsular definiciones de clases o implementaciones concretas de métodos.(redactar mejor)
 
->>&nbsp;&nbsp;&nbsp;&nbsp;Si, esto es verdad.
+>>&nbsp;&nbsp;&nbsp;&nbsp;Si, esto es verdad. La función de estas es encapsular bien sea definiciones, implementaciones o definiciones de clase.
 
 >&nbsp;&nbsp;&nbsp;&nbsp;6. Los métodos virtuales permiten asociar, al momento de compilar, una implementación de un método sobrecargado con una llamada del mismo; eliminando el **overhead** del despacho dinámico.
 
@@ -35,7 +35,7 @@
 
 >&nbsp;&nbsp;&nbsp;&nbsp;8. El paso de mensaje es un término que se maneja en modelos concurrentes, también de POO y es equivalente a la llamada de una función.
 
->>&nbsp;&nbsp;&nbsp;&nbsp;Respuesta 8
+>>&nbsp;&nbsp;&nbsp;&nbsp; Me parece que esto es mas como una co-rutina y no una llamada a función (redactar mejor).
 
 >&nbsp;&nbsp;&nbsp;&nbsp;9. Sin importar la herencia del lenguaje de POO, una clase podría tener más de un ancestro.
 
