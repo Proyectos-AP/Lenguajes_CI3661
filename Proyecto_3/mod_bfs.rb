@@ -32,8 +32,23 @@ module BFS
 	end
 
 	def recoger(&block) 
-		puts "Recoger"	
-		block.call 
+		puts "Recoger"
+		lista = []
+		cola = []
+		cola.push(self)
+
+		while (cola.size != 0)
+			n = cola.shift 
+			cumplePredicado = block.call(n)
+			if block.call(n) == true
+				lista = lista + [n]
+			end
+			n.each do |hijo|
+				cola.push(hijo)
+			end
+		end
+
+		lista
 	end
 
 end

@@ -101,5 +101,13 @@ arbolPapa = PinkTree.new(0,[arbolhijo1,arbolhijo2])
 
 arbolPapa.bfs { |n| puts "pink -> #{n.node}" }
 arbol1.bfs { |n| puts "binary -> #{n.node}"}
-
 arbolPapa.dfs
+
+#Pruebas para recoger
+=begin
+addition = lambda { |n| n.node > 1}
+resultado = arbolPapa.recoger(&addition)
+resultado.each do |n|
+	puts "Vengo de recoger #{n.node}"
+=end
+
