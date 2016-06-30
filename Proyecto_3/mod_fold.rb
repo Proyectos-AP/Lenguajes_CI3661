@@ -24,7 +24,20 @@ module DFS
 
 	end
 
-	def fold 
+	def fold(baseValue,&block)
 		puts "Fold"
+		baseValue = yield(baseValue,self)
+		self.each do |hijo|
+			resultado = hijo.fold(baseValue,&block)
+			baseValue = resultado
+		end
+		baseValue
 	end
 end
+
+=begin
+arbolNieto = PinkTree.new(3)
+arbolhijo1 = PinkTree.new(1,[arbolNieto])
+arbolhijo2 = PinkTree.new(2)
+arbolPapa = PinkTree.new(0,[arbolhijo1,arbolhijo2])
+=end

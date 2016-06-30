@@ -104,10 +104,21 @@ arbol1.bfs { |n| puts "binary -> #{n.node}"}
 arbolPapa.dfs
 
 #Pruebas para recoger
+
 =begin
 addition = lambda { |n| n.node > 1}
 resultado = arbolPapa.recoger(&addition)
 resultado.each do |n|
 	puts "Vengo de recoger #{n.node}"
+end
+
 =end
 
+# Prueba para fold
+=begin
+result = arbolPapa.fold(0) {|acum,n| acum+n.node}
+puts "Acumulador main #{result}"
+
+result = arbolPapa.fold(0) {|acum,n| acum+1}
+puts "Acumulador main #{result}"
+=end
