@@ -99,7 +99,7 @@ class Uniforme < Mutador
          lista.each do |elem|
              acum = acum + elem
          end
-         acum.to_f / numElems
+         (acum.to_f / numElems).round()
      end
 
      def self.mut_str(str_val)
@@ -110,7 +110,10 @@ class Uniforme < Mutador
          i = 0
          str_val.each_char do |c|
               if i % 2 == 0 
-                  c = c.upcase
+                c = c.upcase
+
+              else
+                c = c.downcase
               end
               new = new + c
              i = i + 1
@@ -182,7 +185,7 @@ class Oscuro < Mutador
          lista.each do |c|
              array_val[c] = array_val[c].mutar(Oscuro)
          end
-         
+
          array_val
      end
 
