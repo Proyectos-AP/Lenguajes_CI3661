@@ -9,12 +9,13 @@
 <[Si|No] [pero]...>
 
 
-[comment]: #  "Un objeto puede heredar comportamientos de otro ancestro (que sea ancestro de su ancestro). Cadena"
+[comment]: #  "No, una de las caracteristicas principales de los lenguajes orientados a objetos es que puede heredar comportamientos de sus ancestros, es decir, las instancias que se heredan no solo se limitan a la de su padre  (que sea ancestro de su ancestro). Cadena"
 
 
 > Lenguajes de POO con un sistemas de tipos estático (C++, Java, C\#) no tienen la posibilidades de elegir la implementación de un método a tiempo de ejecución (despacho dinámico).
 
-[comment]: #  "respuesta"
+
+[comment]: #  "Estos lenguajes si tiene la posibilidad de elegir que método se eligirá a tiempo de ejecución solo que para hacerlo deben construir una tabla en tiempo de compilacion llamadas virtual table. En las virtual table se colocan todos los métodos y variables que una clase determinada puede alcanzar, es decir, por cada clase se crea una tabla con todos los metodos y variables que esta posee y hereda, de esta forma se permite el despacho dinámico en estos tipos de lenguaje."
 
 
 <[Si|No] [pero]...>
@@ -45,7 +46,7 @@
 
 > Cuando un lenguaje de POO tiene herencia simple no ocurre el problema del diamante pero de igual forma pueden existir llamadas ambiguas de métodos, dado que incorporar interfaces, módulos, protocolos, etc, no evita colisión de nombres.
 
-[comment]: #  "respuesta"
+[comment]: #  "Sí, esto es verdad. ya que supongamos que tenemos una clase C sin método imprimir que hereda de B y esta a su vez hereda de A. Ambas clases tienen el metodo imprimir, entonces, si se define una instancia de C y esta quiere utilizar el metodo antes mencionado habrá un choque de nombre ya que no se sabe si se tiene que utilizar el metodo de A o el de B"
 
 <[Si|No] [pero]...>
 
@@ -57,7 +58,7 @@
 
 > Sin importar la herencia del lenguaje de POO, una clase podría tener más de un ancestro.
 
-[comment]: #  "respuesta"
+[comment]: #  "Si puede tener más de un ancestro ya que los ancestros de una clase estan conformados por su padre, la clase papa de su padre, la clase papa de su abuelo y asi sucesivamente asi que si una clase esta debajo de una cadena de herencia de mas de dos clases tendra varios ancestros independientemen de si la herencia del lenguaje es simple o multiple."
 
 <[Si|No] [pero]...>
 
