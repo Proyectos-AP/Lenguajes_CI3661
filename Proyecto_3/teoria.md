@@ -28,19 +28,19 @@
 
 > En un lenguaje con un sistema de tipos dinámico la sobrecarga de métodos es innata y representa una comodidad dado que permite implementar un mismo método para distintos tipos.
 
-[comment]: #  "respuesta"
+[comment]: #  " No, existen lenguajes de tipos dinámicos como Python que no sobrecargan los métodos, solo los sobreescribe. Además, por lo general en lenguajes de tipos dinámicos no hace falta sobrecargar porque se pueden usar técnicas como el duck typing debido a la flexibilidad que brinda sus sistema de tipos."
 
 <[Si|No] [pero]...>
 
 > En los lenguajes POO existen los términos interfaz, módulo, clase abstracta, rol, etc; definidos como objetos que pueden encapsular definiciones de clases o implementaciones concretas de métodos.
 
-[comment]: #  "respuesta"
+[comment]: #  "Si, esto es verdad."
 
 <[Si|No] [pero]...>
 
 > Los métodos virtuales permiten asociar, al momento de compilar, una implementación de un método sobrecargado con una llamada del mismo; eliminando el **overhead** del despacho dinámico.
 
-[comment]: #  "respuesta"
+[comment]: #  "Las vtables no tienen implementación de métodos."
 
 <[Si|No] [pero]...>
 
