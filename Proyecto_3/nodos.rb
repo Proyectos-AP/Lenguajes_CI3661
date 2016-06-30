@@ -149,18 +149,19 @@ class Oscuro < Mutador
          # en posición impar concatenados del lado izquierdo y los otros 
          # concatenados del lado derecho
          puts "Str Oscuro"
-         impar = ""
-         par = ""
+         charImpar = ""
+         charPar = ""
          i = 0
          str_val.each_char do |c|
-              if i % 2 == 0 then
-                  impar = c + impar 
+
+              if i % 2 != 0 then
+                  charImpar = charImpar + c 
               else
-                  par = c + par 
+                  charPar = charPar + c 
               end
               i = i + 1
          end
-         impar + par
+         charImpar + charPar  
      end
 
      def self.mut_array(array_val)

@@ -30,6 +30,10 @@ class Arbol
 
     attr_accessor :valor
 
+    def mutar(claseMutador)
+    	@valor = self.valor.mutar(claseMutador)
+    end
+
 end
 
 #------------------------------------------------------------------------------#
@@ -52,6 +56,7 @@ class ArbolBinario < Arbol
             yield elem
         end
     end
+
 end
 
 #------------------------------------------------------------------------------#

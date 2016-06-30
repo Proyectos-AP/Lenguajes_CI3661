@@ -16,12 +16,10 @@ module BFS
 
     def bfs
         puts "BFS"
-        puts "soy self #{self}"
         cola = []
         cola.push(self)
 
         while (cola.size != 0)
-            puts "hola"
             n = cola.shift 
             yield n
             n.each do |hijo|

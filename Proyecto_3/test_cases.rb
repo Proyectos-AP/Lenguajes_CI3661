@@ -58,11 +58,11 @@ end
 
 # [2,4,6,8,10]
 
-=begin
 arbol_b_2.bfs { |x| x.mutar(Oscuro); puts x.valor }
 
-arbol_b_3.dfs { |x| x.mutar(Singular); puts x.valor }
-=end
+#arbol_b_3.dfs { |x| x.mutar(Singular); puts x.valor }
+
+
 
 # Quien descifre el patrón de primero, tiene puntos extra. Piense bien, solo
 # tendrá 3 intentos para enviarme la siguiente secuencia de números del patrón.
