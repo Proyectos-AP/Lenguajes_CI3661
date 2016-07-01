@@ -35,7 +35,7 @@
 
 >&nbsp;&nbsp;&nbsp;&nbsp;8. El paso de mensaje es un término que se maneja en modelos concurrentes, también de POO y es equivalente a la llamada de una función.
 
->>&nbsp;&nbsp;&nbsp;&nbsp; Me parece que esto es mas como una co-rutina y no una llamada a función (redactar mejor).
+>>&nbsp;&nbsp;&nbsp;&nbsp; Sí.El paso de mensajes en los POO por lo general se implementa como llamadas a los métodos de otros objetos y las llamadas a métodos son principalmente llamadas a funciones con un objeto como parámetro.
 
 >&nbsp;&nbsp;&nbsp;&nbsp;9. Sin importar la herencia del lenguaje de POO, una clase podría tener más de un ancestro.
 
