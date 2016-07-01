@@ -14,9 +14,10 @@
 
 module DFS
 
+	# Descripcion: Algoritmo que realiza DFS sobre objetos y en su recorrido
+	#              va ejecutando un bloque de codigo.
     def dfs(&block)
 
-        puts "DFS"
         yield self
         self.each do |hijo|
             hijo.dfs(&block)
@@ -25,7 +26,6 @@ module DFS
     end
 
     def fold(baseValue,&block)
-        puts "Fold"
         baseValue = yield(self,baseValue)
         self.each do |hijo|
             resultado = hijo.fold(baseValue,&block)

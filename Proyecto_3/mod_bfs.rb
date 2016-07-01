@@ -14,8 +14,9 @@
 
 module BFS
 
+	# Descripcion: Algoritmo que realiza BFS sobre objetos y en su recorrido
+	#              va ejecutando un bloque de codigo.
     def bfs
-        puts "BFS"
         cola = []
         cola.push(self)
 
@@ -29,8 +30,14 @@ module BFS
     
     end
 
+    # Descripcion: Dado un bloque de instrucciones de manera explicita 
+    #              se recorre una estructura en BFS,invocando a dicho bloque.
+    #              Los elementos que cumplan con las condiciones expuestas en 
+    #              el mismo seran almacenados en una lista. Esta lista al final 
+    #              del recorrido sera retornada y almacenara todos los elementos
+    #              que cumplieron con el predicado pasado. 
+
     def recoger(block) 
-        puts "Recoger"
         lista = []
         cola = []
         cola.push(self)

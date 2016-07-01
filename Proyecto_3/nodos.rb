@@ -44,7 +44,6 @@ class Singular < Mutador
      def self.mut_fixnum(int_val)
          # Descripcion: int_val se muta a la multiplicación del ultimo dígito 
          # con la suma de los dígitos restantes.
-         puts "Fixnum Singular"
          lista = self.int_to_array(int_val)
          ultimoDigito = lista.pop
          if lista.size == 0 then
@@ -62,7 +61,6 @@ class Singular < Mutador
     def self.mut_str(str_val)
         # Descripcion: los caracteres de str_val se convierten a mayuscula si
         # alguno de ellos pertenece a "singular"
-        puts "Str Singular"
         new = ""
         str_val.each_char do |c|
             if "singular".include?(c)
@@ -76,7 +74,6 @@ class Singular < Mutador
      def self.mut_array(array_val)
          # Descripcion: todos los elementos de array_val se interpolan en un
          # string separados por un espacio
-         puts "Array Singular"
          lista = array_val.flatten
          resultado = lista[0].to_s
          lista.shift
@@ -92,7 +89,6 @@ class Uniforme < Mutador
 
     def self.mut_fixnum(int_val)
         # Descripcion: int_val se convierte en el promedio de sus digitos.
-         puts "Fixnum Uniforme"
          lista = self.int_to_array(int_val)
          numElems = lista.size
          acum = 0
@@ -105,7 +101,6 @@ class Uniforme < Mutador
      def self.mut_str(str_val)
          # Descripcion: str_val se muta y sus valores se convierten en mayuscula
          # de forma intescalada.
-         puts "Str Uniforme"
          new = ""
          i = 0
          str_val.each_char do |c|
@@ -123,7 +118,6 @@ class Uniforme < Mutador
 
      def self.mut_array(array_val)
          # Descripcion: los elementos de array_val se mutan de manera uniforme.
-         puts "Array Uniforme"
          lista = []
          array_val.each do |c|
              lista = lista + [c.mutar(Uniforme)]
@@ -138,7 +132,6 @@ class Oscuro < Mutador
     def self.mut_fixnum(int_val)
         # Descripcion: int_val se muta de forma que se elminaran los digitos
         # en la posicion impar.
-         puts "Fixnum Oscuro"
          lista = self.int_to_array(int_val)
          i = 0
          acum = ""
@@ -155,7 +148,6 @@ class Oscuro < Mutador
          # Descripcion: str_val se muta de forma que quedaran los caracteres 
          # en posición impar concatenados del lado izquierdo y los otros 
          # concatenados del lado derecho
-         puts "Str Oscuro"
          charImpar = ""
          charPar = ""
          i = 0
@@ -174,7 +166,6 @@ class Oscuro < Mutador
      def self.mut_array(array_val)
          # Descripcion: se seleccionan 50% de los elementos de array_val y 
          # se mutan de forma oscura.
-         puts "Array Oscuro"
          longitud = array_val.size
          listaR = Array.new(longitud) {|i| i}
          lista = listaR.shuffle
